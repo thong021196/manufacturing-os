@@ -1,0 +1,84 @@
+{
+  "_meta": {
+    "purpose": "Seed data for future mapping into the app's Application object (lib/types.ts). Not wired into lib/mock/data.ts or any app code. Research-only, per issue #4.",
+    "capturedDefault": "2026-09-19",
+    "sourceVocabulary": ["ai_inferred", "supplier_marketing", "documentation_verified", "manual_entry"],
+    "confidenceVocabulary": ["low", "medium", "high", "verified"]
+  },
+  "applications": [
+    {
+      "id": "app_robotic_pick_place_material_handling",
+      "name": "Robotic Pick-and-Place / Material Handling",
+      "description": "Robot arms performing pick-and-place, palletizing, or material-handling tasks, requiring application-specific gripper jaws and EOAT.",
+      "componentIds": ["comp_gripper_jaw", "comp_eoat_end_effector_plate", "comp_adapter_base_plate"],
+      "engineeringProblemIds": ["prob_vibration_resonance_sensor_gripper", "prob_bolt_pattern_interoperability"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "EOAT engineered for palletizing, pick and place, grinding, and assembly applications.", "sourceType": "supplier_marketing", "url": "https://www.southcoastrobotics.com/services/end-of-arm-tooling", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "app_machine_vision_inspection",
+      "name": "Machine Vision / Inspection",
+      "description": "Camera- or sensor-based inspection and vision-guided robotics, requiring vibration-isolated, precisely aligned sensor/camera mounts.",
+      "componentIds": ["comp_sensor_camera_mount", "comp_jig_fixture_inspection"],
+      "engineeringProblemIds": ["prob_vibration_resonance_sensor_gripper"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Robotic vision camera bracket designed to eliminate micro-movements that disrupt focal stability during high-speed operation.", "sourceType": "supplier_marketing", "url": "https://frigate.ai/product/robotic-vision-camera-bracket/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "app_cobot_integration",
+      "name": "Collaborative Robot (Cobot) Integration",
+      "description": "Integrating a collaborative robot into a production cell, requiring mounting adapters, safety enclosures, and often a coupled inspection/assembly fixture build.",
+      "componentIds": ["comp_adapter_base_plate", "comp_structural_bracket_enclosure", "comp_jig_fixture_inspection", "comp_actuator_housing", "comp_joint_housing", "comp_motor_mount"],
+      "engineeringProblemIds": ["prob_bolt_pattern_interoperability", "prob_ip_rating_environmental_sealing"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Cobot-specific mounting-adapter product line.", "sourceType": "supplier_marketing", "url": "https://www.emicorp.com/eoat-components/framing/cobot-mounting-adapters", "capturedAt": "2026-09-19"},
+        {"summary": "Design and implementation of cobot inspection and assembly cells with tailored custom tooling.", "sourceType": "supplier_marketing", "url": "https://www.ktmsolutions.com/manufacturing-fixturing-tooling", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "app_mobile_robot_amr",
+      "name": "Mobile Robot / AMR Chassis & Sensor Integration",
+      "description": "Autonomous mobile robots and similar platforms requiring LiDAR/sensor mounts, motor mounts, and structural chassis components.",
+      "componentIds": ["comp_sensor_camera_mount", "comp_motor_mount", "comp_actuator_housing"],
+      "engineeringProblemIds": ["prob_weight_vs_stiffness"],
+      "source": "supplier_marketing",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "LiDAR mounts and encoder/camera brackets named as a standing product line for robotics customers.", "sourceType": "supplier_marketing", "url": "https://www.rivcut.com/cnc-machining/houston/robotics/sensor-mounts/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "app_humanoid_robotics_actuation",
+      "name": "Humanoid Robotics Actuation & Joints",
+      "description": "Humanoid robot developers sourcing precision joint/actuator housings under 2026 supply-chain pressure on high-precision actuator and gearbox components.",
+      "componentIds": ["comp_joint_housing", "comp_actuator_housing"],
+      "engineeringProblemIds": ["prob_harmonic_drive_backlash_precision", "prob_precision_component_supply_bottleneck"],
+      "source": "documentation_verified",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Humanoid robot boom straining precision-component supply chain (screws, bearings, high-performance actuators); Schaeffler announced new strain-wave-gearbox manufacturing process Aug 2026.", "sourceType": "documentation_verified", "url": "https://www.techtarget.com/ai/news/366650324/Humanoid-robot-boom-Boosts-cobot-supply", "capturedAt": "2026-09-19"},
+        {"summary": "Dedicated technical content on machining harmonic-drive housings specifically for humanoid joints.", "sourceType": "supplier_marketing", "url": "https://www.ptsmake.com/cnc-machined-harmonic-drive-housings-for-humanoid-joints/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "app_assembly_qc_fixturing",
+      "name": "Assembly / QC Fixturing",
+      "description": "Fixtures, jigs, and check tooling supporting manual or robot-assisted assembly and quality-control inspection stations.",
+      "componentIds": ["comp_jig_fixture_inspection", "comp_structural_bracket_enclosure"],
+      "engineeringProblemIds": ["prob_tolerance_stackup"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Check fixtures, welding fixtures, turnkey fixtures, and jig services offered with free quotes.", "sourceType": "supplier_marketing", "url": "https://www.mahutatool.com/Tooling/JigFixtureMachining", "capturedAt": "2026-09-19"}
+      ]
+    }
+  ]
+}

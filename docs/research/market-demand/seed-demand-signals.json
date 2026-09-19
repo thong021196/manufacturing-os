@@ -1,0 +1,132 @@
+{
+  "_meta": {
+    "purpose": "Seed data for future mapping into the app's DemandSignal object (lib/types.ts). Not wired into lib/mock/data.ts or any app code. Research-only, per issue #4.",
+    "capturedDefault": "2026-09-19",
+    "sourceVocabulary": ["ai_inferred", "supplier_marketing", "documentation_verified", "manual_entry"],
+    "confidenceVocabulary": ["low", "medium", "high", "verified"],
+    "stageVocabulary": ["search", "visitor", "cad_rfq", "quote", "paid", "repeat"],
+    "signalSourceVocabulary": ["external_market_estimate", "search_console", "site_analytics", "outbound_research", "rfq_intake", "quote_system", "paid_transaction"],
+    "purposeOfThisFile": "Per issue #4's Required Distinction and OBJECT_MODEL.md's demand-maturity rule, this file keeps four demand layers explicitly separate: (1) search demand, (2) buyer/commercial demand, (3) our observed funnel data, (4) paid transaction data. Layers 3 and 4 are recorded here as explicit zero-state facts -- Manufacturing OS has not launched any public surface and has zero visitor, CAD/RFQ, quote, or paid/order data. This is stated directly rather than omitted, so nothing downstream mistakes 'no row' for 'not yet measured.'"
+  },
+  "demandSignals": [
+    {
+      "stage": "search",
+      "signalSource": "outbound_research",
+      "value": null,
+      "unit": "monthly_search_volume",
+      "period": "2026-09",
+      "note": "No real search-volume figure exists for any query in this research pass -- no keyword-volume tool was available. See seed-search-queries.json's relativeInterestTier for the qualitative substitute used instead. This record exists to make the absence explicit, not to imply a hidden number.",
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "No paid keyword-volume tool (Google Keyword Planner, Ahrefs, SEMrush, etc.) was available or used in this research pass.", "sourceType": "manual_entry", "url": null, "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "stage": "search",
+      "signalSource": "external_market_estimate",
+      "value": null,
+      "unit": "qualitative_tier",
+      "period": "2026-09",
+      "note": "Qualitative buyer/commercial-demand proxy: at least 8 distinct multi-process instant-quote marketplaces and numerous robotics-specialist job shops actively compete for this wedge's buyers across the US, plus a dedicated Australia/New Zealand storefront from a global marketplace leader -- real market structure evidence, not a volume measurement.",
+      "source": "ai_inferred",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "See cnc-sheet-metal-general.md competitor landscape section for the full list of named competitors.", "sourceType": "ai_inferred", "url": "docs/research/market-demand/cnc-sheet-metal-general.md", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "stage": "visitor",
+      "signalSource": "site_analytics",
+      "value": 0,
+      "unit": "monthly_visitors",
+      "period": "2026-09",
+      "note": "Manufacturing OS has not launched any public-facing page or search surface. There is no site-analytics data to report. This is an explicit zero-state, not a placeholder implying data exists elsewhere.",
+      "source": "manual_entry",
+      "confidence": "verified",
+      "evidence": [
+        {"summary": "No public frontend/search surface exists yet; confirmed against docs/product/PRODUCT.md's MVP framing and the issue's own Human Gate guardrail against building public SEO surfaces before this research is reviewed.", "sourceType": "manual_entry", "url": null, "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "stage": "cad_rfq",
+      "signalSource": "rfq_intake",
+      "value": 0,
+      "unit": "rfq_count",
+      "period": "2026-09",
+      "note": "No CAD package or RFQ has ever been submitted to Manufacturing OS. Explicit zero-state.",
+      "source": "manual_entry",
+      "confidence": "verified",
+      "evidence": [
+        {"summary": "Repository is pre-launch; no RFQ intake mechanism has processed a real submission.", "sourceType": "manual_entry", "url": null, "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "stage": "quote",
+      "signalSource": "quote_system",
+      "value": 0,
+      "unit": "quote_count",
+      "period": "2026-09",
+      "note": "No supplier quote or customer quote has ever been generated. Explicit zero-state.",
+      "source": "manual_entry",
+      "confidence": "verified",
+      "evidence": [
+        {"summary": "Repository is pre-launch; no quoting activity has occurred.", "sourceType": "manual_entry", "url": null, "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "stage": "paid",
+      "signalSource": "paid_transaction",
+      "value": 0,
+      "unit": "order_count",
+      "period": "2026-09",
+      "note": "No order or paid transaction has ever occurred. Explicit zero-state.",
+      "source": "manual_entry",
+      "confidence": "verified",
+      "evidence": [
+        {"summary": "Repository is pre-launch; no commercial transaction has occurred.", "sourceType": "manual_entry", "url": null, "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "stage": "repeat",
+      "signalSource": "paid_transaction",
+      "value": 0,
+      "unit": "repeat_order_count",
+      "period": "2026-09",
+      "note": "No repeat order can exist without a first order. Explicit zero-state.",
+      "source": "manual_entry",
+      "confidence": "verified",
+      "evidence": [
+        {"summary": "Repository is pre-launch; no order history exists.", "sourceType": "manual_entry", "url": null, "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "stage": "search",
+      "signalSource": "external_market_estimate",
+      "value": null,
+      "unit": "qualitative_tier",
+      "period": "industry_context",
+      "note": "Macro industry-adoption context (not a search-demand measurement): IFR-reported figures relayed via secondary coverage state 542,000+ industrial robots installed globally in 2024 with the Americas at ~9% of that (US ~68% of the Americas share); a 2026-dated press release states US robot orders grew 6.6% in 2025. Included as directional context for why this wedge's buyer population is plausibly growing, not as a search-volume figure.",
+      "source": "documentation_verified",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "World Robotics 2025 report figures relayed via secondary coverage.", "sourceType": "documentation_verified", "url": "https://www.therobotreport.com/ifr-industrial-robot-deployments-have-doubled-in-10-years/", "capturedAt": "2026-09-19"},
+        {"summary": "US robot orders grew 6.6% in 2025 per 2026-dated press release.", "sourceType": "documentation_verified", "url": "https://www.businesswire.com/news/home/20260204160172/en/Robot-Orders-Grow-6.6-in-2025-as-General-Industries-Drive-Broader-Automation-Adoption", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "stage": "search",
+      "signalSource": "external_market_estimate",
+      "value": null,
+      "unit": "qualitative_tier",
+      "period": "industry_context",
+      "note": "Australia macro industry-adoption context (not AU-specific search-demand data): Australia's National Robotics Strategy (government, 2024) and a third-party market-research forecast (IMARC Group) sizing the Australia robotics market at ~USD 1.7B in 2025. This is market/policy-level context only -- no Australia-specific, part-type-level search or buyer evidence was found for any item in the wedge. See README.md executive summary.",
+      "source": "documentation_verified",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "Australia's first National Robotics Strategy, released 2024, AU$15B National Reconstruction Fund names robotics as a priority.", "sourceType": "documentation_verified", "url": "https://international.austrade.gov.au/en/news-and-analysis/news/australia-releases-first-national-robotics-strategy", "capturedAt": "2026-09-19"},
+        {"summary": "Australia robotics market estimated at USD 1.7 billion in 2025, forecast to USD 6.9 billion by 2034 (third-party market-research forecast, not independently audited).", "sourceType": "documentation_verified", "url": "https://www.imarcgroup.com/australia-robotics-market", "capturedAt": "2026-09-19"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "_meta": {
+    "purpose": "Seed data for future mapping into the app's EngineeringProblem object (lib/types.ts). Not wired into lib/mock/data.ts or any app code. Research-only, per issue #4.",
+    "capturedDefault": "2026-09-19",
+    "sourceVocabulary": ["ai_inferred", "supplier_marketing", "documentation_verified", "manual_entry"],
+    "confidenceVocabulary": ["low", "medium", "high", "verified"]
+  },
+  "engineeringProblems": [
+    {
+      "id": "prob_weight_vs_stiffness",
+      "name": "Weight Reduction vs. Structural Stiffness",
+      "description": "Robotic components must be made as light as possible for payload/dynamics reasons while retaining stiffness/robustness; overly thin walls introduce their own manufacturing and deformation problems.",
+      "componentIds": ["comp_actuator_housing", "comp_joint_housing", "comp_sensor_camera_mount", "comp_general_custom_cnc_sheet_metal_part"],
+      "applicationIds": ["app_mobile_robot_amr", "app_humanoid_robotics_actuation"],
+      "source": "documentation_verified",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Peer-reviewed-adjacent paper framing weight reduction as a typical, recurring issue in robotic-system mechanical design.", "sourceType": "documentation_verified", "url": "https://www.researchgate.net/publication/273169162_Weight_Reduction_A_Typical_Issue_in_the_Mechanical_Design_of_Robotic_Systems", "capturedAt": "2026-09-19"},
+        {"summary": "7075 aluminum chosen despite cost premium for its superior strength-to-weight ratio in weight-sensitive robotic joints.", "sourceType": "supplier_marketing", "url": "https://www.ptsmake.com/cnc-machined-harmonic-drive-housings-for-humanoid-joints/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "prob_tolerance_stackup",
+      "name": "Tolerance Stack-Up / Over-Specification",
+      "description": "A recurring design mistake is applying maximally tight tolerances to every dimension rather than only to functionally critical features, increasing machining time and inspection cost without functional benefit.",
+      "componentIds": ["comp_gripper_jaw", "comp_actuator_housing", "comp_jig_fixture_inspection", "comp_general_custom_cnc_sheet_metal_part"],
+      "applicationIds": ["app_assembly_qc_fixturing"],
+      "source": "documentation_verified",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Guidance that tolerances should be set by functional requirement, not by maximum machine capability, to control cost.", "sourceType": "documentation_verified", "url": "https://resources.altium.com/p/fit-form-function-challenges-robotics-ecad-mcad-collaboration", "capturedAt": "2026-09-19", "note": "Aggregated across multiple CNC design-guide pages returned by WebSearch; see README.md limitation 3a on blended source attribution."}
+      ]
+    },
+    {
+      "id": "prob_thermal_management_sealed_enclosure",
+      "name": "Thermal Management in Sealed Enclosures/Housings",
+      "description": "Heat buildup in sealed housings and enclosures can cause thermal expansion, reduced bearing life, lubricant breakdown, and sensor/electronics damage.",
+      "componentIds": ["comp_actuator_housing", "comp_structural_bracket_enclosure"],
+      "applicationIds": [],
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "General robotics mechanical-design commentary on heat causing thermal expansion, reduced bearing life, and sensor/electronics damage; general engineering commentary, not a single primary source.", "sourceType": "ai_inferred", "url": "https://www.dakingsrapid.com/robot-manufacturing-guide/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "prob_vibration_resonance_sensor_gripper",
+      "name": "Vibration / Resonance at Sensor and Gripper Interfaces",
+      "description": "Robotic arm motion transmits dynamic vibration and transient shock into mounted sensors, cameras, and gripper surfaces, degrading focal stability, grip reliability, or measurement accuracy.",
+      "componentIds": ["comp_sensor_camera_mount", "comp_gripper_jaw"],
+      "applicationIds": ["app_machine_vision_inspection", "app_robotic_pick_place_material_handling"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Camera bracket designed to minimize transmission of dynamic vibration and transient shock and eliminate focal-stability-disrupting micro-movements.", "sourceType": "supplier_marketing", "url": "https://frigate.ai/product/robotic-vision-camera-bracket/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "prob_ip_rating_environmental_sealing",
+      "name": "IP-Rated Environmental Sealing",
+      "description": "Enclosures and structural brackets in automation cells are typically specified against a named IP rating (e.g., IP65, IP54+) for dust and moisture protection, driving material and seam/gasket design choices.",
+      "componentIds": ["comp_structural_bracket_enclosure"],
+      "applicationIds": ["app_cobot_integration"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "IP65 stated as complete dust protection plus low-pressure water-jet protection for industrial automation enclosures.", "sourceType": "supplier_marketing", "url": "https://www.etaenclosures.com/industrial-automation/", "capturedAt": "2026-09-19"},
+        {"summary": "Thermoformed enclosures achieving IP54+ as an alternative process/material choice.", "sourceType": "supplier_marketing", "url": "https://www.ditaiplastic.com/thermoformed-enclosures-for-robotics-automation-complete-guide/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "prob_harmonic_drive_backlash_precision",
+      "name": "Harmonic-Drive Backlash / Preload Precision",
+      "description": "Joint housings containing a harmonic drive must maintain constant clamping/preload force despite machining-induced thermal distortion; even small flaws can cause vibration, backlash, or joint failure.",
+      "componentIds": ["comp_joint_housing"],
+      "applicationIds": ["app_humanoid_robotics_actuation"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "5-axis toolpath strategies used specifically to limit thermal input so the housing maintains constant clamping force on the harmonic drive; even a tiny flaw can cause vibration, backlash, or complete failure.", "sourceType": "supplier_marketing", "url": "https://www.ptsmake.com/cnc-machined-harmonic-drive-housings-for-humanoid-joints/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "prob_bolt_pattern_interoperability",
+      "name": "Bolt-Pattern / Flange Interoperability Across Robot and Tool Brands",
+      "description": "Every robot arm and every tool has its own flange bolt pattern; adapter and mounting plates exist primarily to bridge two specific, otherwise-incompatible patterns.",
+      "componentIds": ["comp_adapter_base_plate", "comp_motor_mount", "comp_eoat_end_effector_plate"],
+      "applicationIds": ["app_cobot_integration", "app_robotic_pick_place_material_handling"],
+      "source": "ai_inferred",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Adapter plate line requires customers to specify their robot's make/model plus intended equipment for a matched bolt pattern; inference drawn from this and similarly framed vendor pages, not a single authoritative statement of the general problem.", "sourceType": "ai_inferred", "url": "https://trimantec.com/collections/adapter-plate", "capturedAt": "2026-09-19"},
+        {"summary": "Blank plates offered specifically so buyers can machine their own custom mount pattern.", "sourceType": "supplier_marketing", "url": "https://massivedimension.com/products/robotic-mount-plate-adapter", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "prob_ecad_mcad_coordination",
+      "name": "ECAD-MCAD Fit/Form/Function Coordination",
+      "description": "Mechanical housings, mounts, and brackets must be co-designed with the electronics/PCBs they contain; poor coordination between electrical and mechanical design is a named recurring failure mode in robotics hardware.",
+      "componentIds": ["comp_general_custom_cnc_sheet_metal_part", "comp_structural_bracket_enclosure"],
+      "applicationIds": [],
+      "source": "documentation_verified",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Dedicated resource on solving fit, form, and function challenges in robotics through ECAD-MCAD collaboration.", "sourceType": "documentation_verified", "url": "https://resources.altium.com/p/fit-form-function-challenges-robotics-ecad-mcad-collaboration", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "prob_precision_component_supply_bottleneck",
+      "name": "Precision Actuator/Gearbox Component Supply Bottleneck",
+      "description": "2026-era humanoid-robot production growth is straining supply of high-precision components (screws, bearings, high-performance actuators, strain-wave gearboxes), creating a documented industry-wide manufacturing constraint.",
+      "componentIds": ["comp_joint_housing", "comp_actuator_housing"],
+      "applicationIds": ["app_humanoid_robotics_actuation"],
+      "source": "documentation_verified",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Scaling high-precision components remains a critical challenge as supply chains are not yet optimized for mass-volume humanoid production; Schaeffler announced a new strain-wave-gearbox manufacturing process in Aug 2026 addressing this bottleneck.", "sourceType": "documentation_verified", "url": "https://www.techtarget.com/ai/news/366650324/Humanoid-robot-boom-Boosts-cobot-supply", "capturedAt": "2026-09-19"}
+      ]
+    }
+  ]
+}

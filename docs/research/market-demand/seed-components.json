@@ -1,0 +1,205 @@
+{
+  "_meta": {
+    "purpose": "Seed data for future mapping into the app's Component object (lib/types.ts). Not wired into lib/mock/data.ts or any app code. Research-only, per issue #4.",
+    "capturedDefault": "2026-09-19",
+    "sourceVocabulary": ["ai_inferred", "supplier_marketing", "documentation_verified", "manual_entry"],
+    "confidenceVocabulary": ["low", "medium", "high", "verified"],
+    "note": "geographySignal reflects where this research found part-type-specific evidence, per README.md's 'US vs AU asymmetry' guardrail. It is not a claim that AU demand does not exist -- only that AU-specific evidence for this exact part type was not found in this research pass."
+  },
+  "components": [
+    {
+      "id": "comp_actuator_housing",
+      "name": "Actuator Housing",
+      "category": "housing",
+      "description": "Custom protective/structural housing for linear or rotary actuators in robotic and automation systems, including bearing interfaces and ball-screw bores.",
+      "sourceFile": "actuator-housings.md",
+      "commonMaterials": ["aluminum_6061", "aluminum_7075", "steel_4140_hardened"],
+      "commonProcesses": ["cnc_milling_3axis", "cnc_milling_5axis"],
+      "typicalToleranceNote": "Vendor-stated ranges cluster around +/-0.02mm dimensional / +/-0.01mm hole position for general features, tightening toward high-precision claims on critical bores; vendor-stated, not independently audited.",
+      "geographySignal": {"us": "medium", "au": "none_found"},
+      "applicationIds": ["app_cobot_integration", "app_mobile_robot_amr", "app_humanoid_robotics_actuation"],
+      "engineeringProblemIds": ["prob_weight_vs_stiffness", "prob_thermal_management_sealed_enclosure", "prob_tolerance_stackup"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Actuator-housing product line explicitly scoped to semiconductor/robotics automation.", "sourceType": "supplier_marketing", "url": "https://www.zintilon.com/industry/semi-conductor/actuator-housings/", "capturedAt": "2026-09-19"},
+        {"summary": "Actuator-housing product line explicitly scoped to Robotics & Automation, with multiple US-city-localized landing pages.", "sourceType": "supplier_marketing", "url": "https://www.rivcut.com/cnc-machining/robotics/actuator-housings/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "comp_joint_housing",
+      "name": "Joint Housing (Harmonic Drive / Gearbox)",
+      "category": "housing",
+      "description": "Precision housing for robot-arm joints containing a harmonic drive or gearbox, maintaining preload/clamping force on the drive interface.",
+      "sourceFile": "actuator-housings.md",
+      "commonMaterials": ["aluminum_7075_t7351"],
+      "commonProcesses": ["cnc_milling_5axis"],
+      "typicalToleranceNote": "No single numeric tolerance independently verified; vendor content emphasizes precision as 'non-negotiable' for backlash control, without a specific published figure in the sources found.",
+      "geographySignal": {"us": "low", "au": "none_found"},
+      "applicationIds": ["app_humanoid_robotics_actuation", "app_cobot_integration"],
+      "engineeringProblemIds": ["prob_harmonic_drive_backlash_precision", "prob_weight_vs_stiffness", "prob_precision_component_supply_bottleneck"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Technical explainer on machining harmonic-drive housings for humanoid joints: 7075-T7351 chosen for creep resistance, 5-axis toolpaths used to limit thermal input and preserve clamping force.", "sourceType": "supplier_marketing", "url": "https://www.ptsmake.com/cnc-machined-harmonic-drive-housings-for-humanoid-joints/", "capturedAt": "2026-09-19"},
+        {"summary": "5-axis CNC machining specifically discussed for high-load, high-precision robotic arm joints.", "sourceType": "supplier_marketing", "url": "https://www.lsrpf.com/blog/5-axis-cnc-machining-for-robotic-arm-joints-precision-solutions-for-high-load-high-precision", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "comp_gripper_jaw",
+      "name": "Gripper Jaw / Finger",
+      "category": "end_effector",
+      "description": "Custom-machined gripper jaw, finger, or drive/coupling component for robotic end effectors, requiring precision grip-surface and pivot-bore tolerance.",
+      "sourceFile": "gripper-jaws-eoat.md",
+      "commonMaterials": ["aluminum_6061", "aluminum_7075", "steel", "delrin_acetal"],
+      "commonProcesses": ["cnc_milling", "wire_edm"],
+      "typicalToleranceNote": "One vendor states +/-0.001in general features, +/-0.0005in on critical grip surfaces and pivot bores; single-source, not corroborated.",
+      "geographySignal": {"us": "medium", "au": "none_found"},
+      "applicationIds": ["app_robotic_pick_place_material_handling", "app_assembly_qc_fixturing"],
+      "engineeringProblemIds": ["prob_vibration_resonance_sensor_gripper", "prob_tolerance_stackup"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Gripper jaw/finger/drive/coupling components machined for US robotics teams from aluminum, steel, and Delrin.", "sourceType": "supplier_marketing", "url": "https://www.rivcut.com/cnc-machining/robotics/gripper-components/", "capturedAt": "2026-09-19"},
+        {"summary": "Custom gripper parts use 6061-T6/7075-T6 aluminum, wire EDM and precision contouring; stated tolerances +/-0.001in general, +/-0.0005in critical.", "sourceType": "supplier_marketing", "url": "https://www.zintilon.com/industry/robotics/custom-grippers/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "comp_eoat_end_effector_plate",
+      "name": "EOAT / End-Effector Plate",
+      "category": "end_effector",
+      "description": "End-of-arm-tooling plate or custom tool mounted at a robot's wrist for pick-and-place, palletizing, grinding, or assembly tasks.",
+      "sourceFile": "gripper-jaws-eoat.md",
+      "commonMaterials": ["aluminum_6061", "aluminum_7075", "thermoplastics_3d_print"],
+      "commonProcesses": ["cnc_milling", "metal_3d_printing", "polymer_3d_printing"],
+      "typicalToleranceNote": "Not independently found; process choice (machining vs. 3D printing) is explicitly framed as turnaround/cost driven rather than tolerance-driven in the sources found.",
+      "geographySignal": {"us": "medium", "au": "none_found"},
+      "applicationIds": ["app_robotic_pick_place_material_handling"],
+      "engineeringProblemIds": ["prob_bolt_pattern_interoperability"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Custom EOAT for palletizing, pick and place, grinding, and assembly applications.", "sourceType": "supplier_marketing", "url": "https://www.southcoastrobotics.com/services/end-of-arm-tooling", "capturedAt": "2026-09-19"},
+        {"summary": "3D printing marketed as faster/cheaper/more flexible than traditional manufacturing specifically for custom, short-run EOAT.", "sourceType": "supplier_marketing", "url": "https://forerunner3d.com/3d-printed-end-of-arm-tooling/", "capturedAt": "2026-09-19"},
+        {"summary": "Secondary price-guide source: entry-level EOAT ~$200-$1,000, mid-range ~$1,000-$3,000.", "sourceType": "documentation_verified", "url": "https://qviro.com/blog/price-end-of-arm-tooling/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "comp_sensor_camera_mount",
+      "name": "Sensor / Camera Mount",
+      "category": "mount",
+      "description": "Vibration-isolating, precisely aligned bracket for mounting machine-vision cameras, encoders, LiDAR, or force sensors on or near a robot.",
+      "sourceFile": "sensor-camera-mounts.md",
+      "commonMaterials": ["aluminum_6061", "magnesium_alloy", "steel_4140_hardened", "stainless_304", "delrin_acetal"],
+      "commonProcesses": ["cnc_milling", "metal_3d_printing"],
+      "typicalToleranceNote": "Sources cite figures ranging from +/-0.02mm (camera mounting) to +/-0.0005in (critical features on encoder/LiDAR/camera brackets) from different vendors -- not the same claim, see actuator/sensor files for detail.",
+      "geographySignal": {"us": "medium", "au": "none_found"},
+      "applicationIds": ["app_machine_vision_inspection", "app_mobile_robot_amr"],
+      "engineeringProblemIds": ["prob_vibration_resonance_sensor_gripper", "prob_weight_vs_stiffness"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Robotic vision camera bracket designed to minimize transmission of dynamic vibration/shock and preserve focal stability.", "sourceType": "supplier_marketing", "url": "https://frigate.ai/product/robotic-vision-camera-bracket/", "capturedAt": "2026-09-19"},
+        {"summary": "Encoder brackets, LiDAR mounts, camera brackets, and force sensor flanges named as a standing product line for robotics.", "sourceType": "supplier_marketing", "url": "https://www.rivcut.com/cnc-machining/houston/robotics/sensor-mounts/", "capturedAt": "2026-09-19"},
+        {"summary": "2026-dated integration guide discussing metal 3D printing as a real alternative process for custom sensor brackets.", "sourceType": "documentation_verified", "url": "https://blog.met3dp.com/blog/metal-3d-printing-custom-sensor-brackets-in-2026-integration-guide/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "comp_motor_mount",
+      "name": "Motor Mount / Base Plate",
+      "category": "mount",
+      "description": "Precision mounting plate for electric/servo motors and gearboxes, designed for alignment accuracy and low vibration.",
+      "sourceFile": "motor-mounts-adapter-plates.md",
+      "commonMaterials": ["aluminum_6061", "aluminum_7075", "carbon_steel", "stainless_steel", "engineering_plastics"],
+      "commonProcesses": ["cnc_milling", "laser_cutting", "3d_printing"],
+      "typicalToleranceNote": "Not independently found in sources for this specific part type.",
+      "geographySignal": {"us": "low", "au": "none_found"},
+      "applicationIds": ["app_cobot_integration", "app_mobile_robot_amr"],
+      "engineeringProblemIds": ["prob_bolt_pattern_interoperability"],
+      "source": "supplier_marketing",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "Motor mount base plates deliver accurate alignment and low vibration; common materials aluminum 6061/7075, carbon steel, stainless steel, engineering plastics.", "sourceType": "supplier_marketing", "url": "https://ms-machining.com/base-plate-machining-services/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "comp_adapter_base_plate",
+      "name": "Adapter / Base Plate (Robot-to-Tool)",
+      "category": "mount",
+      "description": "Plate bridging a specific robot arm's wrist-flange bolt pattern to a specific tool, gripper, or accessory bolt pattern.",
+      "sourceFile": "motor-mounts-adapter-plates.md",
+      "commonMaterials": ["aluminum_6061", "aluminum_7075"],
+      "commonProcesses": ["cnc_milling"],
+      "typicalToleranceNote": "Not independently found; the defining engineering constraint is bolt-pattern matching, not a general dimensional tolerance.",
+      "geographySignal": {"us": "medium", "au": "none_found"},
+      "applicationIds": ["app_cobot_integration", "app_robotic_pick_place_material_handling"],
+      "engineeringProblemIds": ["prob_bolt_pattern_interoperability"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Adapter plate line requires customers to specify their robot's make and model plus intended equipment for a matched bolt pattern.", "sourceType": "supplier_marketing", "url": "https://trimantec.com/collections/adapter-plate", "capturedAt": "2026-09-19"},
+        {"summary": "Dedicated cobot-specific mounting-adapter product line.", "sourceType": "supplier_marketing", "url": "https://www.emicorp.com/eoat-components/framing/cobot-mounting-adapters", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "comp_structural_bracket_enclosure",
+      "name": "Structural Bracket / Enclosure",
+      "category": "structure",
+      "description": "Custom sheet-metal enclosure or structural bracket for housing controllers/power distribution/comms in a robot cell, or providing safety perimeter guarding, typically to a stated IP rating.",
+      "sourceFile": "structural-brackets-enclosures.md",
+      "commonMaterials": ["sheet_aluminum", "sheet_steel", "thermoplastics"],
+      "commonProcesses": ["laser_cutting", "cnc_forming_bending", "welding", "thermoforming"],
+      "typicalToleranceNote": "No numeric tolerance found; IP rating (e.g. IP65, IP54+) is the dominant stated spec rather than a dimensional tolerance.",
+      "geographySignal": {"us": "medium", "au": "none_found"},
+      "applicationIds": ["app_cobot_integration", "app_assembly_qc_fixturing"],
+      "engineeringProblemIds": ["prob_ip_rating_environmental_sealing", "prob_thermal_management_sealed_enclosure"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Custom sheet-metal enclosures for industrial automation, housing controllers/PDUs/comms modules.", "sourceType": "supplier_marketing", "url": "https://uptivemfg.com/blog/custom-sheet-metal-enclosures-for-industrial-automation/", "capturedAt": "2026-09-19"},
+        {"summary": "Dedicated safety-enclosure product line for robot cells.", "sourceType": "supplier_marketing", "url": "https://vention.io/safety-enclosures", "capturedAt": "2026-09-19"},
+        {"summary": "IP65/IP54+ ratings and custom exact-fit/grounding-path benefits stated for industrial automation enclosures.", "sourceType": "supplier_marketing", "url": "https://www.etaenclosures.com/industrial-automation/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "comp_jig_fixture_inspection",
+      "name": "Jig / Fixture / Inspection Fixture",
+      "category": "tooling",
+      "description": "Custom machining, welding, assembly, check, or CMM-inspection fixture, often built as part of a turnkey tooling system for a production line or robot cell.",
+      "sourceFile": "jigs-fixtures-inspection.md",
+      "commonMaterials": ["unknown_not_evidenced"],
+      "commonProcesses": ["cnc_milling_5axis", "jig_grinding", "cnc_grinding", "cmm_metrology_verification"],
+      "typicalToleranceNote": "One aggregated source cites +/-0.005mm with 3-week delivery for custom CNC/welding/inspection fixtures; blended-source attribution, see README.md limitation 3a.",
+      "geographySignal": {"us": "medium", "au": "none_found"},
+      "applicationIds": ["app_assembly_qc_fixturing", "app_cobot_integration"],
+      "engineeringProblemIds": ["prob_tolerance_stackup"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Jig & fixture manufacturer offering check fixtures, welding fixtures, turnkey fixtures, and jig services with free quotes.", "sourceType": "supplier_marketing", "url": "https://www.mahutatool.com/Tooling/JigFixtureMachining", "capturedAt": "2026-09-19"},
+        {"summary": "Design and implementation of cobot inspection and assembly cells with tailored custom tooling.", "sourceType": "supplier_marketing", "url": "https://www.ktmsolutions.com/manufacturing-fixturing-tooling", "capturedAt": "2026-09-19"},
+        {"summary": "5-Axis CNC and metrology, design/build/inspection done in-house for automotive, aerospace, heavy equipment, military, alt-energy.", "sourceType": "supplier_marketing", "url": "https://www.pjfinc.com/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "comp_general_custom_cnc_sheet_metal_part",
+      "name": "General Custom CNC / Sheet-Metal Part",
+      "category": "general",
+      "description": "Catch-all for custom CNC-machined or sheet-metal parts sourced through generalist instant-quote marketplaces rather than a robotics-specific product line -- the competitive surface every other component above must also compete within.",
+      "sourceFile": "cnc-sheet-metal-general.md",
+      "commonMaterials": ["aluminum_6061", "aluminum_7075", "stainless_304", "carbon_steel", "engineering_plastics"],
+      "commonProcesses": ["cnc_milling", "sheet_metal_fabrication", "3d_printing"],
+      "typicalToleranceNote": "Marketplace-stated ranges vary by vendor; Hubs/Protolabs Network states tolerances to +/-0.0008in, Precision Manufacturing Australia states +/-0.01mm -- both vendor-stated, not independently audited.",
+      "geographySignal": {"us": "high", "au": "medium"},
+      "applicationIds": [],
+      "engineeringProblemIds": ["prob_weight_vs_stiffness", "prob_tolerance_stackup", "prob_ecad_mcad_coordination"],
+      "source": "supplier_marketing",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Xometry robotics-specific vertical page and generalist CNC/sheet-metal instant-quote service.", "sourceType": "supplier_marketing", "url": "https://www.xometry.com/robotics/", "capturedAt": "2026-09-19"},
+        {"summary": "Xometry operates a dedicated Australia & New Zealand storefront.", "sourceType": "supplier_marketing", "url": "https://xometry.au/cnc-machining/", "capturedAt": "2026-09-19"},
+        {"summary": "Precision Manufacturing Australia instant online quotes, +/-0.01mm tolerance claim, small batch to 100K+ units.", "sourceType": "supplier_marketing", "url": "https://precisionmanufacturing.com.au/cnc-machining-services-for-prototypes-and-production-parts/", "capturedAt": "2026-09-19"}
+      ]
+    }
+  ]
+}

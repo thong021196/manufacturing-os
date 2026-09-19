@@ -1,0 +1,166 @@
+{
+  "_meta": {
+    "purpose": "Seed data for future mapping into the app's MarketOpportunity object (lib/types.ts). Not wired into lib/mock/data.ts or any app code. Research-only, per issue #4.",
+    "capturedDefault": "2026-09-19",
+    "sourceVocabulary": ["ai_inferred", "supplier_marketing", "documentation_verified", "manual_entry"],
+    "confidenceVocabulary": ["low", "medium", "high", "verified"],
+    "IMPORTANT_deviation_from_lib_types_ts": "lib/types.ts's MarketOpportunity uses numeric demandScore/capabilityScore/competitionScore/marginPotentialPct fields. Per issue #4's explicit 'do not fabricate volumes or market sizes' guardrail, this seed data deliberately uses qualitative tiers (low/medium/high) plus a rationale string instead of fabricated precise numbers. A human or a follow-up pass with real data (keyword volumes, pricing research) should define and document an explicit, defensible tier-to-number mapping before these are converted to the app's numeric fields -- do not silently assign e.g. low=33/medium=66/high=100 without that documented step.",
+    "geographyNote": "Every record covers both US and AU per the issue's scope, but see geographySignal for where part-type-level evidence was actually found vs. only market/policy-level evidence (AU). See README.md executive summary."
+  },
+  "marketOpportunities": [
+    {
+      "id": "mo_actuator_joint_housings",
+      "name": "Actuator & Joint Housings",
+      "description": "Custom precision housings for linear/rotary actuators and harmonic-drive/gearbox joints in robot arms, cobots, and (per 2026 supply-chain coverage) humanoid robots.",
+      "componentIds": ["comp_actuator_housing", "comp_joint_housing"],
+      "geography": ["US", "AU"],
+      "geographySignal": {"us": "medium", "au": "market_level_only"},
+      "demandTier": "medium",
+      "demandTierRationale": "Multiple dedicated US supplier landing pages for this exact part type, plus a documented 2026 humanoid-robotics supply-chain bottleneck specifically naming precision actuator/gearbox components as constrained -- a real demand tailwind, but no measured order volume for our own funnel exists.",
+      "capabilityTier": "unknown",
+      "capabilityTierRationale": "Manufacturing OS has not yet onboarded or profiled any supplier network; declared/observed supplier capability for this part type is not yet assessed. Not to be confused with market demand -- this is Manufacturing OS's own supply-side readiness, which this research did not investigate.",
+      "competitionTier": "high",
+      "competitionTierRationale": "At least 4 distinct competitor types found: generalist instant-quote marketplaces, robotics-specialist job shops with dedicated landing pages, humanoid-joint-specific technical-content-led competitors, and overseas (China-based) manufacturers targeting the identical keyword space.",
+      "marginPotentialNote": "No pricing data collected for this cluster; not assessable from this research pass.",
+      "riskLevel": "medium",
+      "riskNote": "High technical precision requirement (backlash/preload control) raises quality/rework risk for a new entrant; humanoid-driven demand growth is a real but unproven tailwind for Manufacturing OS specifically.",
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "See actuator-housings.md for full per-claim citations; this record synthesizes across that file.", "sourceType": "ai_inferred", "url": "docs/research/market-demand/actuator-housings.md", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "mo_gripper_eoat",
+      "name": "Gripper Jaws / Components & EOAT",
+      "description": "Custom gripper jaws, fingers, drive/coupling components, and end-of-arm-tooling plates for pick-and-place, palletizing, grinding, and assembly applications.",
+      "componentIds": ["comp_gripper_jaw", "comp_eoat_end_effector_plate"],
+      "geography": ["US", "AU"],
+      "geographySignal": {"us": "medium", "au": "none_found"},
+      "demandTier": "medium",
+      "demandTierRationale": "Real organic buyer discovery behavior evidenced by a forum thread asking 'who makes' a specific gripper design; existence of a public third-party EOAT price guide implies real, cost-conscious buyer comparison shopping; multiple dedicated US supplier landing pages.",
+      "capabilityTier": "unknown",
+      "capabilityTierRationale": "Not yet assessed -- see actuator/joint housing record note.",
+      "competitionTier": "high",
+      "competitionTierRationale": "Dedicated specialists on both the machining side (RivCut, Zintilon) and the additive-manufacturing side (ANUBIS 3D, Forerunner3D), plus generalist marketplaces -- a crowded, two-process-family competitive field.",
+      "marginPotentialNote": "Only cost data found: secondary source states $200-$1,000 for entry-level EOAT, $1,000-$3,000 for mid-range -- single source, not independently corroborated, and price is not margin.",
+      "riskLevel": "medium",
+      "riskNote": "Grip-surface tolerance is explicitly the highest-precision feature; quality risk on a single tight-tolerance feature per part.",
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "See gripper-jaws-eoat.md for full per-claim citations; this record synthesizes across that file.", "sourceType": "ai_inferred", "url": "docs/research/market-demand/gripper-jaws-eoat.md", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "mo_sensor_camera_mounts",
+      "name": "Sensor & Camera Mounts",
+      "description": "Vibration-isolating, precisely aligned mounts for machine-vision cameras, encoders, LiDAR, and force sensors.",
+      "componentIds": ["comp_sensor_camera_mount"],
+      "geography": ["US", "AU"],
+      "geographySignal": {"us": "medium", "au": "none_found"},
+      "demandTier": "low",
+      "demandTierRationale": "Real dedicated competitor pages exist (Frigate, RivCut, Zintilon, CNCTAL, Met3DP) but the coexistence of commodity/off-the-shelf mount sellers (RobotShop, Ruland) suggests a meaningful share of this segment is served by non-custom parts, capping how much of the visible demand is truly custom-manufacturing demand.",
+      "capabilityTier": "unknown",
+      "capabilityTierRationale": "Not yet assessed -- see actuator/joint housing record note.",
+      "competitionTier": "medium",
+      "competitionTierRationale": "Fewer dedicated specialists than gripper/EOAT or actuator housings; one 2026-dated additive-manufacturing-specific competitor found (Met3DP), suggesting the field is still forming around process choice.",
+      "marginPotentialNote": "No pricing data collected; not assessable.",
+      "riskLevel": "low",
+      "riskNote": "Lower structural-precision demands than joint housings; primary risk is optical/alignment tolerance rather than load-bearing failure.",
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "See sensor-camera-mounts.md for full per-claim citations; this record synthesizes across that file.", "sourceType": "ai_inferred", "url": "docs/research/market-demand/sensor-camera-mounts.md", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "mo_motor_mounts_adapter_plates",
+      "name": "Motor Mounts & Adapter/Base Plates",
+      "description": "Precision motor/gearbox mounting plates and robot-to-tool adapter plates bridging heterogeneous bolt patterns, with a notable cobot-specific sub-segment.",
+      "componentIds": ["comp_motor_mount", "comp_adapter_base_plate"],
+      "geography": ["US", "AU"],
+      "geographySignal": {"us": "low", "au": "none_found"},
+      "demandTier": "low",
+      "demandTierRationale": "Real dedicated product lines exist (Trimantec, EMI Corp, MS Machining) but fewer independent sources were found overall for this cluster than for gripper/EOAT or actuator housings, and the existence of 'blank plate' self-machined SKUs suggests some of this demand is absorbed by DIY/semi-custom purchase paths rather than fully custom manufacturing.",
+      "capabilityTier": "unknown",
+      "capabilityTierRationale": "Not yet assessed -- see actuator/joint housing record note.",
+      "competitionTier": "medium",
+      "competitionTierRationale": "Several dedicated vendors found but the segment appears less consolidated/marketed than gripper or actuator housings.",
+      "marginPotentialNote": "No pricing data collected; not assessable.",
+      "riskLevel": "low",
+      "riskNote": "Primarily a bolt-pattern-matching/interoperability problem rather than a high-precision manufacturing problem; likely lower technical risk than joint housings or gripper grip surfaces.",
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "See motor-mounts-adapter-plates.md for full per-claim citations; this record synthesizes across that file.", "sourceType": "ai_inferred", "url": "docs/research/market-demand/motor-mounts-adapter-plates.md", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "mo_structural_brackets_enclosures",
+      "name": "Structural Brackets & Enclosures",
+      "description": "Custom sheet-metal enclosures and structural brackets for robot-cell electronics housing and safety guarding, typically specified to a named IP rating.",
+      "componentIds": ["comp_structural_bracket_enclosure"],
+      "geography": ["US", "AU"],
+      "geographySignal": {"us": "medium", "au": "none_found"},
+      "demandTier": "medium",
+      "demandTierRationale": "A regulatory/compliance-driven sub-segment (safety enclosures) exists alongside a general electronics-housing sub-segment; multiple dedicated vendors including at least one (Vention) that is a broader automation-hardware platform, and one overseas (China-based) OEM/ODM competitor.",
+      "capabilityTier": "unknown",
+      "capabilityTierRationale": "Not yet assessed -- see actuator/joint housing record note.",
+      "competitionTier": "medium",
+      "competitionTierRationale": "Distinct from milling-centric clusters -- this segment's primary process (sheet metal fab) is served by both robotics-specific vendors and the broader general sheet-metal-fabrication marketplace field (see cnc-sheet-metal-general.md).",
+      "marginPotentialNote": "No pricing data collected; not assessable.",
+      "riskLevel": "low",
+      "riskNote": "IP-rating compliance is a clear, checkable spec (lower ambiguity risk than a bespoke precision-tolerance part), but safety-enclosure applications may carry liability/compliance considerations worth flagging to the human reviewer.",
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "See structural-brackets-enclosures.md for full per-claim citations; this record synthesizes across that file.", "sourceType": "ai_inferred", "url": "docs/research/market-demand/structural-brackets-enclosures.md", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "mo_jigs_fixtures_inspection",
+      "name": "Jigs, Fixtures & Inspection Fixtures",
+      "description": "Custom machining, welding, assembly, check, and CMM-inspection fixtures, often built as turnkey tooling tied to a specific production line or robot cell.",
+      "componentIds": ["comp_jig_fixture_inspection"],
+      "geography": ["US", "AU"],
+      "geographySignal": {"us": "medium", "au": "none_found"},
+      "demandTier": "medium",
+      "demandTierRationale": "This is the one cluster where generalist instant-quote marketplaces appear comparatively absent as named competitors (no source found them marketing 'fixtures' as a dedicated category), while dedicated US specialists are numerous -- suggesting real, durable, specialist-served demand that a generalist marketplace model may not currently capture well.",
+      "capabilityTier": "unknown",
+      "capabilityTierRationale": "Not yet assessed -- see actuator/joint housing record note.",
+      "competitionTier": "medium",
+      "competitionTierRationale": "Numerous US specialists (Mahuta Tool, MD Design & Automation, KTM Solutions, CAVTool, PJF Inc., Yicen Precision) but comparatively little generalist-marketplace competition, per demandTierRationale.",
+      "marginPotentialNote": "No pricing data collected; not assessable.",
+      "riskLevel": "medium",
+      "riskNote": "Design-through-build-through-metrology is framed as one coupled service by every specialist found, meaning a pure fabrication-only offering (upload-a-drawing, get-a-part) may be a weaker fit for this cluster than for the other, more drawing-driven part types -- worth flagging for the human reviewer as a possible product-fit gap.",
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "See jigs-fixtures-inspection.md for full per-claim citations; this record synthesizes across that file.", "sourceType": "ai_inferred", "url": "docs/research/market-demand/jigs-fixtures-inspection.md", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "mo_general_cnc_sheet_metal",
+      "name": "General Custom CNC / Sheet-Metal Parts",
+      "description": "The broad, generalist custom-machined and sheet-metal-part category that every other cluster above must also compete within, dominated by large multi-process instant-quote marketplaces.",
+      "componentIds": ["comp_general_custom_cnc_sheet_metal_part"],
+      "geography": ["US", "AU"],
+      "geographySignal": {"us": "high", "au": "medium"},
+      "demandTier": "high",
+      "demandTierRationale": "Largest and most mature competitor set found in this entire research pass (at least 8 distinct multi-process marketplaces plus multiple Australia-specific instant-quote providers); IFR/A3-reported robot-install-base and order growth in the US, and Australia's National Robotics Strategy and market-research forecasts, both support a real and growing underlying industrial-automation buyer base this category serves, though none of these figures measure this category's demand directly.",
+      "capabilityTier": "unknown",
+      "capabilityTierRationale": "Not yet assessed -- see actuator/joint housing record note.",
+      "competitionTier": "high",
+      "competitionTierRationale": "This is the most saturated, best-capitalized competitive field in the wedge (Xometry, Protolabs Network, Fictiv, RapidDirect, PCBWay, JLCCNC, PartsBadger, Geomiq globally; Zeal 3D, Precision Manufacturing Australia, Berkeley Engineering, Elite CNC, Xometry AU/NZ in Australia).",
+      "marginPotentialNote": "No pricing data collected; not assessable. High competition among well-capitalized generalists plausibly compresses margin on undifferentiated SKUs, but this is inference, not measured.",
+      "riskLevel": "high",
+      "riskNote": "Highest competitive-intensity risk in the wedge; Manufacturing OS's differentiation must come from the robotics-specific ontology/evidence model (per docs/product/PRODUCT.md), not from competing as a generic instant-quote marketplace.",
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "See cnc-sheet-metal-general.md for full per-claim citations; this record synthesizes across that file.", "sourceType": "ai_inferred", "url": "docs/research/market-demand/cnc-sheet-metal-general.md", "capturedAt": "2026-09-19"}
+      ]
+    }
+  ]
+}
