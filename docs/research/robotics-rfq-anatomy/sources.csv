@@ -1,0 +1,40 @@
+Source URL,Source type,Publication date,Confidence level(s) used,Record IDs citing this source,So record
+https://www.harmonicdrive.net/_hd/content/catalogs/pdf/csf-csg.pdf,Component-supplier technical documentation,unknown,documentation_verified; documentation_verified (fit class); supplier_marketing (Ti-6Al-4V material generalization),"R001,R029",2
+https://humanoid.guide/unitree-g1-teardown-reveals-actuator-and-cooling-tradeoffs/,Independent technical teardown/analysis blog,unknown,documentation_verified,"R002,R038",2
+https://pmc.ncbi.nlm.nih.gov/articles/PMC11275007/,Peer-reviewed journal article (PMC),unknown,documentation_verified,"R004,R017",2
+https://build-its-inprogress.blogspot.com/2022/11/mini-cheetah-clone-teardown.html,Independent build-log/teardown blog,2022,documentation_verified,"R012,R028",2
+https://arxiv.org/pdf/2503.20702,Academic paper (arXiv preprint),2025,documentation_verified,"R020,R033",2
+https://www.machining-custom.com/blog/top-10-manufacturers-and-suppliers-of-robot-parts-machining.html,Manufacturer/vendor site,unknown,supplier_marketing,"R047,R048",2
+https://www.universal-robots.com/products/ur20/,OEM product page,unknown,supplier_marketing,R003,1
+https://www.rivcut.com/cnc-machining/houston/robotics/sensor-mounts/,Manufacturer/vendor site (US CNC job shop),unknown,supplier_marketing,R005,1
+https://lcnw.com/agricultural-manufacturing/,Manufacturer/vendor site (US metal fabricator),unknown,supplier_marketing,R006,1
+https://frigate.ai/product/robotic-vision-camera-bracket/,Manufacturer/vendor site,unknown,supplier_marketing,R007,1
+https://www.ucf.edu/pegasus/power-move-onyx-exoskeleton/,"University magazine profile (Onyx material claim); vendor site (bracket/tolerance generic claim, see notes)",unknown,"documentation_verified (Onyx materials, UCF); supplier_marketing (bracket/tolerance generalization)",R008,1
+https://www.thefabricator.com/thefabricator/article/automationrobotics/the-potential-of-flexible-mobile-robots-in-sheet-metal-fabrication,Trade publication (case-study/design content) + vendor generalization (tolerance figures),unknown,industry_estimate,R009,1
+https://shincofab.com/sheet-metal-fabrication-for-robotics/,Manufacturer/vendor site,unknown,supplier_marketing,R010,1
+https://link.springer.com/article/10.1007/s42461-025-01219-y,Peer-reviewed survey article,2025,documentation_verified (deployment facts only),R011,1
+https://www.lsrpf.com/blog/top-6-manufacturers-for-robotics-sheet-metal-fabrication-custom-lightweight-chassis-experts,Manufacturer/vendor site,unknown,supplier_marketing,R013,1
+https://www.ditaiplastic.com/thermoformed-enclosures-for-robotics-automation-complete-guide/,Manufacturer/vendor site,unknown,supplier_marketing,R014,1
+https://www.rivcut.com/cnc-machining/robotics/gripper-components/,Manufacturer/vendor site,unknown,supplier_marketing,R016,1
+https://arxiv.org/pdf/2103.09229,Academic paper (arXiv preprint),2021,documentation_verified (functional description only),R018,1
+https://www.rivcut.com/cnc-machining/springfield/automotive/ev-battery-enclosures/,Manufacturer/vendor site,unknown,supplier_marketing,R021,1
+https://www.charmaxprecision.com/case-studies/aluminum-electronics-housing/,Manufacturer/vendor site (case study),unknown,supplier_marketing,R022,1
+https://www.dakingsrapid.com/en_us/humanoid-robot-joint-cnc-machining-tolerances-specs/,Manufacturer/vendor site (China-based CNC/rapid-manufacturing supplier),unknown,supplier_marketing,R023,1
+https://ori.ox.ac.uk/robots/ghost,University robotics-lab platform page,unknown,documentation_verified,R024,1
+https://newsletter.semianalysis.com/p/quadruped-state-of-the-market-unitree,"Industry-analyst newsletter (secondary aggregator, not primary OEM spec)",unknown,industry_estimate,R025,1
+https://www.iso.org/standard/36578.html,International standard (ISO),2004,documentation_verified,R026,1
+https://www.laifualdrive.com/blog/tesla-optimus-robot-actuators/,"Manufacturer/vendor site (actuator-component vendor blog, third-party analysis of a competitor/industry product, not Tesla's own documentation)",unknown,supplier_marketing,R027,1
+https://bangid.com/knowledge-base/custom-machined-exoskeleton-robot-engineering-precision-for-human-augmentation/,Manufacturer/vendor site,unknown,supplier_marketing,R031,1
+https://arxiv.org/pdf/2512.15597,"Academic paper (arXiv, open-source underwater field-robotics toolkit) + vendor design-guidance page (tolerance numbers)",unknown,"documentation_verified (materials, O-ring failure account — academic paper); supplier_marketing (±0.025 mm/Ra 0.8 tolerance figures — vendor page)",R032,1
+https://www.chalcoaluminum.com/knowledge/6061-aluminum-tooling-plate-block-2504-lx/,Material-supplier technical documentation,unknown,documentation_verified,R034,1
+https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/8025323,US patent document,unknown,documentation_verified (existence/design-category only),R035,1
+https://www.dakingsrapid.com/robotics/,Manufacturer/vendor site (China-based custom manufacturer),unknown,supplier_marketing,R036,1
+https://carrmachine.com/industries/humanized-robotics/,Manufacturer/vendor site (US CNC job shop),unknown,supplier_marketing,R037,1
+https://www.boellhoff.com/us-en/products/assembly-technology/installation-of-helicoil-thread-inserts/,"Component-supplier technical documentation (Böllhoff, HELICOIL OEM)",unknown,documentation_verified,R039,1
+https://www.pemnet.com/resources/download-center/tightening-torque-2/,"Component-supplier technical documentation (PEM, OEM)",unknown,documentation_verified,R040,1
+https://en.wikipedia.org/wiki/First_article_inspection,Reference/standards summary (cites AS9102),unknown,documentation_verified,R041,1
+https://en.wikipedia.org/wiki/Welding_Procedure_Specification,Reference/standards summary (cites ISO 15614) + trade-publication commentary,unknown,documentation_verified,R042,1
+https://aerospacemetalsllc.com/anodizing/,Manufacturer/vendor site (aerospace-finishing specialist) + material-supplier guidance,unknown,"supplier_marketing (specific numbers); industry_estimate (temper-selection guidance, widely corroborated material-engineering practice)",R043,1
+https://precisionam.com/articles/uncategorized/cnc-machining-material-traceability/,"Manufacturer/vendor site (describes a real, named industry standard, AS9100D)",unknown,"supplier_marketing (vendor page); the underlying AS9100D standard itself is a real, independently-verifiable industry standard",R044,1
+https://next.henkel-adhesives.com/us/en/applications/threadlockers.html,"Component-supplier technical documentation (Henkel/Loctite, OEM)",unknown,documentation_verified,R045,1
+https://www.cincinnati-test.com/test-instruments,Manufacturer/vendor site (industrial test-equipment supplier),unknown,supplier_marketing,R046,1

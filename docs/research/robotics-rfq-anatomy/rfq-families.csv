@@ -1,0 +1,13 @@
+RFQ family,So record,Loai robot xuat hien,Record IDs,Ty le truong ky thuat co du lieu (%),Danh gia coverage
+precision CNC housing,7,Cobot/industrial arm/machine tending; Humanoid/general-purpose; Maker/startup-built custom robot systems,"R001,R002,R003,R004,R041,R043,R044",22.6,partial
+bracket/mount/adapter,4,AMR/warehouse/logistics; Agriculture robot; Exoskeleton/wearable robot; Service robot,"R005,R006,R007,R008",21.1,partial
+welded frame/chassis,5,AMR/warehouse/logistics; Agriculture robot; Maker/startup-built custom robot systems; Mining/autonomous haulage,"R009,R010,R011,R012,R042",22.1,partial
+sheet-metal enclosure,4,AMR/warehouse/logistics; Cobot/industrial arm/machine tending; Inspection/field robot; Service robot,"R013,R014,R015,R040",13.2,thin/gap
+gripper jaw/finger,2,Cobot/industrial arm/machine tending; Humanoid/general-purpose,"R016,R017",42.1,deep
+sensor/camera mount,2,AMR/warehouse/logistics; Inspection/field robot,"R018,R019",5.3,thin/gap
+battery/electronics enclosure,3,AMR/warehouse/logistics; Humanoid/general-purpose; Maker/startup-built custom robot systems,"R020,R021,R022",26.3,partial
+joint/link,8,Cobot/industrial arm/machine tending; Humanoid/general-purpose; Inspection/field robot; Maker/startup-built custom robot systems,"R023,R024,R025,R026,R027,R028,R039,R045",19.7,partial
+shaft/bearing seat/motor mount,3,Cobot/industrial arm/machine tending; Exoskeleton/wearable robot; Humanoid/general-purpose,"R029,R030,R031",12.3,thin/gap
+pressure housing/sealed enclosure,3,AMR/warehouse/logistics; Inspection/field robot; Maker/startup-built custom robot systems,"R032,R033,R046",24.6,partial
+jig/fixture/EOAT structure,2,Cobot/industrial arm/machine tending,"R034,R035",31.6,partial
+prototype multi-part assembly,5,Cobot/industrial arm/machine tending; Humanoid/general-purpose; Maker/startup-built custom robot systems; Service robot,"R036,R037,R038,R047,R048",15.8,partial
