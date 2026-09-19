@@ -1,19 +1,36 @@
-# Fathom Manufacturing (Fathom Digital Manufacturing Corporation, NYSE: FATH)
+# Fathom Manufacturing (Fathom Digital Manufacturing Corporation)
 
 - **Supplier ID (seed data)**: `sup-us-006`
 - **Country**: United States
-- **HQ / Geography**: 1050 Walnut Ridge Drive, Hartland, WI 53029.
-  Publicly traded on NYSE under ticker **FATH**. Operates **12
-  manufacturing facilities** totaling "nearly 450,000 square feet of
-  manufacturing capacity" across the US, per its own 10-K SEC filing —
-  the single strongest-sourced fact in this entire research package,
-  since it comes from a regulatory filing rather than marketing copy. [Fathom 10-K (SEC EDGAR)](https://www.sec.gov/Archives/edgar/data/1836176/000095017023012198/fath-20221231.htm)
-  Named facility locations referenced in site content include Denver, CO
-  (sheet metal) and Austin, TX (tight-tolerance CNC), among others. [Fathom — Denver, CO Location](https://fathommfg.com/locations/denver-co/) [Fathom — Austin, TX Location](https://fathommfg.com/locations/austin-tx/)
+- **Corporate status — CORRECTED, see AUDIT-002**: Fathom went public via
+  SPAC merger in December 2021 (NYSE: FATH), but CORE Industrial Partners
+  took it **private** in a take-private merger that closed **May 22,
+  2024**; FATH ceased trading on the NYSE as of that date and Fathom has
+  been a privately held company since. [Kirkland & Ellis — Advises CORE Industrial on Take-Private of Fathom](https://www.kirkland.com/news/press-release/2024/05/kirkland-advises-core-industrial-on-take-private-of-fathom-digital-manufacturing) [CORE Industrial Partners — Completes Take-Private of Fathom](https://coreipfund.com/news/core-industrial-partners-completes-take-private-of-fathom-digital-manufacturing-corporation/) [PE Hub — CORE completes take-private buyout of Fathom](https://www.pehub.com/core-industrial-partners-completes-take-private-buyout-of-fathom-digital-manufacturing/)
+  **The original version of this profile incorrectly described Fathom as
+  currently NYSE-listed and treated its facility count as high-confidence,
+  current-as-of-2026 data — both wrong.** The only regulatory-filing
+  evidence on file is a 10-K covering FY2022, filed while Fathom was still
+  public; it cannot verify anything about the company's current (2026),
+  post-merger, privately-held state. Facility count/footprint below is
+  therefore **downgraded to `supplier_marketing`/`low` confidence** (last
+  independently confirmed pre-merger) pending a fresh check of current
+  (privately held, non-SEC-reporting) sources.
+- **HQ / Geography (last independently confirmed pre-merger)**: 1050
+  Walnut Ridge Drive, Hartland, WI 53029. Operated **12 manufacturing
+  facilities** totaling "nearly 450,000 square feet of manufacturing
+  capacity" across the US per the FY2022 10-K — this may no longer reflect
+  Fathom's current footprint two years and a change of ownership later. [Fathom FY2022 10-K (SEC EDGAR)](https://www.sec.gov/Archives/edgar/data/1836176/000095017023012198/fath-20221231.htm)
+  Named facility locations referenced in current site content include
+  Denver, CO (sheet metal) and Austin, TX (tight-tolerance CNC), among
+  others — these location pages were read in 2026 and are more likely to
+  still be current than the pre-merger 10-K. [Fathom — Denver, CO Location](https://fathommfg.com/locations/denver-co/) [Fathom — Austin, TX Location](https://fathommfg.com/locations/austin-tx/)
 - **Facility type**: `distributed_network` — but unlike Xometry/Protolabs,
-  Fathom owns all 12 facilities directly (not a third-party broker
-  network); it is a single company operating multiple plants.
-- **Captured**: 2026-09-19
+  Fathom (as of the pre-merger 10-K) owned its facilities directly rather
+  than brokering a third-party network; unconfirmed whether this changed
+  post-merger.
+- **Captured**: 2026-09-19 (research pass); merger correction added
+  2026-09-19 in response to AUDIT-002.
 
 ## Process capabilities (declared)
 
@@ -81,7 +98,10 @@ certification — those remain `supplier_marketing` / `low`–`medium`.
 
 ## Source / evidence
 
-- [Fathom 10-K, SEC EDGAR (facility count, HQ address, public company status)](https://www.sec.gov/Archives/edgar/data/1836176/000095017023012198/fath-20221231.htm) — documentation_verified, high confidence, captured 2026-09-19
+- [Fathom FY2022 10-K, SEC EDGAR (facility count, HQ address — PRE-MERGER, not current)](https://www.sec.gov/Archives/edgar/data/1836176/000095017023012198/fath-20221231.htm) — documentation_verified, **low** confidence (downgraded from high — see AUDIT-002; filing predates the May 2024 take-private merger by ~1.5 years and cannot verify current facility count or ownership), captured 2026-09-19
+- [Kirkland & Ellis — Advises CORE Industrial on Take-Private of Fathom](https://www.kirkland.com/news/press-release/2024/05/kirkland-advises-core-industrial-on-take-private-of-fathom-digital-manufacturing) — documentation_verified, high confidence (law-firm deal announcement), captured 2026-09-19
+- [CORE Industrial Partners — Completes Take-Private of Fathom](https://coreipfund.com/news/core-industrial-partners-completes-take-private-of-fathom-digital-manufacturing-corporation/) — documentation_verified, high confidence (acquirer's own announcement of deal close), captured 2026-09-19
+- [PE Hub — CORE completes take-private buyout of Fathom](https://www.pehub.com/core-industrial-partners-completes-take-private-buyout-of-fathom-digital-manufacturing/) — documentation_verified, medium-high confidence (trade press), captured 2026-09-19
 - [Fathom — CNC Machining](https://fathommfg.com/capabilities/cnc-machining/) — supplier_marketing, captured 2026-09-19
 - [Fathom — Denver, CO Location (sheet metal)](https://fathommfg.com/locations/denver-co/) — supplier_marketing, captured 2026-09-19
 - [Fathom — Austin, TX Location (CNC)](https://fathommfg.com/locations/austin-tx/) — supplier_marketing, captured 2026-09-19
@@ -90,27 +110,33 @@ certification — those remain `supplier_marketing` / `low`–`medium`.
 
 ## Unknown / missing fields
 
+- **Current (post-May-2024-merger) ownership structure, facility count and footprint: unknown — the only regulatory-filing evidence predates the merger.** This is the most important open item on this profile.
 - Machine envelope / max part size: unknown.
 - Finish capability list: unknown.
 - Threads/inserts/secondary ops: unknown.
 - Quantity range / MOQ / lead time: unknown, not published with specific
   numbers.
-- Which of the 12 facilities would actually fulfill a given robotics
-  part order (process/material capability likely varies by site):
-  unknown from desk research — would need per-facility confirmation.
+- Which of the (possibly still 12, unconfirmed) facilities would actually
+  fulfill a given robotics part order (process/material capability likely
+  varies by site): unknown from desk research — would need per-facility
+  confirmation.
 - Robotics/automation-specific case study: none found in pages read
   (aerospace & defense industry page found; no robotics-specific page).
 
 ## Suitability for prototype/low-volume robotics work
 
-**Plausible fit, with above-average confidence in the company's basic
-facts** (public-company transparency via SEC filings is unusual and
-valuable in this dataset — most job shops offer no independently
-verifiable facts at all). Multi-process (CNC + sheet metal + AM + molding)
-under one corporate umbrella is attractive for a robotics customer who
-needs both machined and sheet-metal parts. The tradeoff is that "Fathom"
-as a `Supplier` record actually spans 12 distinct facilities with
-possibly different equipment and quality certifications per site — any
-future matching logic should model Fathom at the facility level, not as
-one undifferentiated capability record, once specific facility data is
-gathered.
+**Plausible fit on process breadth, but the earlier "above-average
+confidence" framing was overstated and has been corrected (AUDIT-002).**
+Multi-process (CNC + sheet metal + AM + molding) under one corporate
+umbrella is still attractive for a robotics customer who needs both
+machined and sheet-metal parts, per the still-current-looking marketing
+pages. However, the one differentiator this profile leaned on — SEC-filing
+transparency most job shops don't offer — no longer applies going forward:
+Fathom is privately held as of May 2024 and will not file further 10-Ks,
+so its future capability/footprint claims sit at the same
+`supplier_marketing` confidence level as every other supplier in this
+dataset, not above it. "Fathom" as a `Supplier` record may still span
+multiple distinct facilities with different equipment/certifications per
+site, but the current facility count is now itself unverified — any future
+matching logic should re-confirm Fathom's post-merger structure from
+current sources before modeling it at the facility level.

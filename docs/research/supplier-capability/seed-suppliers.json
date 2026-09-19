@@ -6,10 +6,17 @@
       "name": "Xometry",
       "website": "https://www.xometry.com/",
       "status": "draft",
-      "geography": { "country": "United States", "region": "Maryland", "city": "Gaithersburg" },
+      "geography": {
+        "country": "United States",
+        "region": "Maryland",
+        "city": "Gaithersburg"
+      },
       "facilityType": "distributed_network",
       "description": "On-demand digital manufacturing marketplace; fulfills orders through a vetted third-party Manufacturing Partner Network (10,000+ manufacturers, US/Europe/Asia) rather than a single owned facility.",
-      "declaredCapabilityIds": ["cap-us-001-cnc", "cap-us-001-sheet"],
+      "declaredCapabilityIds": [
+        "cap-us-001-cnc",
+        "cap-us-001-sheet"
+      ],
       "observedCapabilityIds": [],
       "machineEvidenceIds": [],
       "performanceId": null,
@@ -17,8 +24,20 @@
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "Robotics/automation positioning page with named customer case studies (Asylon, RobCo)", "sourceType": "supplier_marketing", "url": "https://www.xometry.com/robotics/", "capturedAt": "2026-09-19" },
-        { "summary": "10,000+ manufacturer network, no MOQ, instant quoting", "sourceType": "supplier_marketing", "url": "https://www.xometry.com/how-xometry-works/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "Robotics/automation positioning page with named customer case studies (Asylon, RobCo)",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.xometry.com/robotics/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-001-ev-1"
+        },
+        {
+          "summary": "10,000+ manufacturer network, no MOQ, instant quoting",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.xometry.com/how-xometry-works/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-001-ev-2"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
@@ -31,10 +50,16 @@
       "name": "Protolabs",
       "website": "https://www.protolabs.com/",
       "status": "draft",
-      "geography": { "country": "United States", "region": "Minnesota", "city": "Maple Plain" },
+      "geography": {
+        "country": "United States",
+        "region": "Minnesota",
+        "city": "Maple Plain"
+      },
       "facilityType": "hybrid",
       "description": "Digital manufacturing company combining its own factories (CNC, injection molding, 3D printing) with the Protolabs Network partner-shop marketplace.",
-      "declaredCapabilityIds": ["cap-us-002-cnc"],
+      "declaredCapabilityIds": [
+        "cap-us-002-cnc"
+      ],
       "observedCapabilityIds": [],
       "machineEvidenceIds": [],
       "performanceId": null,
@@ -42,8 +67,20 @@
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "CNC machining service page: tolerance, quantity, lead-time claims", "sourceType": "supplier_marketing", "url": "https://www.protolabs.com/services/cnc-machining/", "capturedAt": "2026-09-19" },
-        { "summary": "ISO 9001:2015 and AS9100D certification page", "sourceType": "supplier_marketing", "url": "https://www.protolabs.com/iso/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "CNC machining service page: tolerance, quantity, lead-time claims",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.protolabs.com/services/cnc-machining/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-002-ev-1"
+        },
+        {
+          "summary": "ISO 9001:2015 and AS9100D certification page",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.protolabs.com/iso/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-002-ev-2"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
@@ -56,10 +93,16 @@
       "name": "American Precision Tool Inc.",
       "website": "https://www.ameriprectool.com/",
       "status": "draft",
-      "geography": { "country": "United States", "region": "California", "city": "San Diego / Southern California (service area; single-vs-multi-facility unconfirmed)" },
+      "geography": {
+        "country": "United States",
+        "region": "California",
+        "city": "San Diego / Southern California (service area; single-vs-multi-facility unconfirmed)"
+      },
       "facilityType": "single_facility",
       "description": "Southern California CNC/Swiss machining job shop; ISO 9001:2015/AS9100D certified; aerospace, defense, biomedical, biotech customer base.",
-      "declaredCapabilityIds": ["cap-us-003-cnc"],
+      "declaredCapabilityIds": [
+        "cap-us-003-cnc"
+      ],
       "observedCapabilityIds": [],
       "machineEvidenceIds": [],
       "performanceId": null,
@@ -67,8 +110,20 @@
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "Machining services page: materials, tolerance claim", "sourceType": "supplier_marketing", "url": "https://www.ameriprectool.com/machining-services/", "capturedAt": "2026-09-19" },
-        { "summary": "Homepage: AS9100D certification claim", "sourceType": "supplier_marketing", "url": "https://www.ameriprectool.com/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "Machining services page: materials, tolerance claim",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.ameriprectool.com/machining-services/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-003-ev-1"
+        },
+        {
+          "summary": "Homepage: AS9100D certification claim",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.ameriprectool.com/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-003-ev-2"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
@@ -81,19 +136,39 @@
       "name": "Vanderhulst Associates Inc.",
       "website": "https://www.vanderhulst.com/",
       "status": "draft",
-      "geography": { "country": "United States", "region": "California", "city": "San Jose" },
+      "geography": {
+        "country": "United States",
+        "region": "California",
+        "city": "San Jose"
+      },
       "facilityType": "single_facility",
       "description": "Bay Area precision CNC machine shop with a dedicated prototyping & small-batch production service line; ISO 9001:2015 & AS9100 certified; medical, aerospace, semiconductor, defense customer base.",
-      "declaredCapabilityIds": ["cap-us-004-cnc"],
+      "declaredCapabilityIds": [
+        "cap-us-004-cnc"
+      ],
       "observedCapabilityIds": [],
-      "machineEvidenceIds": ["mach-us-004-01"],
+      "machineEvidenceIds": [
+        "mach-us-004-01"
+      ],
       "performanceId": null,
       "componentIds": [],
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "Homepage: tolerance (±0.0005in), materials, 30+ CNC machines, ISO/AS9100 certs", "sourceType": "supplier_marketing", "url": "https://www.vanderhulst.com/", "capturedAt": "2026-09-19" },
-        { "summary": "Prototyping & small-batch production service page", "sourceType": "supplier_marketing", "url": "https://www.vanderhulst.com/services/prototyping-small-batch-production/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "Homepage: tolerance (±0.0005in), materials, 30+ CNC machines, ISO/AS9100 certs",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.vanderhulst.com/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-004-ev-1"
+        },
+        {
+          "summary": "Prototyping & small-batch production service page",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.vanderhulst.com/services/prototyping-small-batch-production/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-004-ev-2"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
@@ -106,10 +181,16 @@
       "name": "Approved Sheet Metal (ASM)",
       "website": "https://www.approvedsheetmetal.com/",
       "status": "draft",
-      "geography": { "country": "United States", "region": "New Hampshire", "city": "Hudson" },
+      "geography": {
+        "country": "United States",
+        "region": "New Hampshire",
+        "city": "Hudson"
+      },
       "facilityType": "single_facility",
       "description": "Sheet-metal-only fabrication job shop (laser cutting, forming). ISO 9001:2015 certified, ITAR registered, AS9102 capable. No CNC milling/turning offered.",
-      "declaredCapabilityIds": ["cap-us-005-sheet"],
+      "declaredCapabilityIds": [
+        "cap-us-005-sheet"
+      ],
       "observedCapabilityIds": [],
       "machineEvidenceIds": [],
       "performanceId": null,
@@ -117,9 +198,27 @@
       "source": "documentation_verified",
       "confidence": "medium",
       "evidence": [
-        { "summary": "EF-001 Recommended Default Sheet Metal Tolerances Rev A (PDF spec sheet)", "sourceType": "documentation_verified", "url": "https://www.approvedsheetmetal.com/wp-content/uploads/2023/09/Approved-Sheet-Metal-EF-001_Recommended-Default-Sheet-Metal-Tolerances_Rev-A.pdf", "capturedAt": "2026-09-19" },
-        { "summary": "Prototype sheet metal parts, 2-5 day lead time", "sourceType": "supplier_marketing", "url": "https://www.approvedsheetmetal.com/prototype-sheet-metal", "capturedAt": "2026-09-19" },
-        { "summary": "ISO 9001:2015 certification announcement, Jan 2024", "sourceType": "supplier_marketing", "url": "https://www.approvedsheetmetal.com/blog/approved-sheet-metal-achieves-iso-90012015", "capturedAt": "2026-09-19" }
+        {
+          "summary": "EF-001 Recommended Default Sheet Metal Tolerances Rev A (PDF spec sheet)",
+          "sourceType": "documentation_verified",
+          "url": "https://www.approvedsheetmetal.com/wp-content/uploads/2023/09/Approved-Sheet-Metal-EF-001_Recommended-Default-Sheet-Metal-Tolerances_Rev-A.pdf",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-005-ev-1"
+        },
+        {
+          "summary": "Prototype sheet metal parts, 2-5 day lead time",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.approvedsheetmetal.com/prototype-sheet-metal",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-005-ev-2"
+        },
+        {
+          "summary": "ISO 9001:2015 certification announcement, Jan 2024",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.approvedsheetmetal.com/blog/approved-sheet-metal-achieves-iso-90012015",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-005-ev-3"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
@@ -132,44 +231,97 @@
       "name": "Fathom Manufacturing (Fathom Digital Manufacturing Corporation)",
       "website": "https://fathommfg.com/",
       "status": "draft",
-      "geography": { "country": "United States", "region": "Wisconsin", "city": "Hartland (HQ; 12 facilities across the US)" },
+      "geography": {
+        "country": "United States",
+        "region": "Wisconsin",
+        "city": "Hartland (HQ per pre-merger 10-K; current facility count unverified, see notes)"
+      },
       "facilityType": "distributed_network",
-      "description": "Publicly traded (NYSE: FATH) multi-process contract manufacturer operating 12 owned facilities: CNC machining, sheet metal fabrication, additive manufacturing, injection molding.",
-      "declaredCapabilityIds": ["cap-us-006-cnc", "cap-us-006-sheet"],
+      "description": "Multi-process contract manufacturer (CNC machining, sheet metal fabrication, additive manufacturing, injection molding). Formerly publicly traded (NYSE: FATH) via 2021 SPAC merger; taken private by CORE Industrial Partners in a take-private merger that closed May 22, 2024 — FATH no longer trades on any exchange.",
+      "declaredCapabilityIds": [
+        "cap-us-006-cnc",
+        "cap-us-006-sheet"
+      ],
       "observedCapabilityIds": [],
       "machineEvidenceIds": [],
       "performanceId": null,
       "componentIds": [],
       "source": "documentation_verified",
-      "confidence": "high",
+      "confidence": "low",
       "evidence": [
-        { "summary": "SEC 10-K: 12 manufacturing facilities, ~450,000 sqft, HQ address, public company status", "sourceType": "documentation_verified", "url": "https://www.sec.gov/Archives/edgar/data/1836176/000095017023012198/fath-20221231.htm", "capturedAt": "2026-09-19" },
-        { "summary": "CNC machining capability page: 3/5-axis, tolerance range", "sourceType": "supplier_marketing", "url": "https://fathommfg.com/capabilities/cnc-machining/", "capturedAt": "2026-09-19" },
-        { "summary": "Denver, CO facility page: sheet metal, ISO 9001:2015, ITAR, APQP/PPAP", "sourceType": "supplier_marketing", "url": "https://fathommfg.com/locations/denver-co/", "capturedAt": "2026-09-19" }
+        {
+          "id": "sup-us-006-ev-1",
+          "summary": "CORRECTED per AUDIT-002 — FY2022 10-K (12 manufacturing facilities, ~450,000 sqft, HQ address) is PRE-MERGER and does not verify current (2026) facility count or ownership",
+          "sourceType": "documentation_verified",
+          "url": "https://www.sec.gov/Archives/edgar/data/1836176/000095017023012198/fath-20221231.htm",
+          "capturedAt": "2026-09-19"
+        },
+        {
+          "id": "sup-us-006-ev-2",
+          "summary": "Kirkland & Ellis: CORE Industrial take-private of Fathom announced",
+          "sourceType": "documentation_verified",
+          "url": "https://www.kirkland.com/news/press-release/2024/05/kirkland-advises-core-industrial-on-take-private-of-fathom-digital-manufacturing",
+          "capturedAt": "2026-09-19"
+        },
+        {
+          "id": "sup-us-006-ev-3",
+          "summary": "CORE Industrial Partners: take-private of Fathom completed May 22, 2024, FATH ceased NYSE trading",
+          "sourceType": "documentation_verified",
+          "url": "https://coreipfund.com/news/core-industrial-partners-completes-take-private-of-fathom-digital-manufacturing-corporation/",
+          "capturedAt": "2026-09-19"
+        },
+        {
+          "id": "sup-us-006-ev-4",
+          "summary": "CNC machining capability page: 3/5-axis, tolerance range",
+          "sourceType": "supplier_marketing",
+          "url": "https://fathommfg.com/capabilities/cnc-machining/",
+          "capturedAt": "2026-09-19"
+        },
+        {
+          "id": "sup-us-006-ev-5",
+          "summary": "Denver, CO facility page: sheet metal, ISO 9001:2015, ITAR, APQP/PPAP",
+          "sourceType": "supplier_marketing",
+          "url": "https://fathommfg.com/locations/denver-co/",
+          "capturedAt": "2026-09-19"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
       "updatedAt": "2026-09-19",
       "owner": "research",
-      "notes": "High confidence is scoped to the facility-count/HQ/public-company facts sourced from the 10-K only; capability specifics (tolerance, materials, certifications) remain supplier_marketing/low-medium. Should be modeled at facility level in future work, not as one undifferentiated capability record across all 12 sites."
+      "notes": "AUDIT-002 correction (2026-09-19): this record originally claimed NYSE-listed status and high-confidence facility count from the 10-K alone. Fathom went private via a CORE Industrial Partners take-private merger that closed 2024-05-22; the 10-K on file predates that and cannot verify Fathom's current ownership or facility footprint. Confidence downgraded high -> low pending re-verification from current (privately-held, non-SEC-reporting) sources. Capability specifics (tolerance, materials, certifications) remain supplier_marketing/low-medium as before. Should be modeled at facility level in future work once current facility data is confirmed, not as one undifferentiated capability record across a possibly-stale 12-site count."
     },
     {
       "id": "sup-us-007",
       "name": "HD Machining",
       "website": "https://hdmachinings.com/",
       "status": "draft",
-      "geography": { "country": "United States", "region": "California", "city": "Fremont" },
+      "geography": {
+        "country": "United States",
+        "region": "California",
+        "city": "Fremont"
+      },
       "facilityType": "single_facility",
       "description": "Bay Area CNC milling/turning job shop; ISO 9001 and ITAR certified/registered; named equipment includes 3-axis Haas machines.",
-      "declaredCapabilityIds": ["cap-us-007-cnc"],
+      "declaredCapabilityIds": [
+        "cap-us-007-cnc"
+      ],
       "observedCapabilityIds": [],
-      "machineEvidenceIds": ["mach-us-007-01"],
+      "machineEvidenceIds": [
+        "mach-us-007-01"
+      ],
       "performanceId": null,
       "componentIds": [],
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "Homepage: materials list, 3/4/5-axis claim, Haas 3-axis machines named, ISO 9001/ITAR", "sourceType": "supplier_marketing", "url": "https://hdmachinings.com/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "Homepage: materials list, 3/4/5-axis claim, Haas 3-axis machines named, ISO 9001/ITAR",
+          "sourceType": "supplier_marketing",
+          "url": "https://hdmachinings.com/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-us-007-ev-1"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
@@ -182,10 +334,16 @@
       "name": "Additive Engineering Australia",
       "website": "https://additiveengineering.com.au/",
       "status": "draft",
-      "geography": { "country": "Australia", "region": "Victoria", "city": "Altona North" },
+      "geography": {
+        "country": "Australia",
+        "region": "Victoria",
+        "city": "Altona North"
+      },
       "facilityType": "single_facility",
       "description": "Primarily a metal additive manufacturing (3D printing) company; offers CNC milling (3/4/5-axis) and turning as a secondary capability. ISO 9001:2015 certified.",
-      "declaredCapabilityIds": ["cap-au-001-cnc"],
+      "declaredCapabilityIds": [
+        "cap-au-001-cnc"
+      ],
       "observedCapabilityIds": [],
       "machineEvidenceIds": [],
       "performanceId": null,
@@ -193,8 +351,20 @@
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "CNC machining page: axis counts, tolerance (±0.5mm metal/±0.2mm plastic)", "sourceType": "supplier_marketing", "url": "https://additiveengineering.com.au/3d-printing-services/cnc-machining/", "capturedAt": "2026-09-19" },
-        { "summary": "Homepage: materials, ISO 9001:2015 cert, 'modelled to meet AS9100' / 'client-audited ISO13485' language", "sourceType": "supplier_marketing", "url": "https://additiveengineering.com.au/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "CNC machining page: axis counts, tolerance (±0.5mm metal/±0.2mm plastic)",
+          "sourceType": "supplier_marketing",
+          "url": "https://additiveengineering.com.au/3d-printing-services/cnc-machining/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-001-ev-1"
+        },
+        {
+          "summary": "Homepage: materials, ISO 9001:2015 cert, 'modelled to meet AS9100' / 'client-audited ISO13485' language",
+          "sourceType": "supplier_marketing",
+          "url": "https://additiveengineering.com.au/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-001-ev-2"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
@@ -207,10 +377,17 @@
       "name": "3D Prototyping Pty Ltd",
       "website": "https://3dprototyping.com.au/",
       "status": "draft",
-      "geography": { "country": "Australia", "region": "Victoria", "city": "Melbourne (exact address unknown)" },
+      "geography": {
+        "country": "Australia",
+        "region": "Victoria",
+        "city": "Melbourne (exact address unknown)"
+      },
       "facilityType": "single_facility",
       "description": "Melbourne prototyping shop offering both CNC machining and sheet metal fabrication with explicit no-MOQ positioning, plus SLA/3D printing and vacuum casting.",
-      "declaredCapabilityIds": ["cap-au-002-cnc", "cap-au-002-sheet"],
+      "declaredCapabilityIds": [
+        "cap-au-002-cnc",
+        "cap-au-002-sheet"
+      ],
       "observedCapabilityIds": [],
       "machineEvidenceIds": [],
       "performanceId": null,
@@ -218,8 +395,20 @@
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "CNC machining page: no MOQ, single prototype to thousands of parts", "sourceType": "supplier_marketing", "url": "https://3dprototyping.com.au/cnc-machining", "capturedAt": "2026-09-19" },
-        { "summary": "Sheet metal page: materials, finishes (powder coat, anodise)", "sourceType": "supplier_marketing", "url": "https://3dprototyping.com.au/sheet-metal", "capturedAt": "2026-09-19" }
+        {
+          "summary": "CNC machining page: no MOQ, single prototype to thousands of parts",
+          "sourceType": "supplier_marketing",
+          "url": "https://3dprototyping.com.au/cnc-machining",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-002-ev-1"
+        },
+        {
+          "summary": "Sheet metal page: materials, finishes (powder coat, anodise)",
+          "sourceType": "supplier_marketing",
+          "url": "https://3dprototyping.com.au/sheet-metal",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-002-ev-2"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
@@ -232,10 +421,16 @@
       "name": "CNC Protos (ArpTech Pty Ltd)",
       "website": "https://www.cncprotos.com.au/",
       "status": "draft",
-      "geography": { "country": "Australia", "region": "Victoria", "city": "Melbourne" },
+      "geography": {
+        "country": "Australia",
+        "region": "Victoria",
+        "city": "Melbourne"
+      },
       "facilityType": "single_facility",
       "description": "Melbourne CNC prototyping/short-run shop (division of ArpTech Pty Ltd, in business ~20 years). 3-axis and 4-axis milling/turning; works to DIN ISO 2768-m tolerance class.",
-      "declaredCapabilityIds": ["cap-au-003-cnc"],
+      "declaredCapabilityIds": [
+        "cap-au-003-cnc"
+      ],
       "observedCapabilityIds": [],
       "machineEvidenceIds": [],
       "performanceId": null,
@@ -243,8 +438,20 @@
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "About page: quantity range (1 to 1,000+), lead time (10-12 business days), 3/4-axis capability, 20 years in business", "sourceType": "supplier_marketing", "url": "https://www.cncprotos.com.au/about.html", "capturedAt": "2026-09-19" },
-        { "summary": "ArpTech CNC machining page: DIN ISO 2768-m tolerance standard", "sourceType": "supplier_marketing", "url": "https://www.arptech.com.au/cnc.htm", "capturedAt": "2026-09-19" }
+        {
+          "summary": "About page: quantity range (1 to 1,000+), lead time (10-12 business days), 3/4-axis capability, 20 years in business",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.cncprotos.com.au/about.html",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-003-ev-1"
+        },
+        {
+          "summary": "ArpTech CNC machining page: DIN ISO 2768-m tolerance standard",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.arptech.com.au/cnc.htm",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-003-ev-2"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
@@ -257,10 +464,16 @@
       "name": "Formero",
       "website": "https://formero.com.au/",
       "status": "draft",
-      "geography": { "country": "Australia", "region": "Victoria", "city": "Melbourne (exact address unknown)" },
+      "geography": {
+        "country": "Australia",
+        "region": "Victoria",
+        "city": "Melbourne (exact address unknown)"
+      },
       "facilityType": "single_facility",
       "description": "Primarily a 3D printing / injection molding contract manufacturer ('Australia's largest 3D printing facility'); CNC machining offered as a secondary service line. ISO 9001:2015 certified.",
-      "declaredCapabilityIds": ["cap-au-004-cnc"],
+      "declaredCapabilityIds": [
+        "cap-au-004-cnc"
+      ],
       "observedCapabilityIds": [],
       "machineEvidenceIds": [],
       "performanceId": null,
@@ -268,8 +481,20 @@
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "CNC machining page: single prototypes to batch manufacturing (no numbers)", "sourceType": "supplier_marketing", "url": "https://formero.com.au/cnc-machining/", "capturedAt": "2026-09-19" },
-        { "summary": "ISO 9001 QMS certification page, tied to a Centre for Defence Industry Capability grant", "sourceType": "supplier_marketing", "url": "https://formero.com.au/iso-9001-quality-management-system-certification/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "CNC machining page: single prototypes to batch manufacturing (no numbers)",
+          "sourceType": "supplier_marketing",
+          "url": "https://formero.com.au/cnc-machining/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-004-ev-1"
+        },
+        {
+          "summary": "ISO 9001 QMS certification page, tied to a Centre for Defence Industry Capability grant",
+          "sourceType": "supplier_marketing",
+          "url": "https://formero.com.au/iso-9001-quality-management-system-certification/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-004-ev-2"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
@@ -282,20 +507,47 @@
       "name": "DVR Engineering",
       "website": "https://www.dvrengineering.com.au/",
       "status": "draft",
-      "geography": { "country": "Australia", "region": "Victoria", "city": "Melbourne (exact address unknown)" },
+      "geography": {
+        "country": "Australia",
+        "region": "Victoria",
+        "city": "Melbourne (exact address unknown)"
+      },
       "facilityType": "single_facility",
       "description": "35+ year Melbourne multi-process manufacturer: CNC machining (25+ machining centres, 3/4/5-axis), sheet metal, laser cutting, turret punching, welding, finishing, and assembly all in-house. Extensive certification list including military and rail welding standards.",
-      "declaredCapabilityIds": ["cap-au-005-cnc", "cap-au-005-sheet"],
+      "declaredCapabilityIds": [
+        "cap-au-005-cnc",
+        "cap-au-005-sheet"
+      ],
       "observedCapabilityIds": [],
-      "machineEvidenceIds": ["mach-au-005-01"],
+      "machineEvidenceIds": [
+        "mach-au-005-01"
+      ],
       "performanceId": null,
       "componentIds": [],
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "Homepage: 25+ CNC machining centres, 3/4/5-axis mills, live-tooling lathes, materials list", "sourceType": "supplier_marketing", "url": "https://www.dvrengineering.com.au/", "capturedAt": "2026-09-19" },
-        { "summary": "Quality assurance page: measuring equipment, inspection at every stage", "sourceType": "supplier_marketing", "url": "https://www.dvrengineering.com.au/quality-assurance", "capturedAt": "2026-09-19" },
-        { "summary": "Third-party trade publication supplier showcase: certification list, military/aerospace/energy customer base", "sourceType": "documentation_verified", "url": "https://www.australiandefence.com.au/news/supplier-showcase-dvr-engineering", "capturedAt": "2026-09-19" }
+        {
+          "summary": "Homepage: 25+ CNC machining centres, 3/4/5-axis mills, live-tooling lathes, materials list",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.dvrengineering.com.au/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-005-ev-1"
+        },
+        {
+          "summary": "Quality assurance page: measuring equipment, inspection at every stage",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.dvrengineering.com.au/quality-assurance",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-005-ev-2"
+        },
+        {
+          "summary": "Third-party trade publication supplier showcase: certification list, military/aerospace/energy customer base",
+          "sourceType": "documentation_verified",
+          "url": "https://www.australiandefence.com.au/news/supplier-showcase-dvr-engineering",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-005-ev-3"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",
@@ -308,19 +560,39 @@
       "name": "ALMEC",
       "website": "https://almec.com.au/",
       "status": "draft",
-      "geography": { "country": "Australia", "region": "New South Wales", "city": "Sydney" },
+      "geography": {
+        "country": "Australia",
+        "region": "New South Wales",
+        "city": "Sydney"
+      },
       "facilityType": "single_facility",
       "description": "Sydney sheet-metal fabrication and laser cutting specialist, originally incorporated to serve Sydney industrial design houses' prototyping needs. ISO 9001 certified. No CNC milling/turning offered.",
-      "declaredCapabilityIds": ["cap-au-006-sheet"],
+      "declaredCapabilityIds": [
+        "cap-au-006-sheet"
+      ],
       "observedCapabilityIds": [],
-      "machineEvidenceIds": ["mach-au-006-01"],
+      "machineEvidenceIds": [
+        "mach-au-006-01"
+      ],
       "performanceId": null,
       "componentIds": [],
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "Homepage: named laser cutter (6kW LVD3015 Phoenix), sheet/thickness capacity, ISO 9001", "sourceType": "supplier_marketing", "url": "https://almec.com.au/", "capturedAt": "2026-09-19" },
-        { "summary": "About page: prototype-industry origin story", "sourceType": "supplier_marketing", "url": "https://almec.com.au/about-us/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "Homepage: named laser cutter (6kW LVD3015 Phoenix), sheet/thickness capacity, ISO 9001",
+          "sourceType": "supplier_marketing",
+          "url": "https://almec.com.au/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-006-ev-1"
+        },
+        {
+          "summary": "About page: prototype-industry origin story",
+          "sourceType": "supplier_marketing",
+          "url": "https://almec.com.au/about-us/",
+          "capturedAt": "2026-09-19",
+          "id": "sup-au-006-ev-2"
+        }
       ],
       "lastVerified": "2026-09-19",
       "createdAt": "2026-09-19",

@@ -73,8 +73,55 @@ Confidence levels:
 |---|---|
 | `low` | Single generic marketing claim, or a claim that could not be corroborated across more than one page on the supplier's own site. |
 | `medium` | Specific, technical, internally consistent claim (e.g., a numeric tolerance published on a dedicated spec page), or corroborated across multiple pages/sources — but still self-reported by the company. |
-| `high` | Reserved for facts sourced from an independent, authoritative document not authored by the supplier itself (e.g., a public company's SEC filing). Used exactly once in this package (Fathom Manufacturing's facility count/HQ, sourced from its 10-K). |
+| `high` | Reserved for facts sourced from an independent, authoritative document not authored by the supplier itself. **Not currently used for any capability/company-state fact in this package** — see "Corrections applied" below for why the one record that used to claim `high` (Fathom's facility count) was downgraded. |
 | `verified` | **Not used anywhere in this package.** Per the issue's guardrails, nothing from desk research alone earns `verified` — that is reserved for something cross-confirmed against an independent registry (e.g., a certification body's own database), which this research did not attempt. Every certification claim below (ISO 9001, AS9100D, ITAR, etc.) is the supplier's own claim of holding it, not a registry lookup, and is therefore capped at `low`/`medium`.
+
+## Corrections applied (2026-09-19, in response to automated review)
+
+Two P1 findings from the Codex review on PR #7 were verified and fixed:
+
+- **AUDIT-002 — Fathom Manufacturing's corporate status was stale and
+  overstated.** The original profile described Fathom as currently
+  NYSE-listed (ticker FATH) and treated its 10-K-sourced facility count as
+  `high` confidence. In fact CORE Industrial Partners took Fathom private
+  in a merger that closed **May 22, 2024**; FATH has not traded on any
+  exchange since, and the only regulatory filing on file (a 10-K covering
+  FY2022) predates that by roughly a year and a half. This was verified
+  against three independent sources (the acquirer's own announcement, the
+  deal law firm's press release, and trade press) and fixed in both
+  `suppliers/fathom-manufacturing.md` and `seed-suppliers.json`: the NYSE
+  claim was removed, the 10-K-sourced facts were downgraded from
+  `high`/`documentation_verified` to `low`/`documentation_verified`
+  pending re-verification from current (now non-SEC-reporting) sources,
+  and the merger itself was added as three new cited evidence entries.
+- **AUDIT-001 — the seed JSON was not actually importable as the object
+  model it claimed to shape.** `seed-supplier-capabilities.json` and
+  `seed-machine-evidence.json` used free-text `processId`/`materialIds`
+  values (e.g. `cnc_milling_turning`) that don't match the app's canonical
+  IDs (`proc-cnc-milling`, `proc-cnc-turning`, `proc-sheet-metal`,
+  `mat-6061-t6`, etc.), were missing the `Traceable`-required
+  `status`/`createdAt`/`updatedAt`/`owner` fields, and had evidence
+  entries with no `id`. The prior "validation" (`python3 -m json.load`)
+  only checked JSON syntax, not any of this. Fixed across all three seed
+  files: the raw values are now explicitly named `processRaw`/
+  `materialsRaw`, paired with new `canonicalProcessIds`/
+  `canonicalMaterialIds` arrays populated only where a confident match to
+  the app's current canonical ID set exists (17/17 capabilities resolve a
+  canonical process; only 3/17 resolve a canonical material, because the
+  app's seed material list is 3 materials wide and this research
+  deliberately went far wider — that's an honest gap, not a bug); every
+  record now carries the required Traceable fields; every evidence entry
+  has an `id`. A new script, `validate-seed-data.mjs`, replaces the
+  syntax-only check with a real one: it verifies every cross-reference
+  resolves, every `layer` is `"declared"`, every required field is
+  present, and reports canonical-ID coverage. Run it with
+  `node docs/research/supplier-capability/validate-seed-data.mjs`; as of
+  this fix it passes with 0 errors. **This JSON is still not a drop-in
+  `SupplierCapability[]`** — `sizeEnvelopeMm`/`quantityRange` remain
+  `null` wherever the underlying fact is genuinely unknown (unlike the
+  app's type, where they're required), which is why a transformation/
+  completion step, not a blind import, is still needed before this data
+  could back the live app.
 
 ## Methodology note — tooling constraint
 
@@ -206,6 +253,10 @@ commercial decision.
   only where a supplier publishes specific equipment (model, axis count,
   quantity, or comparable detail) — most suppliers do not, and are
   omitted rather than padded.
+- `validate-seed-data.mjs` — standalone Node script (no app/lib
+  dependency) that checks reference integrity, required-field presence,
+  and canonical process/material ID coverage across the three seed files
+  above. Run with `node docs/research/supplier-capability/validate-seed-data.mjs`.
 
 No `seed-supplier-performance.json` file exists. It should not be created
 until real transaction history exists — creating an empty/placeholder

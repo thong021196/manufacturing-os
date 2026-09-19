@@ -1,16 +1,30 @@
 {
-  "$schemaNote": "Shaped to map into the `SupplierMachineEvidence` type (see lib/types.ts on origin/claude/issue-2-implementation-3g9kzq, referenced for field-naming only). Only created where a supplier's own site names specific equipment (brand, model, count, or a comparable concrete detail) - most of the 13 suppliers do NOT publish this level of detail and are intentionally omitted here rather than padded with generic process descriptions (those live in seed-supplier-capabilities.json instead). All declared/self-reported; no independent site visit or equipment audit was performed.",
+  "$schemaNote": "Shaped to map into the `SupplierMachineEvidence` type (see lib/types.ts on origin/claude/issue-2-implementation-3g9kzq, referenced for field-naming only). Only created where a supplier's own site names specific equipment (brand, model, count, or a comparable concrete detail) - most of the 13 suppliers do NOT publish this level of detail and are intentionally omitted here rather than padded with generic process descriptions (those live in seed-supplier-capabilities.json instead). All declared/self-reported; no independent site visit or equipment audit was performed. SCHEMA FIX (AUDIT-001, 2026-09-19): 'processId' renamed to 'processRaw' + added 'canonicalProcessIds'; added Traceable-required status/createdAt/updatedAt/owner; added evidence[].id. Same rationale as seed-supplier-capabilities.json.",
   "machineEvidence": [
     {
       "id": "mach-us-004-01",
       "supplierId": "sup-us-004",
       "machineType": "CNC lathes (multi-axis, live tooling)",
       "description": "States 'over 30 CNC machines' on-site including multi-axis CNC lathes with live tooling for simultaneous operations and automated production. Specific brands/models not published.",
-      "processId": "cnc_milling_turning",
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "Homepage equipment claim", "sourceType": "supplier_marketing", "url": "https://www.vanderhulst.com/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "Homepage equipment claim",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.vanderhulst.com/",
+          "capturedAt": "2026-09-19",
+          "id": "mach-us-004-01-ev-1"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
       ]
     },
     {
@@ -18,11 +32,25 @@
       "supplierId": "sup-us-007",
       "machineType": "3-axis Haas CNC milling machines",
       "description": "Named equipment: '3 axis Haas machines' stated to hold tight tolerances on both large production runs and single prototype pieces. Also states 3-, 4-, and 5-axis machining centers generally, but only the Haas 3-axis line is named specifically.",
-      "processId": "cnc_milling_turning",
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "Homepage: named Haas equipment", "sourceType": "supplier_marketing", "url": "https://hdmachinings.com/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "Homepage: named Haas equipment",
+          "sourceType": "supplier_marketing",
+          "url": "https://hdmachinings.com/",
+          "capturedAt": "2026-09-19",
+          "id": "mach-us-007-01-ev-1"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
       ]
     },
     {
@@ -30,12 +58,32 @@
       "supplierId": "sup-au-005",
       "machineType": "CNC machining centres (mills and lathes)",
       "description": "States 'over 25 CNC Machining Centres,' including a full range of 3, 4, and 5-axis milling machines and CNC lathes with live tooling. This is the most specific equipment-count claim (number of machines, not just process/axis capability) found anywhere in the 13-supplier dataset. Specific brands/models not published.",
-      "processId": "cnc_milling_turning",
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "Homepage: 25+ CNC machining centres claim", "sourceType": "supplier_marketing", "url": "https://www.dvrengineering.com.au/", "capturedAt": "2026-09-19" },
-        { "summary": "CNC machining capability page", "sourceType": "supplier_marketing", "url": "https://www.dvrengineering.com.au/capabilities/cnc-machining", "capturedAt": "2026-09-19" }
+        {
+          "summary": "Homepage: 25+ CNC machining centres claim",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.dvrengineering.com.au/",
+          "capturedAt": "2026-09-19",
+          "id": "mach-au-005-01-ev-1"
+        },
+        {
+          "summary": "CNC machining capability page",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.dvrengineering.com.au/capabilities/cnc-machining",
+          "capturedAt": "2026-09-19",
+          "id": "mach-au-005-01-ev-2"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
       ]
     },
     {
@@ -43,11 +91,24 @@
       "supplierId": "sup-au-006",
       "machineType": "Fiber optic laser cutter",
       "description": "Named equipment: 6kW LVD3015 Phoenix Fiber Optic Laser Cutter, with capacity for 1500mm x 3000mm sheets and cutting thickness up to 20mm steel / 16mm aluminum / 12mm copper & brass. This is a named brand/model with a quantified spec - one of the most concrete individual machine records in the dataset.",
-      "processId": "sheet_metal_fabrication",
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "Homepage: named laser cutter model and specs", "sourceType": "supplier_marketing", "url": "https://almec.com.au/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "Homepage: named laser cutter model and specs",
+          "sourceType": "supplier_marketing",
+          "url": "https://almec.com.au/",
+          "capturedAt": "2026-09-19",
+          "id": "mach-au-006-01-ev-1"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "sheet_metal_fabrication",
+      "canonicalProcessIds": [
+        "proc-sheet-metal"
       ]
     }
   ]

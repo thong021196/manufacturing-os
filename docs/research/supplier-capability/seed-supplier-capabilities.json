@@ -1,78 +1,184 @@
 {
-  "$schemaNote": "Shaped to map into the `SupplierCapability` type (see lib/types.ts on origin/claude/issue-2-implementation-3g9kzq, referenced for field-naming only). EVERY record in this file has layer='declared' - there are no exceptions, per AGENTS.md rule 5 and the issue's guardrails. No observed-layer records exist because there is no transaction history. toleranceMm is populated with the tightest end of any stated range, converted to mm, alongside the raw claim text - treat it as illustrative, not a guaranteed achievable tolerance. quantityRange/sizeEnvelopeMm use null with an explanatory note where the supplier does not publish a number.",
+  "$schemaNote": "Shaped to map into the `SupplierCapability` type (see lib/types.ts on origin/claude/issue-2-implementation-3g9kzq, referenced for field-naming only). EVERY record in this file has layer='declared' - there are no exceptions, per AGENTS.md rule 5 and the issue's guardrails. No observed-layer records exist because there is no transaction history. toleranceMm is populated with the tightest end of any stated range, converted to mm, alongside the raw claim text - treat it as illustrative, not a guaranteed achievable tolerance. quantityRange/sizeEnvelopeMm use null with an explanatory note where the supplier does not publish a number. SCHEMA FIX (AUDIT-001, 2026-09-19): 'processId'/'materialIds' have been renamed to 'processRaw'/'materialsRaw' because their values were free-text research labels, not the repo's canonical IDs (e.g. 'cnc_milling_turning' vs 'proc-cnc-milling'/'proc-cnc-turning'). New 'canonicalProcessIds'/'canonicalMaterialIds' arrays hold only confidently-matched canonical IDs (checked against lib/mock/data.ts's process/material lists) and are empty where no confident match exists -- most materials in this raw-research set have no canonical ID yet because the app's seed material list (3 materials) is far narrower than what real suppliers publish. Every record now also carries the Traceable-required status/createdAt/updatedAt/owner fields, and every evidence[] entry has an id. This file is still NOT directly importable as a typed SupplierCapability[] without a transformation step -- sizeEnvelopeMm/quantityRange remain nullable here (unlike the app type, where they're required) precisely because most of this data is genuinely unknown; see validate-seed-data.mjs for a repeatable check of what resolves vs. what's still raw-only.",
   "supplierCapabilities": [
     {
       "id": "cap-us-001-cnc",
       "supplierId": "sup-us-001",
-      "processId": "cnc_milling_turning",
-      "materialIds": ["stainless_steel", "aluminum_alloys", "titanium", "composites", "engineering_plastics"],
       "layer": "declared",
       "toleranceMm": 0.0254,
       "toleranceRawText": "+/-0.001in - 0.005in, or exact project spec with GD&T callouts",
       "sizeEnvelopeMm": null,
-      "quantityRange": { "min": 1, "max": null },
+      "quantityRange": {
+        "min": 1,
+        "max": null
+      },
       "quantityRangeNote": "Explicit 'no minimum order quantity'; no stated maximum (network scales to production).",
-      "finishCapabilities": ["configurable at quote time - not itemized on pages read"],
-      "qcCapabilities": ["ISO 9001:2015 QMS", "AS9100D", "ISO 13485", "IATF 16949:2016", "ITAR registered QA lab", "CMMC Level 2", "ISO 2768 compliant"],
+      "finishCapabilities": [
+        "configurable at quote time - not itemized on pages read"
+      ],
+      "qcCapabilities": [
+        "ISO 9001:2015 QMS",
+        "AS9100D",
+        "ISO 13485",
+        "IATF 16949:2016",
+        "ITAR registered QA lab",
+        "CMMC Level 2",
+        "ISO 2768 compliant"
+      ],
       "constraints": "Network fulfillment model: the specific partner shop assigned to a job is not disclosed pre-quote; QC claims describe Xometry's platform-level program, not independently confirmed for every partner shop.",
       "notes": "Only supplier in this dataset with a named robotics/drone customer case study (Asylon, RobCo) - see supplier profile.",
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "Precision CNC machining tolerance claim", "sourceType": "supplier_marketing", "url": "https://www.xometry.com/capabilities/cnc-machining-service/precision-cnc-machining/", "capturedAt": "2026-09-19" },
-        { "summary": "Robotics case studies and no-MOQ claim", "sourceType": "supplier_marketing", "url": "https://www.xometry.com/robotics/", "capturedAt": "2026-09-19" },
-        { "summary": "Manufacturing standards / certifications", "sourceType": "supplier_marketing", "url": "https://www.xometry.com/manufacturing-standards/", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "Precision CNC machining tolerance claim",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.xometry.com/capabilities/cnc-machining-service/precision-cnc-machining/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-001-cnc-ev-1"
+        },
+        {
+          "summary": "Robotics case studies and no-MOQ claim",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.xometry.com/robotics/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-001-cnc-ev-2"
+        },
+        {
+          "summary": "Manufacturing standards / certifications",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.xometry.com/manufacturing-standards/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-001-cnc-ev-3"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
+      ],
+      "materialsRaw": [
+        "stainless_steel",
+        "aluminum_alloys",
+        "titanium",
+        "composites",
+        "engineering_plastics"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-us-001-sheet",
       "supplierId": "sup-us-001",
-      "processId": "sheet_metal_fabrication",
-      "materialIds": ["unknown - not itemized in pages read"],
       "layer": "declared",
       "toleranceMm": null,
       "toleranceRawText": "unknown - not published for sheet metal specifically",
       "sizeEnvelopeMm": null,
-      "quantityRange": { "min": 1, "max": null },
+      "quantityRange": {
+        "min": 1,
+        "max": null
+      },
       "quantityRangeNote": "Same platform-wide no-MOQ claim as CNC; not process-specific.",
       "finishCapabilities": [],
-      "qcCapabilities": ["ISO 9001:2015 QMS", "AS9100D", "ITAR registered QA lab"],
+      "qcCapabilities": [
+        "ISO 9001:2015 QMS",
+        "AS9100D",
+        "ITAR registered QA lab"
+      ],
       "constraints": "Listed as one of 20+ processes on the platform; no dedicated sheet-metal spec page was read in this research pass.",
       "notes": "Thin record - sheet metal fabrication is confirmed offered but not detailed. Flagged for follow-up.",
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "Robotics page references sheet-metal fabrication service among Xometry's offerings (e.g., Asylon drone shell)", "sourceType": "supplier_marketing", "url": "https://www.xometry.com/robotics/", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "Robotics page references sheet-metal fabrication service among Xometry's offerings (e.g., Asylon drone shell)",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.xometry.com/robotics/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-001-sheet-ev-1"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "sheet_metal_fabrication",
+      "canonicalProcessIds": [
+        "proc-sheet-metal"
+      ],
+      "materialsRaw": [
+        "unknown - not itemized in pages read"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-us-002-cnc",
       "supplierId": "sup-us-002",
-      "processId": "cnc_milling_turning",
-      "materialIds": ["unknown - general plastics/metals, not itemized"],
       "layer": "declared",
       "toleranceMm": 0.0254,
       "toleranceRawText": "±0.001 in. (0.020mm) [as published; note the in-to-mm conversion in the supplier's own copy does not match standard conversion (0.001in = 0.0254mm), recorded as-is]",
       "sizeEnvelopeMm": null,
-      "quantityRange": { "min": null, "max": 1000000 },
+      "quantityRange": {
+        "min": null,
+        "max": 1000000
+      },
       "quantityRangeNote": "Positioned as 'smaller quantities' up to ~1,000,000 parts; no prototype-floor-specific minimum published.",
       "finishCapabilities": [],
-      "qcCapabilities": ["Cosmetic + dimensional inspection (min. 3 dimensions X/Y/Z)", "FAI and Certificate of Compliance available for production parts", "ISO 9001:2015", "ISO 13485", "AS9100D", "ITAR registered"],
+      "qcCapabilities": [
+        "Cosmetic + dimensional inspection (min. 3 dimensions X/Y/Z)",
+        "FAI and Certificate of Compliance available for production parts",
+        "ISO 9001:2015",
+        "ISO 13485",
+        "AS9100D",
+        "ITAR registered"
+      ],
       "constraints": "Hybrid own-factory + partner-network fulfillment; which one runs a given job not always disclosed pre-quote.",
       "notes": "No robotics-specific case study found.",
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "CNC machining service page", "sourceType": "supplier_marketing", "url": "https://www.protolabs.com/services/cnc-machining/", "capturedAt": "2026-09-19" },
-        { "summary": "CNC machining quality/inspection page", "sourceType": "supplier_marketing", "url": "https://www.protolabs.com/services/cnc-machining/quality/", "capturedAt": "2026-09-19" },
-        { "summary": "ISO 9001:2015 / AS9100D certification page", "sourceType": "supplier_marketing", "url": "https://www.protolabs.com/iso/", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "CNC machining service page",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.protolabs.com/services/cnc-machining/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-002-cnc-ev-1"
+        },
+        {
+          "summary": "CNC machining quality/inspection page",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.protolabs.com/services/cnc-machining/quality/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-002-cnc-ev-2"
+        },
+        {
+          "summary": "ISO 9001:2015 / AS9100D certification page",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.protolabs.com/iso/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-002-cnc-ev-3"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
+      ],
+      "materialsRaw": [
+        "unknown - general plastics/metals, not itemized"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-us-003-cnc",
       "supplierId": "sup-us-003",
-      "processId": "cnc_milling_turning",
-      "materialIds": ["aluminum_6061", "aluminum_7075", "stainless_steel", "stainless_17-4", "titanium", "brass", "steel", "peek", "delrin", "nickel", "inconel"],
       "layer": "declared",
       "toleranceMm": 0.00254,
       "toleranceRawText": "dimensional tolerances up to +/- .0001 in [as published; not independently confirmed against a spec sheet]",
@@ -80,20 +186,53 @@
       "quantityRange": null,
       "quantityRangeNote": "Positioned as 'single machined parts as well as high volumes' - no specific number published.",
       "finishCapabilities": [],
-      "qcCapabilities": ["ISO 9001:2015 / AS9100D QMS (specific inspection equipment not itemized)"],
+      "qcCapabilities": [
+        "ISO 9001:2015 / AS9100D QMS (specific inspection equipment not itemized)"
+      ],
       "constraints": "Also offers Swiss turning/milling and precision grinding as separate service lines.",
       "notes": "Aerospace/defense/biomedical-oriented marketing; no robotics/automation mention found.",
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "Machining services page: materials and tolerance claim", "sourceType": "supplier_marketing", "url": "https://www.ameriprectool.com/machining-services/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "Machining services page: materials and tolerance claim",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.ameriprectool.com/machining-services/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-003-cnc-ev-1"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
+      ],
+      "materialsRaw": [
+        "aluminum_6061",
+        "aluminum_7075",
+        "stainless_steel",
+        "stainless_17-4",
+        "titanium",
+        "brass",
+        "steel",
+        "peek",
+        "delrin",
+        "nickel",
+        "inconel"
+      ],
+      "canonicalMaterialIds": [
+        "mat-6061-t6",
+        "mat-17-4ph",
+        "mat-delrin"
       ]
     },
     {
       "id": "cap-us-004-cnc",
       "supplierId": "sup-us-004",
-      "processId": "cnc_milling_turning",
-      "materialIds": ["stainless_steel", "titanium", "inconel", "mp35n", "aluminum", "engineering_plastics"],
       "layer": "declared",
       "toleranceMm": 0.0127,
       "toleranceRawText": "CNC turning tolerances of ±0.0005 inches",
@@ -101,43 +240,109 @@
       "quantityRange": null,
       "quantityRangeNote": "Named 'Prototyping & Small-Batch Production' service line exists but no specific numeric range published.",
       "finishCapabilities": [],
-      "qcCapabilities": ["ISO 9001:2015 & AS9100", "CMM inspection", "Advanced metrology tools", "Functional testing capability"],
+      "qcCapabilities": [
+        "ISO 9001:2015 & AS9100",
+        "CMM inspection",
+        "Advanced metrology tools",
+        "Functional testing capability"
+      ],
       "constraints": "Multi-axis CNC lathes with live tooling; specific axis-count breakdown (3 vs 5) not itemized.",
       "notes": "Semiconductor/medical/aerospace/defense customer base; no robotics-specific case study found.",
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "Homepage: tolerance, materials, 30+ CNC machines, ISO/AS9100", "sourceType": "supplier_marketing", "url": "https://www.vanderhulst.com/", "capturedAt": "2026-09-19" },
-        { "summary": "Quality control & inspection service page", "sourceType": "supplier_marketing", "url": "https://www.vanderhulst.com/services/quality-control-inspection/", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "Homepage: tolerance, materials, 30+ CNC machines, ISO/AS9100",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.vanderhulst.com/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-004-cnc-ev-1"
+        },
+        {
+          "summary": "Quality control & inspection service page",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.vanderhulst.com/services/quality-control-inspection/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-004-cnc-ev-2"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
+      ],
+      "materialsRaw": [
+        "stainless_steel",
+        "titanium",
+        "inconel",
+        "mp35n",
+        "aluminum",
+        "engineering_plastics"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-us-005-sheet",
       "supplierId": "sup-us-005",
-      "processId": "sheet_metal_fabrication",
-      "materialIds": ["aluminum_6061-t6", "aluminum_5052-h32", "stainless_steel", "brass"],
       "layer": "declared",
       "toleranceMm": 0.127,
       "toleranceRawText": "Same-flat-surface features: ~±0.005in; bend-to-edge dimensions: ~±0.010in (EF-001 Recommended Default Sheet Metal Tolerances Rev A)",
       "sizeEnvelopeMm": null,
       "quantityRange": null,
       "quantityRangeNote": "Positioned for 'prototype and low volume production'; no specific numeric range published.",
-      "finishCapabilities": ["not itemized in pages read"],
-      "qcCapabilities": ["ISO 9001:2015", "AS9102 (First Article Inspection) capable", "ITAR registered"],
+      "finishCapabilities": [
+        "not itemized in pages read"
+      ],
+      "qcCapabilities": [
+        "ISO 9001:2015",
+        "AS9102 (First Article Inspection) capable",
+        "ITAR registered"
+      ],
       "constraints": "Sheet-metal-only shop - no CNC milling/turning capability found.",
       "notes": "Lead time: 2-5 days for prototype sheet metal parts (one of the few suppliers in the dataset with a published lead-time number).",
       "source": "documentation_verified",
       "confidence": "medium",
       "evidence": [
-        { "summary": "EF-001 Recommended Default Sheet Metal Tolerances Rev A (PDF)", "sourceType": "documentation_verified", "url": "https://www.approvedsheetmetal.com/wp-content/uploads/2023/09/Approved-Sheet-Metal-EF-001_Recommended-Default-Sheet-Metal-Tolerances_Rev-A.pdf", "capturedAt": "2026-09-19" },
-        { "summary": "Prototype sheet metal parts, 2-5 day lead time", "sourceType": "supplier_marketing", "url": "https://www.approvedsheetmetal.com/prototype-sheet-metal", "capturedAt": "2026-09-19" }
+        {
+          "summary": "EF-001 Recommended Default Sheet Metal Tolerances Rev A (PDF)",
+          "sourceType": "documentation_verified",
+          "url": "https://www.approvedsheetmetal.com/wp-content/uploads/2023/09/Approved-Sheet-Metal-EF-001_Recommended-Default-Sheet-Metal-Tolerances_Rev-A.pdf",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-005-sheet-ev-1"
+        },
+        {
+          "summary": "Prototype sheet metal parts, 2-5 day lead time",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.approvedsheetmetal.com/prototype-sheet-metal",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-005-sheet-ev-2"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "sheet_metal_fabrication",
+      "canonicalProcessIds": [
+        "proc-sheet-metal"
+      ],
+      "materialsRaw": [
+        "aluminum_6061-t6",
+        "aluminum_5052-h32",
+        "stainless_steel",
+        "brass"
+      ],
+      "canonicalMaterialIds": [
+        "mat-6061-t6"
       ]
     },
     {
       "id": "cap-us-006-cnc",
       "supplierId": "sup-us-006",
-      "processId": "cnc_milling_turning",
-      "materialIds": ["titanium", "inconel", "hardened_steel", "unknown - standard metals/plastics not fully itemized"],
       "layer": "declared",
       "toleranceMm": 0.0254,
       "toleranceRawText": "±0.001in to 0.005in",
@@ -145,21 +350,52 @@
       "quantityRange": null,
       "quantityRangeNote": "No specific numeric range published in pages read for this profile.",
       "finishCapabilities": [],
-      "qcCapabilities": ["ISO 9001:2015", "AS9100 Rev D", "ITAR registered", "NIST 800-171 compliant (facility-dependent)"],
+      "qcCapabilities": [
+        "ISO 9001:2015",
+        "AS9100 Rev D",
+        "ITAR registered",
+        "NIST 800-171 compliant (facility-dependent)"
+      ],
       "constraints": "3-axis and 5-axis milling/turning explicitly stated; capability may vary across Fathom's 12 owned facilities - this record aggregates company-level marketing claims, not one specific site.",
       "notes": "No robotics-specific case study found.",
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "CNC machining capability page", "sourceType": "supplier_marketing", "url": "https://fathommfg.com/capabilities/cnc-machining/", "capturedAt": "2026-09-19" },
-        { "summary": "Austin, TX location page (tight-tolerance CNC)", "sourceType": "supplier_marketing", "url": "https://fathommfg.com/locations/austin-tx/", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "CNC machining capability page",
+          "sourceType": "supplier_marketing",
+          "url": "https://fathommfg.com/capabilities/cnc-machining/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-006-cnc-ev-1"
+        },
+        {
+          "summary": "Austin, TX location page (tight-tolerance CNC)",
+          "sourceType": "supplier_marketing",
+          "url": "https://fathommfg.com/locations/austin-tx/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-006-cnc-ev-2"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
+      ],
+      "materialsRaw": [
+        "titanium",
+        "inconel",
+        "hardened_steel",
+        "unknown - standard metals/plastics not fully itemized"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-us-006-sheet",
       "supplierId": "sup-us-006",
-      "processId": "sheet_metal_fabrication",
-      "materialIds": ["aluminum", "stainless_steel", "steel_alloys"],
       "layer": "declared",
       "toleranceMm": 0.127,
       "toleranceRawText": "±0.005in (tighter tolerances possible per project)",
@@ -167,20 +403,42 @@
       "quantityRange": null,
       "quantityRangeNote": "No specific numeric range published in pages read for this profile.",
       "finishCapabilities": [],
-      "qcCapabilities": ["ISO 9001:2015", "ITAR registered", "APQP and PPAP certified (Denver facility specifically)"],
+      "qcCapabilities": [
+        "ISO 9001:2015",
+        "ITAR registered",
+        "APQP and PPAP certified (Denver facility specifically)"
+      ],
       "constraints": "Laser cutting handles 0.010in-0.50in material thickness. Company-level record; Denver, CO is the specifically named sheet-metal facility among Fathom's 12 sites.",
       "notes": "No robotics-specific case study found.",
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "Denver, CO location page: sheet metal materials, tolerance, thickness range, certifications", "sourceType": "supplier_marketing", "url": "https://fathommfg.com/locations/denver-co/", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "Denver, CO location page: sheet metal materials, tolerance, thickness range, certifications",
+          "sourceType": "supplier_marketing",
+          "url": "https://fathommfg.com/locations/denver-co/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-006-sheet-ev-1"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "sheet_metal_fabrication",
+      "canonicalProcessIds": [
+        "proc-sheet-metal"
+      ],
+      "materialsRaw": [
+        "aluminum",
+        "stainless_steel",
+        "steel_alloys"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-us-007-cnc",
       "supplierId": "sup-us-007",
-      "processId": "cnc_milling_turning",
-      "materialIds": ["aluminum", "brass", "stainless_steel", "copper", "engineering_plastics", "titanium", "kovar", "invar", "hastelloy", "molybdenum"],
       "layer": "declared",
       "toleranceMm": null,
       "toleranceRawText": "unknown - only qualitative 'tight tolerances' language, no specific number published",
@@ -188,20 +446,49 @@
       "quantityRange": null,
       "quantityRangeNote": "Positioned as 'large production runs or single prototype pieces' - no specific numeric range published.",
       "finishCapabilities": [],
-      "qcCapabilities": ["ISO 9001 (edition/year not stated)", "ITAR certified/registered"],
+      "qcCapabilities": [
+        "ISO 9001 (edition/year not stated)",
+        "ITAR certified/registered"
+      ],
       "constraints": "3-, 4-, and 5-axis machining centers stated; named equipment: 3-axis Haas machines. Qualitatively described as able to handle 'small or large parts' with no numeric envelope.",
       "notes": "Thinnest-documented US profile in this dataset - most quantitative fields unpublished. Do not confuse with the separately-branded 'HD Machining Solutions.'",
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "Homepage: materials, axis counts, named Haas equipment, ISO/ITAR", "sourceType": "supplier_marketing", "url": "https://hdmachinings.com/", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "Homepage: materials, axis counts, named Haas equipment, ISO/ITAR",
+          "sourceType": "supplier_marketing",
+          "url": "https://hdmachinings.com/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-us-007-cnc-ev-1"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
+      ],
+      "materialsRaw": [
+        "aluminum",
+        "brass",
+        "stainless_steel",
+        "copper",
+        "engineering_plastics",
+        "titanium",
+        "kovar",
+        "invar",
+        "hastelloy",
+        "molybdenum"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-au-001-cnc",
       "supplierId": "sup-au-001",
-      "processId": "cnc_milling_turning",
-      "materialIds": ["titanium_ti6al4v_biocompatible", "stainless_17-4ph", "cocr_alloy", "inconel_718", "hastelloy"],
       "layer": "declared",
       "toleranceMm": 0.2,
       "toleranceRawText": "±0.5mm metals, ±0.2mm plastics [general CNC]; separately, 'grinding machines at 0.05 microns' likely describes a specific finishing operation, not general milling/turning tolerance - recorded as tightest general CNC figure (0.2mm plastics) rather than the grinding figure, to avoid overstating capability",
@@ -209,169 +496,423 @@
       "quantityRange": null,
       "quantityRangeNote": "Positioned for 'prototypes and low volume production' - no specific numeric range published.",
       "finishCapabilities": [],
-      "qcCapabilities": ["ISO 9001:2015 certified", "'modelled to meet' AS9100 standards (not stated as formally certified)", "'client-audited' to ISO13485 (customer audit, not accredited third-party certification)"],
+      "qcCapabilities": [
+        "ISO 9001:2015 certified",
+        "'modelled to meet' AS9100 standards (not stated as formally certified)",
+        "'client-audited' to ISO13485 (customer audit, not accredited third-party certification)"
+      ],
       "constraints": "CNC is a secondary capability; primary business is metal additive manufacturing. 3/4/5-axis milling and turning stated.",
       "notes": "Loose (mm-class) tolerance claim relative to typical robotics mechanical-part requirements.",
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "CNC machining page: axis counts, tolerance claims", "sourceType": "supplier_marketing", "url": "https://additiveengineering.com.au/3d-printing-services/cnc-machining/", "capturedAt": "2026-09-19" },
-        { "summary": "Homepage: materials, certifications", "sourceType": "supplier_marketing", "url": "https://additiveengineering.com.au/", "capturedAt": "2026-09-19" }
+        {
+          "summary": "CNC machining page: axis counts, tolerance claims",
+          "sourceType": "supplier_marketing",
+          "url": "https://additiveengineering.com.au/3d-printing-services/cnc-machining/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-001-cnc-ev-1"
+        },
+        {
+          "summary": "Homepage: materials, certifications",
+          "sourceType": "supplier_marketing",
+          "url": "https://additiveengineering.com.au/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-001-cnc-ev-2"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
+      ],
+      "materialsRaw": [
+        "titanium_ti6al4v_biocompatible",
+        "stainless_17-4ph",
+        "cocr_alloy",
+        "inconel_718",
+        "hastelloy"
+      ],
+      "canonicalMaterialIds": [
+        "mat-17-4ph"
       ]
     },
     {
       "id": "cap-au-002-cnc",
       "supplierId": "sup-au-002",
-      "processId": "cnc_milling_turning",
-      "materialIds": ["unknown - general 'engineering plastics and metals', not itemized by alloy"],
       "layer": "declared",
       "toleranceMm": null,
       "toleranceRawText": "unknown - not published, despite general 'tight tolerances' framing",
       "sizeEnvelopeMm": null,
-      "quantityRange": { "min": 1, "max": null },
+      "quantityRange": {
+        "min": 1,
+        "max": null
+      },
       "quantityRangeNote": "Explicit 'no minimum order quantity'; 'single prototypes through to production runs of thousands of parts.'",
       "finishCapabilities": [],
-      "qcCapabilities": ["none found - no certification claim located"],
+      "qcCapabilities": [
+        "none found - no certification claim located"
+      ],
       "constraints": "Axis count / machine types not published.",
       "notes": "One of only two suppliers in the full dataset (with Xometry) to explicitly state no MOQ.",
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "CNC machining page", "sourceType": "supplier_marketing", "url": "https://3dprototyping.com.au/cnc-machining", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "CNC machining page",
+          "sourceType": "supplier_marketing",
+          "url": "https://3dprototyping.com.au/cnc-machining",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-002-cnc-ev-1"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
+      ],
+      "materialsRaw": [
+        "unknown - general 'engineering plastics and metals', not itemized by alloy"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-au-002-sheet",
       "supplierId": "sup-au-002",
-      "processId": "sheet_metal_fabrication",
-      "materialIds": ["steel", "stainless_steel", "aluminum", "galvanized_steel", "copper", "brass"],
       "layer": "declared",
       "toleranceMm": null,
       "toleranceRawText": "unknown - not published",
       "sizeEnvelopeMm": null,
-      "quantityRange": { "min": 1, "max": null },
+      "quantityRange": {
+        "min": 1,
+        "max": null
+      },
       "quantityRangeNote": "Same no-MOQ platform-wide claim as CNC.",
-      "finishCapabilities": ["powder coating", "anodising"],
-      "qcCapabilities": ["none found - no certification claim located"],
+      "finishCapabilities": [
+        "powder coating",
+        "anodising"
+      ],
+      "qcCapabilities": [
+        "none found - no certification claim located"
+      ],
       "constraints": "Laser cutting/profiling and CNC press-brake bending; welded assemblies offered.",
       "notes": "One of only a handful of suppliers confirmed to offer both CNC and sheet metal from one facility.",
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "Sheet metal page: materials, finishes", "sourceType": "supplier_marketing", "url": "https://3dprototyping.com.au/sheet-metal", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "Sheet metal page: materials, finishes",
+          "sourceType": "supplier_marketing",
+          "url": "https://3dprototyping.com.au/sheet-metal",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-002-sheet-ev-1"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "sheet_metal_fabrication",
+      "canonicalProcessIds": [
+        "proc-sheet-metal"
+      ],
+      "materialsRaw": [
+        "steel",
+        "stainless_steel",
+        "aluminum",
+        "galvanized_steel",
+        "copper",
+        "brass"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-au-003-cnc",
       "supplierId": "sup-au-003",
-      "processId": "cnc_milling_turning",
-      "materialIds": ["unknown - general 'plastics and metals', not itemized by alloy"],
       "layer": "declared",
       "toleranceMm": null,
       "toleranceRawText": "Works to DIN ISO 2768-m (general/medium tolerance class - a design default, not a tight-tolerance claim)",
       "sizeEnvelopeMm": null,
-      "quantityRange": { "min": 1, "max": 1000 },
+      "quantityRange": {
+        "min": 1,
+        "max": 1000
+      },
       "quantityRangeNote": "'1 to 1,000+ parts without expensive mould tooling'; explicit example of single proof-of-concept or 500-unit batch.",
       "finishCapabilities": [],
-      "qcCapabilities": ["none found - no ISO/quality-management certification located, only a design-tolerance standard"],
+      "qcCapabilities": [
+        "none found - no ISO/quality-management certification located, only a design-tolerance standard"
+      ],
       "constraints": "3-axis and 4-axis capability explicitly stated; no 5-axis claim found - may constrain complex undercut geometries.",
       "notes": "Lead time: 10-12 business days (one of the few suppliers in the dataset with a published lead-time number).",
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "About page: quantity range, lead time, axis counts", "sourceType": "supplier_marketing", "url": "https://www.cncprotos.com.au/about.html", "capturedAt": "2026-09-19" },
-        { "summary": "ArpTech CNC machining page: DIN ISO 2768-m", "sourceType": "supplier_marketing", "url": "https://www.arptech.com.au/cnc.htm", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "About page: quantity range, lead time, axis counts",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.cncprotos.com.au/about.html",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-003-cnc-ev-1"
+        },
+        {
+          "summary": "ArpTech CNC machining page: DIN ISO 2768-m",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.arptech.com.au/cnc.htm",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-003-cnc-ev-2"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
+      ],
+      "materialsRaw": [
+        "unknown - general 'plastics and metals', not itemized by alloy"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-au-004-cnc",
       "supplierId": "sup-au-004",
-      "processId": "cnc_milling_turning",
-      "materialIds": ["unknown - not itemized in pages read"],
       "layer": "declared",
       "toleranceMm": null,
       "toleranceRawText": "unknown - only qualitative 'tight tolerances' language",
       "sizeEnvelopeMm": null,
       "quantityRange": null,
       "quantityRangeNote": "'Single prototypes, short production runs, or batch manufacturing' - no specific numeric range published.",
-      "finishCapabilities": ["generic 'finishing' referenced as part of injection-moulding tooling service, not itemized for CNC parts specifically"],
-      "qcCapabilities": ["ISO 9001:2015 (certification accelerated via a Centre for Defence Industry Capability grant)"],
+      "finishCapabilities": [
+        "generic 'finishing' referenced as part of injection-moulding tooling service, not itemized for CNC parts specifically"
+      ],
+      "qcCapabilities": [
+        "ISO 9001:2015 (certification accelerated via a Centre for Defence Industry Capability grant)"
+      ],
       "constraints": "CNC is a secondary capability; primary business is 3D printing / injection molding.",
       "notes": "Almost no CNC-specific quantitative data published (no tolerance number, no materials list, no envelope).",
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "CNC machining page", "sourceType": "supplier_marketing", "url": "https://formero.com.au/cnc-machining/", "capturedAt": "2026-09-19" },
-        { "summary": "ISO 9001 QMS certification page", "sourceType": "supplier_marketing", "url": "https://formero.com.au/iso-9001-quality-management-system-certification/", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "CNC machining page",
+          "sourceType": "supplier_marketing",
+          "url": "https://formero.com.au/cnc-machining/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-004-cnc-ev-1"
+        },
+        {
+          "summary": "ISO 9001 QMS certification page",
+          "sourceType": "supplier_marketing",
+          "url": "https://formero.com.au/iso-9001-quality-management-system-certification/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-004-cnc-ev-2"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
+      ],
+      "materialsRaw": [
+        "unknown - not itemized in pages read"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-au-005-cnc",
       "supplierId": "sup-au-005",
-      "processId": "cnc_milling_turning",
-      "materialIds": ["steel", "stainless_steel", "aluminum", "brass", "bronze", "titanium", "copper", "plastic"],
       "layer": "declared",
       "toleranceMm": null,
       "toleranceRawText": "unknown - only qualitative 'critical and high-tolerance components' language, no specific number published",
       "sizeEnvelopeMm": null,
       "quantityRange": null,
       "quantityRangeNote": "No specific numeric range published in pages read for this profile.",
-      "finishCapabilities": ["dedicated 'Metal Surface Finishing' service line exists; specific finish types not itemized"],
-      "qcCapabilities": ["ISO 9001 (one source cites older AS/NZS 9001:2008 edition - flagged for re-verification)", "ISO 14001", "ISO/IEC 17025 lab accreditation"],
+      "finishCapabilities": [
+        "dedicated 'Metal Surface Finishing' service line exists; specific finish types not itemized"
+      ],
+      "qcCapabilities": [
+        "ISO 9001 (one source cites older AS/NZS 9001:2008 edition - flagged for re-verification)",
+        "ISO 14001",
+        "ISO/IEC 17025 lab accreditation"
+      ],
       "constraints": "25+ CNC machining centres; 3/4/5-axis milling; CNC lathes with live tooling. Broadest single-facility process range in the AU sample.",
       "notes": "Equipment-count claim ('25+ CNC Machining Centres') is the most specific in the entire dataset.",
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "Homepage: machine count, materials, axis capability", "sourceType": "supplier_marketing", "url": "https://www.dvrengineering.com.au/", "capturedAt": "2026-09-19" },
-        { "summary": "CNC machining capability page", "sourceType": "supplier_marketing", "url": "https://www.dvrengineering.com.au/capabilities/cnc-machining", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "Homepage: machine count, materials, axis capability",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.dvrengineering.com.au/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-005-cnc-ev-1"
+        },
+        {
+          "summary": "CNC machining capability page",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.dvrengineering.com.au/capabilities/cnc-machining",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-005-cnc-ev-2"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "cnc_milling_turning",
+      "canonicalProcessIds": [
+        "proc-cnc-milling",
+        "proc-cnc-turning"
+      ],
+      "materialsRaw": [
+        "steel",
+        "stainless_steel",
+        "aluminum",
+        "brass",
+        "bronze",
+        "titanium",
+        "copper",
+        "plastic"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-au-005-sheet",
       "supplierId": "sup-au-005",
-      "processId": "sheet_metal_fabrication",
-      "materialIds": ["steel", "stainless_steel", "aluminum", "brass", "bronze", "copper"],
       "layer": "declared",
       "toleranceMm": null,
       "toleranceRawText": "unknown - no specific number published",
       "sizeEnvelopeMm": null,
       "quantityRange": null,
       "quantityRangeNote": "No specific numeric range published in pages read for this profile.",
-      "finishCapabilities": ["Metal Surface Finishing service line (types not itemized)"],
-      "qcCapabilities": ["ISO 9001", "ISO 3834-2 (welding quality)", "DIN 2303 Q2 BK1 (military product welding)", "EN 15085-2 CL1/P (rail product welding)"],
+      "finishCapabilities": [
+        "Metal Surface Finishing service line (types not itemized)"
+      ],
+      "qcCapabilities": [
+        "ISO 9001",
+        "ISO 3834-2 (welding quality)",
+        "DIN 2303 Q2 BK1 (military product welding)",
+        "EN 15085-2 CL1/P (rail product welding)"
+      ],
       "constraints": "Sheet metal fabrication, CNC laser cutting, and CNC turret punching all offered; welding and assembly available as downstream operations on the same site.",
       "notes": "Named military and rail welding certifications suggest genuine regulated-industry manufacturing experience.",
       "source": "supplier_marketing",
       "confidence": "medium",
       "evidence": [
-        { "summary": "CNC laser cutting capability page", "sourceType": "supplier_marketing", "url": "https://www.dvrengineering.com.au/capabilities/cnc-laser-cutting", "capturedAt": "2026-09-19" },
-        { "summary": "CNC turret punching capability page", "sourceType": "supplier_marketing", "url": "https://dvrengineering.com.au/capabilities/cnc-turret-punching", "capturedAt": "2026-09-19" },
-        { "summary": "Third-party supplier showcase: certification list", "sourceType": "documentation_verified", "url": "https://www.australiandefence.com.au/news/supplier-showcase-dvr-engineering", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "CNC laser cutting capability page",
+          "sourceType": "supplier_marketing",
+          "url": "https://www.dvrengineering.com.au/capabilities/cnc-laser-cutting",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-005-sheet-ev-1"
+        },
+        {
+          "summary": "CNC turret punching capability page",
+          "sourceType": "supplier_marketing",
+          "url": "https://dvrengineering.com.au/capabilities/cnc-turret-punching",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-005-sheet-ev-2"
+        },
+        {
+          "summary": "Third-party supplier showcase: certification list",
+          "sourceType": "documentation_verified",
+          "url": "https://www.australiandefence.com.au/news/supplier-showcase-dvr-engineering",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-005-sheet-ev-3"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "sheet_metal_fabrication",
+      "canonicalProcessIds": [
+        "proc-sheet-metal"
+      ],
+      "materialsRaw": [
+        "steel",
+        "stainless_steel",
+        "aluminum",
+        "brass",
+        "bronze",
+        "copper"
+      ],
+      "canonicalMaterialIds": []
     },
     {
       "id": "cap-au-006-sheet",
       "supplierId": "sup-au-006",
-      "processId": "sheet_metal_fabrication",
-      "materialIds": ["mild_steel", "stainless_steel", "aluminum", "titanium", "brass", "copper"],
       "layer": "declared",
       "toleranceMm": null,
       "toleranceRawText": "unknown - no specific number published, despite named equipment",
-      "sizeEnvelopeMm": { "lengthMax": 3000, "widthMax": 1500, "heightMax": null },
+      "sizeEnvelopeMm": {
+        "lengthMax": 3000,
+        "widthMax": 1500,
+        "heightMax": null
+      },
       "sizeEnvelopeNote": "Laser cutting bed size (1500mm x 3000mm); heightMax not applicable/not published for sheet stock. One of only two suppliers in the dataset with a quantified physical machine envelope.",
       "quantityRange": null,
       "quantityRangeNote": "No specific numeric range published in pages read for this profile.",
-      "finishCapabilities": ["powder coating", "anodising", "zinc plating"],
-      "qcCapabilities": ["ISO 9001 (edition/year not stated)"],
+      "finishCapabilities": [
+        "powder coating",
+        "anodising",
+        "zinc plating"
+      ],
+      "qcCapabilities": [
+        "ISO 9001 (edition/year not stated)"
+      ],
       "constraints": "No CNC milling/turning capability found - sheet metal/laser specialist only. Laser cutting thickness: up to 20mm steel / 16mm aluminum / 12mm copper & brass. Named equipment: 6kW LVD3015 Phoenix Fiber Optic Laser Cutter.",
       "notes": "Originally incorporated to serve Sydney industrial design houses' prototyping needs - genuine prototype-industry origin.",
       "source": "supplier_marketing",
       "confidence": "low",
       "evidence": [
-        { "summary": "Homepage: named laser cutter, sheet/thickness capacity", "sourceType": "supplier_marketing", "url": "https://almec.com.au/", "capturedAt": "2026-09-19" },
-        { "summary": "Services page: process list", "sourceType": "supplier_marketing", "url": "https://almec.com.au/services", "capturedAt": "2026-09-19" }
-      ]
+        {
+          "summary": "Homepage: named laser cutter, sheet/thickness capacity",
+          "sourceType": "supplier_marketing",
+          "url": "https://almec.com.au/",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-006-sheet-ev-1"
+        },
+        {
+          "summary": "Services page: process list",
+          "sourceType": "supplier_marketing",
+          "url": "https://almec.com.au/services",
+          "capturedAt": "2026-09-19",
+          "id": "cap-au-006-sheet-ev-2"
+        }
+      ],
+      "status": "draft",
+      "createdAt": "2026-09-19",
+      "updatedAt": "2026-09-19",
+      "owner": "research",
+      "processRaw": "sheet_metal_fabrication",
+      "canonicalProcessIds": [
+        "proc-sheet-metal"
+      ],
+      "materialsRaw": [
+        "mild_steel",
+        "stainless_steel",
+        "aluminum",
+        "titanium",
+        "brass",
+        "copper"
+      ],
+      "canonicalMaterialIds": []
     }
   ]
 }
