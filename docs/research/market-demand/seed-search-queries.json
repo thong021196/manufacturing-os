@@ -1,0 +1,274 @@
+{
+  "_meta": {
+    "purpose": "Seed data for future mapping into the app's SearchQuery object (lib/types.ts). Not wired into lib/mock/data.ts or any app code. Research-only, per issue #4.",
+    "capturedDefault": "2026-09-19",
+    "sourceVocabulary": ["ai_inferred", "supplier_marketing", "documentation_verified", "manual_entry"],
+    "confidenceVocabulary": ["low", "medium", "high", "verified"],
+    "IMPORTANT_deviation_from_lib_types_ts": "lib/types.ts's SearchQuery has a numeric volumeMonthly field. No keyword-volume tool (Google Keyword Planner, Ahrefs, etc.) was available in this research pass, and the issue explicitly says 'do not fabricate volumes.' Every record below therefore sets volumeMonthly to null and adds a qualitative relativeInterestTier (low/medium/high) plus a rationale, sourced only from how many independent competitors target the phrase and how organically it appears in non-marketing sources (forums). This is deliberately NOT a substitute for real keyword data -- see README.md open gap #7. Do not treat relativeInterestTier as a proxy for real search volume in any downstream scoring without a human explicitly signing off on that mapping.",
+    "intentVocabulary": ["informational", "commercial", "transactional"],
+    "searchSurfaceIdNote": "No SearchSurface records exist yet (see README.md Human Gate section) -- searchSurfaceId is intentionally null throughout."
+  },
+  "searchQueries": [
+    {
+      "id": "sq_custom_actuator_housing_cnc",
+      "query": "custom actuator housing CNC machining",
+      "componentIds": ["comp_actuator_housing"],
+      "intent": "transactional",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "low",
+      "relativeInterestRationale": "Near-exact match to multiple suppliers' own page titles, but a narrow, technical phrase unlikely to have high absolute volume.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "Phrase pattern matches actuator-housing supplier landing-page titles.", "sourceType": "ai_inferred", "url": "https://www.zintilon.com/industry/semi-conductor/actuator-housings/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_harmonic_drive_housing_machining",
+      "query": "harmonic drive housing machining",
+      "componentIds": ["comp_joint_housing"],
+      "intent": "commercial",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "low",
+      "relativeInterestRationale": "Highly specific technical phrase; matches dedicated content-marketing pages (PTSmake, LSRPF), implying a real but narrow buyer/engineer audience.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "Dedicated technical-explainer content targeting this exact phrase.", "sourceType": "ai_inferred", "url": "https://www.ptsmake.com/cnc-machined-harmonic-drive-housings-for-humanoid-joints/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_custom_gripper_jaw_manufacturer",
+      "query": "custom gripper jaw manufacturer",
+      "componentIds": ["comp_gripper_jaw"],
+      "intent": "transactional",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "medium",
+      "relativeInterestRationale": "Multiple dedicated competitor pages target this phrase, plus corroborating organic evidence (a real forum thread asking who makes a specific gripper).",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Dedicated gripper-components landing page.", "sourceType": "supplier_marketing", "url": "https://www.rivcut.com/cnc-machining/robotics/gripper-components/", "capturedAt": "2026-09-19"},
+        {"summary": "Organic forum thread: engineer asking who makes a specific turret-gripper design.", "sourceType": "documentation_verified", "url": "https://www.practicalmachinist.com/forum/threads/who-makes-somethink-like-this-turret-gripper.421281/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_end_of_arm_tooling_cost",
+      "query": "end of arm tooling cost",
+      "componentIds": ["comp_eoat_end_effector_plate"],
+      "intent": "commercial",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "medium",
+      "relativeInterestRationale": "Existence of a dedicated, dated (2025) public price-guide article answering exactly this question is direct evidence of real buyer demand for this information.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Dedicated 'Price Guide for End of Arm Tooling 2025' article.", "sourceType": "documentation_verified", "url": "https://qviro.com/blog/price-end-of-arm-tooling/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_3d_printed_vs_cnc_eoat",
+      "query": "3D printed end of arm tooling vs CNC machined",
+      "componentIds": ["comp_eoat_end_effector_plate"],
+      "intent": "commercial",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "low",
+      "relativeInterestRationale": "Multiple suppliers market 3D printing explicitly as faster/cheaper than machining for EOAT, implying buyers do compare, but this is a process-comparison query, narrower than a direct purchase query.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "3D printing marketed as faster, more cost-effective, and more flexible than traditional manufacturing for custom, short-run EOAT.", "sourceType": "supplier_marketing", "url": "https://forerunner3d.com/3d-printed-end-of-arm-tooling/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_robot_camera_mount",
+      "query": "robot camera mount",
+      "componentIds": ["comp_sensor_camera_mount"],
+      "intent": "transactional",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "low",
+      "relativeInterestRationale": "Near-exact match to a dedicated product-line name (Frigate), including a localized international URL variant suggesting the vendor sees enough demand to localize.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "Dedicated 'Robotic Vision Camera Bracket' product with a localized (en-il) URL variant.", "sourceType": "supplier_marketing", "url": "https://frigate.ai/product/robotic-vision-camera-bracket/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_metal_3d_printed_sensor_bracket",
+      "query": "metal 3D printed sensor bracket",
+      "componentIds": ["comp_sensor_camera_mount"],
+      "intent": "informational",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "low",
+      "relativeInterestRationale": "A dedicated 2026-dated integration guide exists for exactly this topic, implying emerging but not yet mainstream interest.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "2026-dated 'Metal 3D Printing Custom Sensor Brackets' integration guide.", "sourceType": "documentation_verified", "url": "https://blog.met3dp.com/blog/metal-3d-printing-custom-sensor-brackets-in-2026-integration-guide/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_robot_adapter_plate_by_brand",
+      "query": "robot adapter plate [robot brand, e.g. UR / ABB / Fanuc]",
+      "componentIds": ["comp_adapter_base_plate"],
+      "intent": "transactional",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "medium",
+      "relativeInterestRationale": "Brand-qualified adapter-plate queries are the dominant framing across every adapter-plate vendor found ('specify your robot's make and model'), suggesting this is the natural real-world query pattern rather than a generic 'adapter plate' search.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "Robotic mount plate adapter requiring robot make/model and intended equipment.", "sourceType": "supplier_marketing", "url": "https://massivedimension.com/products/robotic-mount-plate-adapter", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_cobot_mounting_adapter",
+      "query": "cobot mounting adapter",
+      "componentIds": ["comp_adapter_base_plate"],
+      "intent": "transactional",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "low",
+      "relativeInterestRationale": "Matches a dedicated cobot-specific product line; cobot adoption is a documented growth category, plausibly lifting this query's relative interest over time, but this is directional inference, not measured.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "Dedicated cobot mounting-adapter product line.", "sourceType": "supplier_marketing", "url": "https://www.emicorp.com/eoat-components/framing/cobot-mounting-adapters", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_custom_sheet_metal_enclosure_automation",
+      "query": "custom sheet metal enclosure automation",
+      "componentIds": ["comp_structural_bracket_enclosure"],
+      "intent": "transactional",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "medium",
+      "relativeInterestRationale": "Multiple well-established sheet-metal fabrication marketplaces (a mature, high-competition category generally) plus a dedicated automation-specific vendor page.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "Dedicated 'Custom Sheet Metal Enclosures for Industrial Automation' page.", "sourceType": "supplier_marketing", "url": "https://uptivemfg.com/blog/custom-sheet-metal-enclosures-for-industrial-automation/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_robot_safety_enclosure",
+      "query": "robot safety enclosure",
+      "componentIds": ["comp_structural_bracket_enclosure"],
+      "intent": "transactional",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "medium",
+      "relativeInterestRationale": "Regulatory/compliance-driven queries plausibly convert at a higher rate and recur predictably per new cell deployment; matches a dedicated Vention product line.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "Dedicated Safety Enclosures product line for robot cells.", "sourceType": "supplier_marketing", "url": "https://vention.io/safety-enclosures", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_custom_inspection_fixture_quote",
+      "query": "custom inspection fixture quote",
+      "componentIds": ["comp_jig_fixture_inspection"],
+      "intent": "transactional",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "medium",
+      "relativeInterestRationale": "Numerous dedicated US specialists target this phrase family directly, and a directory-style listing (ThomasNet) exists specifically for this category, evidencing sustained location-based buyer search behavior.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Free quotes offered for check/welding/turnkey fixtures and jig services.", "sourceType": "supplier_marketing", "url": "https://www.mahutatool.com/Tooling/JigFixtureMachining", "capturedAt": "2026-09-19"},
+        {"summary": "ThomasNet directory category for jig & fixture design/fabrication suppliers.", "sourceType": "documentation_verified", "url": "https://www.thomasnet.com/suppliers/usa/jigs-fixture-design-fabrication-41560509", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_cobot_inspection_cell_fixture",
+      "query": "cobot inspection cell fixture",
+      "componentIds": ["comp_jig_fixture_inspection"],
+      "intent": "commercial",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "low",
+      "relativeInterestRationale": "Very specific, niche phrase; matches one vendor's explicit framing but no independent corroboration found.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "low",
+      "evidence": [
+        {"summary": "Design and implementation of cobot inspection and assembly cells with tailored custom tooling.", "sourceType": "supplier_marketing", "url": "https://www.ktmsolutions.com/manufacturing-fixturing-tooling", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_instant_cnc_quote_robotics",
+      "query": "CNC machining service robotics",
+      "componentIds": ["comp_general_custom_cnc_sheet_metal_part"],
+      "intent": "commercial",
+      "geography": ["US"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "medium",
+      "relativeInterestRationale": "Two separate large generalist marketplaces (Xometry, PartsBadger) each independently invested in a dedicated robotics-industry landing page for this exact query space, which is a stronger signal than any single vendor's page alone.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Dedicated Robotics Manufacturing vertical page.", "sourceType": "supplier_marketing", "url": "https://www.xometry.com/robotics/", "capturedAt": "2026-09-19"},
+        {"summary": "Dedicated Automation and Robotics industries page.", "sourceType": "supplier_marketing", "url": "https://parts-badger.com/industries/automation-and-robotics/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_cnc_machining_australia_instant_quote",
+      "query": "CNC machining Australia instant quote",
+      "componentIds": ["comp_general_custom_cnc_sheet_metal_part"],
+      "intent": "transactional",
+      "geography": ["AU"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "medium",
+      "relativeInterestRationale": "A global marketplace (Xometry) investing in a dedicated .au country storefront is a real, citable business decision that implies assessed AU demand, even though we have no AU-specific per-part-type evidence.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Dedicated Xometry Australia & New Zealand storefront.", "sourceType": "supplier_marketing", "url": "https://xometry.au/cnc-machining/", "capturedAt": "2026-09-19"},
+        {"summary": "Melbourne/Perth/Brisbane-serving Australian CNC machining provider with online instant quote.", "sourceType": "supplier_marketing", "url": "https://www.zeal3dprinting.com.au/services/cnc-machining/", "capturedAt": "2026-09-19"}
+      ]
+    },
+    {
+      "id": "sq_cnc_machining_near_me_city",
+      "query": "CNC machining near me [city]",
+      "componentIds": ["comp_general_custom_cnc_sheet_metal_part"],
+      "intent": "transactional",
+      "geography": ["US", "AU"],
+      "volumeMonthly": null,
+      "relativeInterestTier": "medium",
+      "relativeInterestRationale": "Extremely consistent city-localized landing-page pattern found across both US (RivCut: Detroit, Dallas, Milwaukee, Houston, and more) and Australian (Zeal 3D: Melbourne/Perth/Brisbane; Elite CNC: Sydney) suppliers -- strong indirect evidence that local-intent queries convert well enough to justify per-city page investment in both countries.",
+      "searchSurfaceId": null,
+      "source": "ai_inferred",
+      "confidence": "medium",
+      "evidence": [
+        {"summary": "Multiple US-city-localized landing pages for the same part-type product lines.", "sourceType": "supplier_marketing", "url": "https://www.rivcut.com/cnc-machining/robotics/actuator-housings/", "capturedAt": "2026-09-19"},
+        {"summary": "Sydney-based CNC machining specialist.", "sourceType": "supplier_marketing", "url": "https://elitecnc.com.au/", "capturedAt": "2026-09-19"}
+      ]
+    }
+  ]
+}
