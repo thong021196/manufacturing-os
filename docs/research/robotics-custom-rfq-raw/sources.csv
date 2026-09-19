@@ -1,0 +1,66 @@
+Source URL,Loai nguon,Ngay xuat ban (neu co),So dong su dung,Cac ID dong
+https://www.dakingsrapid.com/robotics/,Manufacturer/vendor site (China-based custom manufacturer),unknown,1,R001
+https://carrmachine.com/industries/humanized-robotics/,Manufacturer/vendor site (US CNC job shop),unknown,1,R002
+https://hardwarerapid.com/portfolio-items/5-axis-cnc-machined-robot-swing-arm-link-bracket-7075-aluminum/,Manufacturer/vendor portfolio page,unknown,1,R003
+https://arxiv.org/pdf/2504.17249,Academic paper (arXiv preprint),2025 (arXiv:2504.17249),1,R004
+https://www.jadecnc.com/precision-cnc-machining-for-robot-joint-housings/,Manufacturer/vendor site (CNC job shop),unknown,1,R005
+https://www.dakingsrapid.com/humanoid-robot-joint-cnc-machining-tolerances-specs/,Manufacturer/vendor technical blog,unknown,1,R006
+https://www.fictiv.com/articles/robotic-arm-components-manufacturing,Manufacturer/marketplace technical guide (Fictiv),unknown,1,R007
+https://www.sango-automation.com/casting/robot-arm-gravity-casting-parts.html,Manufacturer/vendor site (China),unknown,1,R008
+https://www.rallyprecision.com/products/custom-aluminum-enclosure/,Manufacturer/vendor site (China),unknown,1,R009
+https://shincofab.com/sheet-metal-fabrication-for-robotics/,Manufacturer/vendor site,unknown,1,R010
+https://www.sheetmetalchina.com/robot-welding-chassis/,Manufacturer/vendor site (China),unknown,1,R011
+https://drametal.com/industries/robotics/,Manufacturer/vendor site,unknown,1,R012
+https://www.sheetmetalchina.com/custom-metal-tray/,Manufacturer/vendor site (China),unknown,1,R013
+https://www.mcalpin-ind.com/industries/material-handling,Manufacturer/vendor site (US),unknown,1,R014
+https://www.emicorp.com/eoat-solutions,Manufacturer/vendor site (US),unknown,1,R015
+https://eoatmachining.com/products,"Manufacturer/vendor site (US, dedicated EOAT CNC shop)",unknown,1,R016
+https://amdmachines.com/solutions/machine-tending/,"Manufacturer/vendor site (US, machine-tending integrator)",unknown,1,R017
+https://www.protolabs.com/resources/blog/create-jigs-and-fixtures-with-cnc-machining-and-3d-printing/,"Manufacturer/vendor blog (Protolabs, US/EU on-demand mfg marketplace)",unknown,1,R018
+https://www.jacoworks.com/industries-served/robotic-components,Manufacturer/vendor site (US),unknown,1,R019
+https://www.rivcut.com/cnc-machining/robotics/gripper-components/,Manufacturer/vendor site (US CNC shop),unknown,1,R020
+https://www.mccartyfabrication.com/agriculture,Manufacturer/vendor site (US),unknown,1,R021
+https://www.beskamold.com/products/custom-cnc-machined-brackets/,Manufacturer/vendor site (China),unknown,1,R022
+https://arxiv.org/pdf/1810.11920,Academic paper (arXiv),2018 (arXiv:1810.11920),1,R023
+https://www.frontiersin.org/journals/robotics-and-ai/articles/10.3389/frobt.2023.1330496/full,Academic paper (peer-reviewed journal),2023,1,R024
+https://arxiv.org/pdf/2407.01809,Academic paper (arXiv),2024 (arXiv:2407.01809),1,R025
+https://waykenrm.com/blogs/underwater-rov-design-and-customization/,Manufacturer/vendor technical blog (China),unknown,1,R026
+https://www.mk-titanium.com/machining-titanium/machining-titanium-for-subsea/titanium-subsea-pressure-housings.html,Manufacturer/vendor site (China),unknown,1,R027
+https://bluerobotics.com/store/watertight-enclosures/wte-vp/,Manufacturer/vendor site (US),unknown,1,R028
+https://www.unmannedsystemstechnology.com/feature/developing-a-custom-weatherproof-gimbal-for-a-power-line-inspection-drone/,Industry trade publication (feature article),unknown,1,R029
+https://www.cnctal.com/uav-parts/,Manufacturer/vendor case study (China),unknown,1,R030
+https://www.reemanrobotics.com/cleaning-robot-commercial/,Manufacturer/vendor site (China),unknown,1,R031
+https://epromfg.com/robot-housing-manufacturer-sheet-metal-custom-enclosures/,Manufacturer/vendor site,unknown,1,R032
+https://www.starship.xyz/our-robots/,Company website (Starship Technologies) + general fabrication-industry practice (ShincoFab),unknown,1,R033
+https://www.itnews.com.au/news/rio-tinto-starts-autonomous-retrofits-for-haul-trucks-480041,Trade/tech news (iTnews),unknown (article covers a specific retrofit program),1,R034
+https://www.cio.com/article/201760/rio-tinto-ramps-up-truck-automation.html,Trade/tech news (CIO.com),"unknown (historical, 2018 event reported)",1,R035
+https://www.mining-technology.com/features/autonomous-haulage-systems/,Trade publication,unknown,1,R036
+https://pmc.ncbi.nlm.nih.gov/articles/PMC13431312/,Academic/patent-adjacent technical source (peer-reviewed + patent literature),2026 (recent),1,R037
+https://waykenrm.com/blogs/custom-machined-exoskeleton-robot/,Manufacturer/vendor technical blog (China),unknown,1,R038
+https://waykenrm.com/case-studies/custom-manufacturing-and-solutions-with-exoskeleton-robot-components/,Manufacturer/vendor case study (China),unknown,1,R039
+https://www.fictiv.com/articles/prototyping-lead-time-process-timelines-and-how-to-reduce-delays,"Manufacturing marketplace technical/industry blog (Fictiv, US)",unknown,1,R040
+https://premsaindustries.com/en/resources/blog/cad-file-to-cnc-machining-quote,Manufacturer/vendor technical blog,unknown,1,R041
+https://www.eu-startups.com/2026/07/from-prototype-to-production-in-3-days-how-ls-manufacturing-supports-european-hardware-startups-in-their-fast-paced-development-sponsored,"Sponsored/trade press article (vendor-sponsored content, marked accordingly)",2026-07,1,R042
+https://www.fictiv.com/case-studies/hebi-robotics,"Manufacturing marketplace case study (Fictiv, US) - customer case study, treat as vendor-published but naming a real, verifiable robotics company (HEBI Robotics)",unknown,1,R043
+https://www.rpproto.com/blog/top-10-cnc-machining-services-company-in-china,"Manufacturer/vendor site (China, aggregator/marketing content)",unknown,1,R044
+https://hlhrapid.com/cnc-machining-services/,Manufacturer/vendor site (China),unknown,1,R045
+https://www.qcadvisor.com/blog/china-quality-control-and-inspection/,Third-party QC/inspection service provider site (not the manufacturer itself - more independent than a factory's own claim),unknown,1,R046
+https://insight-quality.com/services/china-quality-control-inspection/,Third-party QC/inspection service provider site,unknown,1,R047
+https://robycstechnology.com.au/cnc-machining-sydney/,Manufacturer/vendor site (AU),unknown,1,R048
+https://www.cloudnc.com/blog/cnc-machinist-hiring-crisis-2026,Manufacturing-software vendor blog (CloudNC) citing labor-market statistics,2026,1,R049
+https://egm-mfg.com/reshoring-machinist-shortage-precision-machining/,Manufacturer/industry blog (US precision machining company),unknown,1,R050
+https://www.automation.com/article/how-tariffs-are-reshaping-robotics-sourcing-and-what-to-do-about-it,Industry trade publication,unknown (references early-2025 tariff events),1,R051
+https://www.evsrobot.com/import-industrial-robots-from-china-shipping-customs-guide.html,Logistics/customs-broker vendor site,unknown,1,R052
+https://www.indexbox.io/store/australia-and-oceania-mobile-robot-base-units-market-analysis-forecast-size-trends-and-insights/,"Market research report (paid/aggregator, summary-level access only)",unknown,1,R053
+https://www.manmonthly.com.au/a-roadmap-for-robotics-to-enhance-australias-modern-manufacturing-capabilities/,"Trade publication (Manufacturers' Monthly, AU)",unknown,1,R054
+https://controlgl.com/blog/importing-manufacturing-equipment-into-australia-complete-guide/,Logistics/customs guide (industry service provider),unknown,1,R055
+https://fast-automation.com/blog/post/manufacturing-automation-australia-2026,Industry/vendor blog (AU automation integrator),2026,1,R056
+https://www.boona-prototypes.com/mro-cnc-machining-obsolete-parts/,Manufacturer/vendor blog,unknown,1,R057
+https://slate.com/technology/2013/03/robotic-exoskeletons-ekso-bionics-builds-a-real-life-iron-man.html,Journalism/general press (Slate),"2013 (historical, company still operating per Wikipedia/company site)",1,R058
+https://www.therobotreport.com/diligent-robotics-moxi-2-0-mobile-manipulator-built-for-ai/,Industry trade publication (The Robot Report),unknown (references 2026 H1 shipment),1,R059
+https://www.seattlemet.com/health-and-wellness/2023/10/hospital-robots-nurses-health-care-moxi,Journalism/general press (Seattle Met),2023-10,1,R060
+https://www.bhp.com/news/media-centre/releases/2025/12/bhp-and-rio-tinto-welcome-first-caterpillar-battery-electric-haul-trucks-to-the-pilbara,"Company press release (BHP, primary source)",2025-12,1,R061
+https://exoskeletonreport.com/2019/12/guardian-xo-alpha-up-close-and-personal-with-the-sarcos-robotics-full-body-powered-exoskeleton/,Industry trade publication (Exoskeleton Report),2019-12,1,R062
+https://harnessmasternsw.com.au/case_study/swarmfarm-robotics-collaborates-with-experts/,"Supplier case study (Harness Master NSW, AU) + company site",unknown,1,R063
+https://frigate.ai/en-lu/product/robotic-vision-camera-bracket/,Manufacturer/vendor product page,unknown,1,R064
+https://www.zintilon.com/blog/cnc-milling-vs-3d-printing-in-low-volume-production/,Manufacturer/vendor technical blog,unknown,1,R065
