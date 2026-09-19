@@ -1,0 +1,184 @@
+source_id,url,source_type,publication_date,notes
+S01,https://humanoid.guide/humanoid-deployments-in-2026-favor-figure-and-agility/,industry publication,2026,"Tracker of humanoid deployments, Figure/Agility 2026 status"
+S02,https://robobrief.tech/blog/humanoid-robots-2026/,industry publication,2026-07,Humanoid robot deployment tracker 2026
+S03,https://www.abc.net.au/news/2026-07-20/artificial-intelligence-testing-models-humanoids-data-centres/106928550,news media (AU public broadcaster),2026-07-20,ABC News on humanoid robot market expansion and Australia AI context
+S04,https://www.ascla.org/humanoids-are-coming-to-the-warehouse/,industry association,2026,Australasian Supply Chain & Logistics Association on humanoids in AU warehouses
+S05,https://www.gminsights.com/industry-analysis/autonomous-mobile-robots-market,market research report,2025,"AMR market sizing, US/global"
+S06,https://locusrobotics.com/blog/warehouse-robots-demystified-its-not-as-hard-as-you-think,supplier-claimed (company blog),2025,Locus Robotics AMR deployment claims
+S07,https://www.therobotreport.com/6-river-systems-mobile-robots-must-new-economy/,industry publication,2020-2025,6 River Systems AMR background
+S08,https://www.australianmanufacturing.com.au/four-2025-trends-shaping-warehouse-automation-and-intralogistics/,industry publication (AU),2025,AU warehouse automation trends 2025
+S09,https://www.smartlogitecx.com.au/top-10-warehouse-automation-technologies-transforming-supply-chains-in-2025/,"industry publication (AU, vendor-adjacent)",2025,AU warehouse automation technology adoption
+S10,https://www.marketsandmarkets.com/ResearchInsight/collaborative-robot-market-us.asp,market research report,2025,US cobot market sizing
+S11,https://www.grandviewresearch.com/industry-analysis/us-collaborative-robots-market-report,market research report,2025,"US cobot market report, Universal Robots market share"
+S12,https://amtil.com.au/industry-5-0-collaborative-robots-australian-manufacturing/,industry association (AU),2025,AMTIL on cobots in Australian manufacturing
+S13,https://www.imarcgroup.com/australia-robotics-in-manufacturing-market,market research report,2025,AU robotics-in-manufacturing unit volumes
+S14,https://robotsnews.com.au/collaborative-robots-cobots-in-australian-manufacturing-a-practical-guide-for-smes/,industry publication (AU),2026,Cobot ROI/payback figures for AU SMEs
+S15,https://carbonrobotics.com/,official supplier site,2025,Carbon Robotics LaserWeeder / AutoTractor product claims
+S16,https://www.futurefarming.com/tech-in-focus/autonomous-semi-autosteering-systems/carbon-robotics-launches-autotractor-kit-for-autonomous-john-deere-tractors/,industry publication,2025-03,Carbon Robotics AutoTractor kit for John Deere tractors
+S17,https://roboticsandautomationnews.com/2025/09/05/agricultural-robots-precision-farming-and-autonomous-harvesting/94109/,industry publication,2025-09-05,"Ag robot market sizing, robots-and-drones segment"
+S18,https://www.commbank.com.au/articles/newsroom/2025/11/swarmfarm-robots-put-ag-on-global-tech-map.html,company/bank publication (AU),2025-11,"SwarmFarm Robotics scale and funding, AU agtech"
+S19,https://www.industry.gov.au/news/swarmfarm-robotics-transforming-future-farming,Australian government,2023-2025,Australian Dept of Industry on SwarmFarm
+S20,https://tracxn.com/d/companies/swarmfarm-robotics/__VtocScL1Ho1KkC2nYD6fr811xM-gHSwmVe8zTCZJgb8,company database,2026,SwarmFarm / Agerris funding data
+S21,https://www.anybotics.com/news/how-to-hire-an-industrial-inspection-robot-part-2/,supplier-claimed (company blog),2025,ANYbotics ANYmal X inspection robot capability claims
+S22,https://bostondynamics.com/case-studies/bp/,supplier-claimed (company case study),2024-2025,Boston Dynamics Spot at bp case study
+S23,https://roboticsandautomationnews.com/2025/11/17/ifs-and-boston-dynamics-combine-spot-robots-with-agentic-ai-for-autonomous-field-operations/96655/,industry publication,2025-11-17,IFS + Boston Dynamics Spot partnership
+S24,https://www.giiresearch.com/report/fbs1933194-inspection-robotics-oil-gas-market-size-share.html,market research report,2025,"Inspection robotics oil & gas market sizing, North America share"
+S25,https://www.riotinto.com/about/innovation/automation,company official site,2025-2026,Rio Tinto autonomous haul truck / AutoHaul claims
+S26,https://www.mining-technology.com/features/australian-miners-at-the-forefront-of-the-robotics-revolution/,industry publication (AU),2024-2025,Australian mining robotics adoption
+S27,https://www.cyngn.com/blog/the-rise-of-autonomous-mining-trucks-and-robots,industry publication,2025,Autonomous mining truck adoption context
+S28,https://restauranttechnologynews.com/2026/07/bear-robotics-brings-physical-ai-service-robots-and-autonomous-cleaning-to-restaurants-and-hotels/,industry publication,2026-07,Bear Robotics Servi deployment in US hospitality
+S29,https://www.nrn.com/restaurant-technology/bear-robotics-and-softbank-join-forces-to-mass-produce-servi-foodservice-robot,industry publication,2025,Bear Robotics / LG ownership stake
+S30,https://www.cbsnews.com/news/robots-hospitals-health-care-moxi/,news media,2025-2026,Diligent Robotics Moxi hospital deployment
+S31,https://sparkco.ai/blog/service-robot-hospitality-industry-deployment,industry publication,2025-2026,Service robot hospitality adoption rate NA vs Asia
+S32,https://research.qut.edu.au/designlab/projects/helpii-a-social-service-robot-for-australian-aged-care/,university research,2025,QUT HELPII social service robot for AU aged care
+S33,https://www.nature.com/articles/s41598-025-86255-w,research paper (Scientific Reports),2025,"Human-robot interaction study, AU aged care facility, 34 staff / 10 robots"
+S34,https://www.morrisfuturist.com/robots-aged-care-australia-companionship-physical-ai/,industry/commentary publication (AU),2026,Andromeda 'Abi' and Dex-Lab 'Daisy' AU aged-care robot deployments
+S35,https://incleanmag.com.au/ai-and-automation-transforming-aged-care-hygiene/,trade publication (AU),2025-08,SIMPPLE Australia cleaning robot fleet deployment claim
+S36,https://www.firstinspires.org/about/impact,nonprofit org (FIRST),2025,FIRST Robotics Competition 2025 participation numbers
+S37,https://en.wikipedia.org/wiki/VEX_Robotics,encyclopedia / secondary,2025-2026,VEX Robotics participation numbers
+S38,https://news.crunchbase.com/robotics/startup-venture-funding-surges-2026-data/,industry publication / financial data,2026,Robotics startup venture funding 2025-2026
+S39,https://ifr.org/ifr-press-releases/news/us-robot-industry-returns-to-double-digit-growth,industry standards body (IFR),2025-2026,IFR World Robotics: US industrial robot installations 2025
+S40,https://ifr.org/ifr-press-releases/news/global-robot-demand-in-factories-doubles-over-10-years,industry standards body (IFR),2025,"IFR World Robotics 2025: global installation trends, Asia 74% share"
+S41,https://harmonicdrive.de/en/company,official supplier site,2025,Harmonic Drive Group Companies structure (Japan/US/Germany/China)
+S42,https://www.laifualdrive.com/,official supplier site (CN),2025,Zhejiang Laifual Drive product/market claims
+S43,https://reports.valuates.com/market-reports/QYRE-Auto-38H4066/global-harmonic-drive,market research report,2025-2026,Global harmonic drive market player list
+S44,https://hengfengtai.en.made-in-china.com/product/ZOYAvceKEEVt/China-Nabtesco-Industrial-Cycloidal-Planetary-Gear-Speed-Transmission-for-Robot.html,supplier-claimed (B2B marketplace listing),2026,Chinese RV-reducer supplier listing
+S45,https://www.evsint.com/industrial-robot-reducers-harmonic-cycloidal-rv-comparison-2026/,industry publication,2026,Harmonic vs RV reducer comparison; Zhongda Leader / Zhenkang market share and 35-55% Nabtesco price ratio claim
+S46,https://www.patsnap.com/resources/blog/articles/ndfeb-magnet-supply-chain-and-china-export-controls/,industry/IP analytics publication,2025,NdFeB magnet China supply chain dominance %
+S47,https://www.csis.org/analysis/chinas-new-rare-earth-and-magnet-restrictions-threaten-us-defense-supply-chains,think tank / policy research,2025,CSIS analysis of China rare earth/magnet export controls
+S48,https://discoveryalert.com/china-rare-earth-magnet-exports-decline-2025/,industry/financial commentary,2025,"China NdFeB export control detail, 12 of 17 REEs restricted"
+S49,https://discoveryalert.com/china-strategic-control-global-magnet-supply-chains/,industry/financial commentary,2025,Non-China magnet capacity forecast 2027-2028
+S50,https://robotics.techbuzzchina.com/reports/actuators-motors.html,industry publication (China-focused tracker),2025-2026,"China humanoid robot actuator/motor supplier landscape, torque-to-weight and cost claims"
+S51,https://www.rdncontrols.com/encoder-china/,industry publication,2025-2026,China encoder manufacturer list
+S52,https://www.hopoencoder.com/top-china-encoder-manufacturer/,supplier-claimed / industry directory,2026,"China absolute encoder pricing $50-171, 10-20 day lead time claim"
+S53,https://www.hopoencoder.com/top-rotary-encoder-manufacturers-in-the-usa/,supplier-claimed / industry directory,2026,US encoder manufacturer (EPC) claims
+S54,https://yijinsolution.com/industry-insights/china-vs-usa-cnc-machining/,industry publication (CNC vendor-adjacent),2026,China vs US CNC machining cost/lead-time comparison
+S55,https://www.fastpreci.com/blog/sourcing-china-cnc-machining-parts/,supplier-claimed (CNC vendor blog),2026,China CNC part cost $15-55 vs US $60-150 aluminum bracket claim
+S56,https://ventureoutsource.com/contract-manufacturing/section-301-robotics-systems-components/,industry publication,2025,"Section 301 tariff detail on robotics components, HTS codes, $60k robot example"
+S57,https://www.whitecase.com/insight-alert/united-states-finalizes-section-301-tariff-increases-imports-china,law firm analysis,2024-2025,Section 301 tariff increases official summary
+S58,https://www.flinders.edu.au/content/dam/documents/research/aiti/Australian_sovereign_capability_and_supply_chain_resilience.pdf,university research (AU),2024-2025,AU sovereign capability / supply chain resilience report
+S59,https://www.indexbox.io/store/australia-and-oceania-precision-turned-metal-components-market-analysis-forecast-size-trends-and-insights/,market research report,2025,"AU precision turned metal components import share, China 40-45%"
+S60,https://www.australianindustrygroup.com.au/resourcecentre/research-economics/manufacturing-in-australia-2025/,"industry association (AU, Ai Group)",2025,"AU manufacturing output/PMI, skills shortage 2025 report"
+S61,https://www.7pcb.com/blog/prototype-printed-circuit-board-pcb-assembly-prices-china,supplier-claimed (PCB vendor blog),2025-2026,China PCB prototype assembly pricing example
+S62,https://leadsintec.com/china-vs-us-pcb-assembly/,supplier-claimed / industry publication,2026,"China vs US PCB assembly cost/tariff comparison, 30-50% cheaper claim"
+S63,https://dronelife.com/2026/04/29/us-lithium-drone-supply-chain/,industry publication,2026-04-29,US lithium/drone battery supply chain dependency on China refining
+S64,https://www.batterytechonline.com/automotive-mobility/the-race-to-onshore-drone-battery-cells-for-defense,industry publication,2025-2026,US drone battery cell onshoring effort vs Chinese 80% cell share
+S65,https://circuitdigest.com/articles/top-10-opensource-robotic-arms-for-beginners,hobbyist/maker publication,2025,Open-source 3D-printed robot arm projects overview
+S66,https://github.com/Seeed-Projects/reBot-DevArm,open-source project repo,2025,reBot-DevArm open BOM/purchase-link project
+S67,https://orobot.io/robots/arm,open-source project directory,2025,"Open-source 3D-printable arm robots directory, Pedro robot ~$220 BOM"
+S68,https://www.fictiv.com/articles/robotic-arm-components-manufacturing,supplier-claimed (manufacturing marketplace blog),2025-2026,Robotic arm component manufacturing process-selection guidance
+S69,https://lkpbearing.com/news/,supplier-claimed (bearing vendor),2025-2026,China robot bearing (crossed roller) supplier claims vs THK/IKO/INA
+S70,https://www.cwlbearing.com/blog/best-robot-bearing-suppliers-china-global-buyers/,supplier-claimed / industry directory,2026,China robot bearing supplier quality variability note
+S71,https://corematter.substack.com/p/inside-chinas-robotics-supply-chain,independent industry newsletter,2025-2026,"Shenzhen/Huaqiangbei one-day sourcing claim, Dongguan vs Songgang specialization"
+S72,https://thechinaacademy.org/the-landscape-of-chinas-robotics-industry/,industry/policy commentary (China-based outlet),2025,Shenzhen robot industry output value 2023 (179.7bn yuan)
+S73,https://www.rpproto.com/services/low-volume-manufacturing,supplier-claimed (manufacturing vendor),2025-2026,"China low-volume manufacturing service scope (CNC, tooling, die casting, sheet metal)"
+S74,https://sprintlaw.com.au/articles/importing-products-to-australia-legal-compliance-guide/,legal services publication (AU),2025,AU import compliance guide for electronics
+S75,https://tftior.com/australia-ior/,compliance services publication (AU),2025-2026,AU RCM/EESS/ACMA/TGA importer-of-record liability detail
+S76,https://www.winningadventure.com.au/article/importing-electronics-from-china-to-australia,logistics services publication (AU),2025-2026,"China-Australia FTA tariff elimination >95% tariff lines at 0%, ABF ETMS detail"
+S77,https://www.geomechanics.io/news/article/us-titanium-capacity-squeeze-supply-chain-and-project-signals-for-engineers,industry publication,2025,US titanium sponge import dependency since 2020 plant closure; China 40%->75% share
+S78,https://titaniumseller.com/news/aerospace-titanium-supply-chain-reshaping-3d-printing-to-domestic-production/,industry publication,2026,"US/domestic titanium reshoring investment (IperionX, American Titanium Metal)"
+S79,https://caminnovation.com/americas-1-66-trillion-reshoring-wave-is-stress-testing-motor-manufacturing-equipment-service-capacity/,industry publication (equipment service vendor),2026-04,"US motor winding equipment capacity strain amid reshoring, $1.66T commitments"
+S80,https://blogs.usfcr.com/defense-industrial-base-reshoring-opportunities,industry/government-contracting publication,2025-2026,DoD $94.1M award to E-VAC Magnetics for US rare-earth magnet manufacturing
+S81,https://www.jobsandskills.gov.au/research/emerging-roles/science-and-engineering/robotics-engineer,Australian government,2025,Jobs and Skills Australia robotics engineer emerging-role data
+S82,https://www.siliconsteelpro.com/motor-lamination-steel/,supplier-claimed (CN electrical steel vendor),2025-2026,China electrical/silicon steel lamination supplier claims
+S83,https://sinotech.com/products/motor-components/laminations/,supplier-claimed (sourcing agent),2025,China/Taiwan/Korea lamination sourcing vs US domestic price claim
+S84,https://m.made-in-china.com/product/Robstride-Integrated-Joint-Module-of-Collimated-Drive-120n-M-2128233165.html,supplier-claimed (B2B marketplace listing),2026,RobStride integrated joint-module actuator listing
+S85,https://www.robohub.app/parts/robstride-04,hobbyist/maker parts directory,2025-2026,"RobStride 04 actuator spec/price, positioned as T-Motor AK80 alternative"
+S86,https://theaiinsider.tech/2025/10/04/is-china-winning-the-race-for-robotics/,industry/tech commentary,2025-10-04,"China integrated actuator module ecosystem commentary (Tihu, PhyArc, RobStride)"
+S87,https://a16z.com/america-cannot-lose-the-robotics-race/,venture capital firm publication,2025-2026,a16z commentary on China robotics supply chain competitiveness
+S88,https://ifr.org/worldrobotics,industry standards body (IFR),2025,IFR World Robotics report landing page / methodology
+S89,https://equalocean.com/analysis/2020071514249,industry publication,2020-2026,Hesai vs Velodyne LiDAR pricing history ($80k -> $40k claim)
+S90,https://www.generationrobots.com/blog/en/ouster-vs-robosense-which-brand-of-3d-lidar-to-choose/,supplier-adjacent comparison publication,2025-2026,Ouster (US) vs RoboSense (CN) LiDAR comparison
+S91,https://www.digitimes.com/news/a20260421PD231/robot-risc-v-nvidia-beijing-cpu.html,industry/trade publication,2026-04-21,China humanoid robot makers moving to RISC-V over NVIDIA Jetson
+S92,https://www.cnx-software.com/2026/08/31/d-robotics-rdk-s100p-a-128-tops-alternative-to-nvidia-jetson-orin-nx-16gb-with-cortex-a78ae-r52-cores/,hardware/tech publication,2026-08-31,"D-Robotics RDK S100P, China-made 128 TOPS alternative to Jetson Orin NX, China-market only"
+S93,https://standardbots.com/blog/the-top-5-robot-gripper-manufacturers-for-any-budget,industry publication / vendor-adjacent,2026,Robotiq/OnRobot/Schunk gripper pricing (US/EU brands)
+S94,https://www.made-in-china.com/manufacturers/robot-gripper.html,supplier-claimed (B2B marketplace directory),2026,"China robot gripper supplier directory, positioned as OnRobot/Robotiq alternatives"
+S95,https://www.ascla.org/humanoids-are-coming-to-the-warehouse/,industry association / publication,2026-08,
+S96,https://news.vex.com/2025/03/17/australian-robotics-teams-aim-for-the-world-stage/,industry publication,2025-03,
+S97,https://www.cutthrough.com/insights/state-of-australian-startup-funding-2025,market/industry publication,2025,
+S98,https://www.kendrion.com/en/industries/robotics/brake-technology,company official site,unknown,
+S99,https://www.thservodrive.com/news/top-10-servo-motor-manufacturers-in-china-85274378.html,industry publication (China-focused),unknown,
+S100,https://www.iso.org/standard/73933.html,standards body (ISO),2025,
+S101,https://www.lorithermal.com/robot-cooling-solutions,company official site / industry publication,unknown,
+S102,https://www.ourpcb.com/top-robotics-cable-assembly-manufacturers,industry publication / company site,unknown,
+S103,https://www.engineering.com/starter-guide-to-six-axis-force-and-torque-sensors/,industry publication,unknown,
+S104,https://www.cwlbearing.com/blog/best-robot-bearing-suppliers-china-global-buyers/,industry publication / company site,unknown,
+S105,https://www.researchandmarkets.com/articles/key-companies-in-agriculture-robots,market research report,2026-02,
+S106,https://www.imarcgroup.com/united-states-agricultural-robots-market,market research report,2025,
+S107,https://www.uts.edu.au/research/centres/robotics-institute/partner-us/agriculture-robotics,university / research institute,unknown,
+S108,https://pdfs.semanticscholar.org/7d2c/52cc8cadc20ee186e0033ca47cfd43d40546.pdf,academic paper (review),unknown,
+S109,https://www.businessresearchinsights.com/market-reports/pipeline-intelligent-inspection-robot-market-115050,market research report,2026,
+S110,https://www.futuremarketinsights.com/reports/powerline-inspection-robots-market,market research report,2026,
+S111,https://www.idtechex.com/en/research-report/service-robots/1139,market research report,2026,
+S112,https://www.openpr.com/news/4551399/future-of-u-s-commercial-cleaning-robots-market-2026-market,market research report,2026,
+S113,https://www.marketresearchfuture.com/reports/hospitality-robot-market-26539,market research report,2025,
+S114,https://standardbots.com/blog/warehouse-robotics-companies,industry publication,2026-04,
+S115,https://robotomated.com/learn/market/cobot-adoption-manufacturing-2026,industry publication,2026,
+S116,https://www.jaycon.com/2026-injection-molding-pricing-report-us-costs-reshoring-tooling-data/,industry publication / pricing report,2026,
+S117,https://casting-yz.com/robot-parts/,company official site / industry publication,unknown,
+S118,https://markwideresearch.com/copper-magnet-wire-market,market research report,2026,
+S119,https://iconnect007.com/article/141280/material-insight-diversifying-pcb-manufacturing-through-nearshoring/141277/smt,industry publication,unknown,
+S120,https://markwideresearch.com/electrical-steel-lamination-market,market research report,2026,
+S121,https://jlc3dp.com/help/article/peek-plastic,company official site / industry publication,unknown,
+S122,https://www.duramag.com/techtalk/magnet-news/understanding-the-2026-section-301-tariffs-on-permanent-magnets-what-the-market-needs-to-know/,industry publication / company site,2026,
+S123,https://additive3dasia.com/news/example-rapid-prototyping-workflow-hardware-startups/,industry publication,unknown,
+S124,https://www.roboticscenter.ai/learn/how-to-start-robotics-company,industry publication,unknown,
+S125,https://www.yicaiglobal.com/news/chinas-robosense-hesai-see-robot-lidar-sales-surge-in-2025,industry publication / financial news,2025-2026,
+S126,https://www.edge-ai-vision.com/2026/07/nvidia-introduces-new-jetson-thor-computers-to-advance-mainstream-robotics-and-edge-ai/,industry publication / company announcement,2026-07,
+S127,https://manlybattery.com/top-robot-battery-manufacturers-in-2026-for-industrial-and-service-robots/,industry publication,2026,
+S128,https://www.giiresearch.com/report/tbrc1933554-robot-end-effector-global-market-report.html,market research report,2026,
+S129,https://www.ethercat.org/en/technology.html,industry standards body (EtherCAT Technology Group),unknown,
+S130,https://www.etftrends.com/artificial-intelligence-content-hub/labor-shortage-is-forcing-a-robot-revolution-in-u-s-manufacturing/,industry/market publication,2026,
+S131,https://www.indexbox.io/store/australia-and-oceania-mobile-robot-base-units-market-analysis-forecast-size-trends-and-insights/,market research report,2025-2026,
+S132,https://www.industry.gov.au/publications/national-robotics-strategy/australias-robotics-opportunity,"government publication (Australian Dept. of Industry, Science and Resources)",unknown,
+S133,https://www.rivcut.com/manufacturing-news/humanoid-robot-factories-2026/,industry publication,2026,
+S134,https://www.lubesngreases.com/magazine/26_6/robots-need-lubes-too/,industry publication,unknown,
+S135,https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/11424661,"patent filing (background/context, not a market source)",unknown,
+S136,https://ifr.org/ifr-press-releases/news/us-robot-industry-returns-to-double-digit-growth,industry standards body (IFR),2026,
+S137,https://www.miningdoc.tech/2026/04/28/from-one-truck-to-thousands-the-global-rise-of-autonomous-mining/,industry publication,2026-04,
+S138,https://www.sec.gov/Archives/edgar/data/0000863064/000086306426000033/ex7d23caterpillar_mr.htm,SEC filing (company official disclosure),2026,
+S139,https://www.evsrobot.com/import-industrial-robots-from-china-shipping-customs-guide.html,industry publication (customs/trade guide),2026,
+S140,https://www.cnccookbook.com/heres-scoop-machines-hobby-cncers-theyre-making/,industry publication / community survey,unknown,
+S141,https://robotics.techbuzzchina.com/reports/robot-hands-china.html,industry publication (China-focused robotics tracker),2026,
+S142,https://leweiprecision.com/cnc-machining-reshoring-usa/,industry publication,2026,
+S143,https://www.protolabs.com/en-gb/resources/blog/materials-that-command-the-robotics-industry/,industry publication / company site,unknown,
+S144,https://www.wevolver.com/article/top-vision-systems-for-manufacturing-in-2026,industry publication,2026,
+S145,https://smtmachineline.com/top-10-plc-brands-key-advantages/,industry publication,unknown,
+S146,https://markwideresearch.com/simultaneous-localization-and-mapping-slam-market,market research report,2026,
+S147,https://news.crunchbase.com/robotics/startup-venture-funding-surges-2026-data/,industry publication / financial data,2026,
+S148,https://hellocare.com.au/australias-largest-rollout-of-humanoid-companion-robots-signals-new-era-in-aged-care/,industry publication,2026,
+S149,https://www.mordorintelligence.com/industry-reports/offshore-auv-rov-market,market research report,2026,
+S150,https://www.harmonicdrive.net/,company official site,unknown,
+S151,https://www.imarcgroup.com/australia-robotics-in-manufacturing-market,market research report,2025-2026,
+S152,https://jlcpcb.com/blog/arduino-vs-raspberry-pi,industry publication,2026,
+S153,https://jamestown.org/policy-support-for-robotics-firms-shows-defense-integration/,think tank / policy research publication,2026,
+S154,https://www.ul.com/services/robotic-safety-security-and-performance,testing/certification body (UL),unknown,
+S155,https://www.calcmytariff.com/country/australia,industry publication (tariff data aggregator),2026,
+S156,https://www.advancedenergy.com/en-us/applications/industrial/transport-robotics/,company official site / industry publication,unknown,
+S157,https://techxplore.com/news/2026-09-ai-vr-video-language-humanoid.html,academic/research news (Science Robotics-sourced),2026-09,
+S158,https://calcix.net/guides/business-startup/hardware-product-development-budgeting-guide,industry publication,2026,
+S159,https://yijinsolution.com/industry-insights/top-10-sheet-metal-fabrication-companies-robotics/,industry publication,2026,
+S160,https://research.csiro.au/robotics/,"government research agency (CSIRO, official site)",2026,
+S161,https://www.trendforce.com/presscenter/news/20260409-13007.html,market research firm (TrendForce),2026-04,
+S162,https://eastasiaforum.org/2026/03/11/us-chip-export-controls-have-cooled-down/,think tank / policy research publication,2026-03,
+S163,https://www.roboct-global.com/mobile-robot-components/mecanum-wheel/,company official site / industry publication,unknown,
+S164,https://en.unicore.com/gnss-agriculture/,company official site,unknown,
+S165,https://www.automate.org/robotics/tech-papers/iso-ts-15066-explained,industry association (Association for Advancing Automation / Automate.org),unknown,
+S166,https://www.i4verse.com/article/role-of-5g-in-enabling-advanced-robotics-and-ai-in-manufacturing,industry publication,unknown,
+S167,https://www.peony.ink/blog/hardware-accelerators,industry publication,2026,
+S168,https://jingsourcing.com/p/wholesale-3d-printing-filament/,industry publication / sourcing agent site,unknown,
+S169,https://en.wikipedia.org/wiki/Xometry,"industry publication / company data (Wikipedia, cross-referenced with company disclosures)",2025-2026,
+S170,https://en.wikipedia.org/wiki/DJI,industry publication / company data,2026,
+S171,https://corematter.substack.com/p/inside-chinas-robotics-supply-chain,industry publication / independent commentary,2026,
+S172,https://www.dfat.gov.au/about-us/publications/trade-investment/australia-united-states-free-trade-agreement-guide-to-the-agreement/Pages/ausfta-guide,government publication (Australian Dept. of Foreign Affairs and Trade),2004-2026,
+S173,https://cxtms.com/blog/autonomous-delivery-robots-beyond-sidewalks-state-laws-last-mile-2026,industry publication,2026,
+S174,https://www.fortunebusinessinsights.com/wearable-robotic-exoskeleton-market-104664,market research report,2026,
+S175,https://www.shhxgd.com/,company official site,unknown,
+S176,https://www.enr.com/articles/63349-tsmc-arizona-megaproject-grows-to-265-billion,industry publication,2026-07,
+S177,https://www.csis.org/analysis/rare-earth-export-restrictions-one-year-later,think tank / policy research publication (CSIS),2026,
+S178,https://developer.nvidia.com/isaac,company official site / developer platform,2026-03,
+S179,https://news.ncsu.edu/2026/09/policy-and-automation-are-key-solutions-to-ag-labor-shortages/,university / research institution publication,2026-09,
+S180,https://electronics360.globalspec.com/article/18708/mouser-now-stocking-electronic-components-from-36-new-vendors,industry publication,unknown,
+S181,https://ifr.org/ifr-press-releases/news/global-robotics-race-korea-singapore-and-germany-in-the-lead,industry standards body (IFR),2026,
+S182,https://austlogistics.com.au/wp-content/uploads/2026/04/Submission-260428-2026-Draft-Industry-Skill-Australia-Workforce-Planning.pdf,industry association submission / government-adjacent policy document,2026-04,
+S183,https://www.phihong.com/best-guide-to-robotic-docking-and-charging-stations-how-manufacturers-design-modular-solutions-for-amrs-agvs-autonomous-robots-and-warehouse-robots/,company official site / industry publication,unknown,
