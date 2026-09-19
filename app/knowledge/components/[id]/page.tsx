@@ -16,6 +16,7 @@ import {
   CadPackages,
   SearchSurfaces,
   rfqsForComponent,
+  outcomesForComponent,
 } from "@/lib/data";
 
 export default async function ComponentDetailPage({ params }: PageProps<"/knowledge/components/[id]">) {
@@ -24,6 +25,7 @@ export default async function ComponentDetailPage({ params }: PageProps<"/knowle
   if (!component) notFound();
 
   const relatedRfqs = rfqsForComponent(component.id);
+  const relatedOutcomes = outcomesForComponent(component.id);
 
   return (
     <div>
@@ -96,6 +98,20 @@ export default async function ComponentDetailPage({ params }: PageProps<"/knowle
           <RelatedSection
             title="Search surfaces"
             items={SearchSurfaces.byIds(component.searchSurfaceIds).map((s) => ({ id: s.id, label: s.name, href: `/knowledge/search-surfaces/${s.id}` }))}
+          />
+          <RelatedSection
+            title="Outcomes"
+            emptyLabel="No completed orders yet."
+            items={relatedOutcomes.map(({ order, outcome }) => ({
+              id: order.id,
+              label: order.id,
+              href: `/execution/orders/${order.id}`,
+              meta: outcome ? (
+                <StatusBadge status={outcome.onTime && outcome.qualityPass ? "pass" : outcome.qualityPass ? "on_time" : "fail"} />
+              ) : (
+                <StatusBadge status={order.status} />
+              ),
+            }))}
           />
         </div>
       </div>

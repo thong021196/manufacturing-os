@@ -15,6 +15,29 @@ import {
   SupplierPerformances,
   ordersForSupplier,
 } from "@/lib/data";
+import type { SupplierCapability } from "@/lib/types";
+
+function CapabilityDetail({ cap }: { cap: SupplierCapability }) {
+  const envelope = cap.sizeEnvelopeMm;
+  return (
+    <li className="py-2.5 text-sm">
+      <div className="flex items-center justify-between gap-3">
+        <span className="font-medium text-navy-800">{Processes.byId(cap.processId)?.name}</span>
+        <CapabilityLayerBadge layer={cap.layer} />
+      </div>
+      <p className="mt-1 text-xs text-muted">
+        {cap.toleranceMm != null && `±${cap.toleranceMm}mm`}
+        {envelope && ` · up to ${envelope.lengthMax} x ${envelope.widthMax} x ${envelope.heightMax}mm`}
+        {` · qty ${cap.quantityRange.min}-${cap.quantityRange.max}`}
+      </p>
+      <p className="mt-1 text-xs text-muted">
+        Finish: {cap.finishCapabilities.join(", ") || "—"} · QC: {cap.qcCapabilities.join(", ") || "—"}
+      </p>
+      {cap.constraints && <p className="mt-1 text-xs text-warning">{cap.constraints}</p>}
+      <p className="mt-1 text-xs text-muted">{cap.notes}</p>
+    </li>
+  );
+}
 
 export default async function SupplierDetailPage({ params }: PageProps<"/supply/suppliers/[id]">) {
   const { id } = await params;
@@ -60,15 +83,7 @@ export default async function SupplierDetailPage({ params }: PageProps<"/supply/
             ) : (
               <ul className="divide-y divide-border">
                 {declared.map((cap) => (
-                  <li key={cap.id} className="py-2.5 text-sm">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="font-medium text-navy-800">{Processes.byId(cap.processId)?.name}</span>
-                      <CapabilityLayerBadge layer={cap.layer} />
-                    </div>
-                    <p className="mt-1 text-xs text-muted">
-                      {cap.notes} {cap.toleranceMm != null && `· ±${cap.toleranceMm}mm · ${cap.maxPartSizeMm}`}
-                    </p>
-                  </li>
+                  <CapabilityDetail key={cap.id} cap={cap} />
                 ))}
               </ul>
             )}
@@ -80,15 +95,7 @@ export default async function SupplierDetailPage({ params }: PageProps<"/supply/
             ) : (
               <ul className="divide-y divide-border">
                 {observed.map((cap) => (
-                  <li key={cap.id} className="py-2.5 text-sm">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="font-medium text-navy-800">{Processes.byId(cap.processId)?.name}</span>
-                      <CapabilityLayerBadge layer={cap.layer} />
-                    </div>
-                    <p className="mt-1 text-xs text-muted">
-                      {cap.notes} {cap.toleranceMm != null && `· ±${cap.toleranceMm}mm · ${cap.maxPartSizeMm}`}
-                    </p>
-                  </li>
+                  <CapabilityDetail key={cap.id} cap={cap} />
                 ))}
               </ul>
             )}

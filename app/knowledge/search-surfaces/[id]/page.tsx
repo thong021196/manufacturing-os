@@ -5,7 +5,7 @@ import { MetaGrid } from "@/components/ui/meta-grid";
 import { StatusBadge } from "@/components/ui/badges";
 import { ProvenanceBadges, EvidenceTrail } from "@/components/ui/provenance";
 import { RelatedSection } from "@/components/ui/related-section";
-import { SearchSurfaces, SearchQueries, Components, searchPerformanceForSurface } from "@/lib/data";
+import { SearchSurfaces, SearchQueries, Components, Geographies, searchPerformanceForSurface } from "@/lib/data";
 
 export default async function SearchSurfaceDetailPage({ params }: PageProps<"/knowledge/search-surfaces/[id]">) {
   const { id } = await params;
@@ -13,6 +13,7 @@ export default async function SearchSurfaceDetailPage({ params }: PageProps<"/kn
   if (!surface) notFound();
 
   const performance = searchPerformanceForSurface(surface.id);
+  const geography = Geographies.byId(surface.geographyId);
 
   return (
     <div>
@@ -24,6 +25,7 @@ export default async function SearchSurfaceDetailPage({ params }: PageProps<"/kn
         badges={
           <>
             <StatusBadge status={surface.status} />
+            <StatusBadge status={surface.indexState} />
             <ProvenanceBadges record={surface} />
           </>
         }
@@ -34,6 +36,9 @@ export default async function SearchSurfaceDetailPage({ params }: PageProps<"/kn
           <Panel title="Traffic">
             <MetaGrid
               fields={[
+                { label: "Geography", value: geography?.name ?? "—" },
+                { label: "Locale", value: surface.locale },
+                { label: "Canonical surface", value: surface.canonical ? "Yes" : "No — duplicate/localized variant" },
                 { label: "Monthly visitors", value: surface.monthlyVisitors.toLocaleString() },
                 { label: "Qualified visitors", value: surface.qualifiedVisitors.toLocaleString() },
               ]}

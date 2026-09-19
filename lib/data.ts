@@ -22,6 +22,7 @@ import type {
   Industry,
   ManufacturingProcess,
   Market,
+  MarketOpportunity,
   Material,
   Opportunity,
   Order,
@@ -69,6 +70,7 @@ export const Components = collection<Component>(mock.components);
 export const SearchSurfaces = collection<SearchSurface>(mock.searchSurfaces);
 export const SearchQueries = collection<SearchQuery>(mock.searchQueries);
 export const Opportunities = collection<Opportunity>(mock.opportunities);
+export const MarketOpportunities = collection<MarketOpportunity>(mock.marketOpportunities);
 export const Competitors = collection<Competitor>(mock.competitors);
 
 export const Suppliers = collection<Supplier>(mock.suppliers);
@@ -104,6 +106,24 @@ export function suppliersForComponent(componentId: string): Supplier[] {
 
 export function opportunitiesForComponent(componentId: string): Opportunity[] {
   return Opportunities.where((o) => o.componentIds.includes(componentId));
+}
+
+export function commercialOpportunitiesForMarketOpportunity(marketOpportunityId: string): Opportunity[] {
+  return Opportunities.where((o) => o.marketOpportunityId === marketOpportunityId);
+}
+
+export interface ComponentOutcome {
+  order: Order;
+  outcome: Outcome | undefined;
+}
+
+/** Orders (and their outcomes, when closed) placed for a given component --
+ * per FRONTEND_SPEC.md, a component detail page must expose linked outcomes. */
+export function outcomesForComponent(componentId: string): ComponentOutcome[] {
+  return Orders.where((o) => o.componentId === componentId).map((order) => ({
+    order,
+    outcome: outcomeForOrder(order.id),
+  }));
 }
 
 export function componentsForSupplier(supplierId: string): Component[] {
@@ -180,6 +200,8 @@ function labelFor(record: { id: string } & Record<string, unknown>): string {
 export function evidenceLedger(): EvidenceLedgerEntry[] {
   const sources: { list: { id: string; evidence: Traceable["evidence"] }[]; recordType: string; href: (id: string) => string }[] = [
     { list: Markets.all(), recordType: "Market", href: () => "/discovery/market-intelligence" },
+    { list: Industries.all(), recordType: "Industry", href: () => "/discovery/market-intelligence" },
+    { list: MarketOpportunities.all(), recordType: "Market Opportunity", href: () => "/discovery/opportunity-map" },
     { list: Opportunities.all(), recordType: "Opportunity", href: (id) => `/discovery/opportunity-map/${id}` },
     { list: Competitors.all(), recordType: "Competitor", href: (id) => `/discovery/competitors/${id}` },
     { list: Components.all(), recordType: "Component", href: (id) => `/knowledge/components/${id}` },
@@ -189,9 +211,16 @@ export function evidenceLedger(): EvidenceLedgerEntry[] {
     { list: Applications.all(), recordType: "Application", href: (id) => `/knowledge/applications/${id}` },
     { list: Geographies.all(), recordType: "Geography", href: (id) => `/knowledge/geographies/${id}` },
     { list: SearchSurfaces.all(), recordType: "Search Surface", href: (id) => `/knowledge/search-surfaces/${id}` },
+    { list: SearchQueries.all(), recordType: "Search Query", href: (id) => `/knowledge/search-surfaces/${SearchQueries.byId(id)?.searchSurfaceId ?? ""}` },
     { list: Suppliers.all(), recordType: "Supplier", href: (id) => `/supply/suppliers/${id}` },
     { list: SupplierCapabilities.all(), recordType: "Supplier Capability", href: () => "/supply/capability-graph" },
+    { list: SupplierMachineEvidences.all(), recordType: "Supplier Machine Evidence", href: (id) => `/supply/suppliers/${SupplierMachineEvidences.byId(id)?.supplierId ?? ""}` },
+    { list: SupplierPerformances.all(), recordType: "Supplier Performance", href: (id) => `/supply/suppliers/${SupplierPerformances.byId(id)?.supplierId ?? ""}` },
+    { list: Companies.all(), recordType: "Company", href: () => "/execution/rfqs" },
+    { list: Contacts.all(), recordType: "Contact", href: () => "/execution/rfqs" },
     { list: CadPackages.all(), recordType: "CAD Package", href: (id) => `/execution/cad-packages/${id}` },
+    { list: Parts.all(), recordType: "Part", href: (id) => `/execution/cad-packages/${Parts.byId(id)?.cadPackageId ?? ""}` },
+    { list: Revisions.all(), recordType: "Revision", href: (id) => `/intelligence/revisions#${id}` },
     { list: Rfqs.all(), recordType: "RFQ", href: (id) => `/execution/rfqs/${id}` },
     { list: SupplierQuotes.all(), recordType: "Supplier Quote", href: (id) => `/execution/supplier-quotes/${id}` },
     { list: CustomerQuotes.all(), recordType: "Customer Quote", href: (id) => `/execution/customer-quotes/${id}` },
@@ -199,6 +228,10 @@ export function evidenceLedger(): EvidenceLedgerEntry[] {
     { list: ProductionJobs.all(), recordType: "Production Job", href: (id) => `/execution/production/${id}` },
     { list: QcResults.all(), recordType: "QC Result", href: (id) => `/execution/qc/${id}` },
     { list: Outcomes.all(), recordType: "Outcome", href: (id) => `/execution/orders/${Outcomes.byId(id)?.orderId ?? id}` },
+    { list: SearchPerformance.all(), recordType: "Search Performance", href: () => "/intelligence/search-performance" },
+    { list: DemandLearning.all(), recordType: "Demand Learning", href: () => "/intelligence/demand-learning" },
+    { list: SupplierLearning.all(), recordType: "Supplier Learning", href: () => "/intelligence/supplier-learning" },
+    { list: Economics.all(), recordType: "Economics", href: () => "/intelligence/economics" },
   ];
 
   const entries: EvidenceLedgerEntry[] = [];

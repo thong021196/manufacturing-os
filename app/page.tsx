@@ -153,14 +153,14 @@ export default function OverviewPage() {
                         </td>
                         <td className="py-2.5 pr-4">${order.orderValueUsd.toLocaleString()}</td>
                         <td className="py-2.5 pr-4">
-                          <StatusBadge status={outcome?.onTime ? "on_time" : "unknown"} />
+                          <StatusBadge status={!outcome ? "unknown" : outcome.onTime ? "on_time" : "late"} />
                         </td>
                         <td className="py-2.5 pr-4">
-                          <StatusBadge status={outcome?.qualityPass ? "pass" : "unknown"} />
+                          <StatusBadge status={!outcome ? "unknown" : outcome.qualityPass ? "pass" : "fail"} />
                         </td>
                         <td className="py-2.5 pr-4">{outcome ? `${outcome.marginRealizedPct.toFixed(1)}%` : "—"}</td>
                         <td className="py-2.5 pr-4">
-                          <StatusBadge status={outcome?.repeatPurchase ? "yes" : "not_yet"} />
+                          <StatusBadge status={!outcome ? "unknown" : outcome.repeatPurchase ? "yes" : "not_yet"} />
                         </td>
                       </tr>
                     );

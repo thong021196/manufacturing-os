@@ -5,7 +5,7 @@ import { MetaGrid } from "@/components/ui/meta-grid";
 import { StatusBadge } from "@/components/ui/badges";
 import { ProvenanceBadges, EvidenceTrail } from "@/components/ui/provenance";
 import { RelatedSection } from "@/components/ui/related-section";
-import { SupplierQuotes, Suppliers, Rfqs } from "@/lib/data";
+import { SupplierQuotes, Suppliers, Rfqs, Materials, Revisions } from "@/lib/data";
 
 export default async function SupplierQuoteDetailPage({ params }: PageProps<"/execution/supplier-quotes/[id]">) {
   const { id } = await params;
@@ -14,6 +14,8 @@ export default async function SupplierQuoteDetailPage({ params }: PageProps<"/ex
 
   const supplier = Suppliers.byId(quote.supplierId);
   const rfq = Rfqs.byId(quote.rfqId);
+  const material = Materials.byId(quote.materialId);
+  const revision = Revisions.byId(quote.revisionId);
 
   return (
     <div>
@@ -33,13 +35,23 @@ export default async function SupplierQuoteDetailPage({ params }: PageProps<"/ex
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         <div className="space-y-5 lg:col-span-2">
-          <Panel title="Quote details">
+          <Panel title="Quote details" description="Normalized fields so quotes can be compared apples-to-apples across suppliers.">
             <MetaGrid
               fields={[
-                { label: "Unit price", value: `$${quote.unitPriceUsd}` },
+                { label: "Unit price", value: `${quote.currency} $${quote.unitPriceUsd}` },
+                { label: "Tooling / NRE", value: quote.toolingNreUsd > 0 ? `$${quote.toolingNreUsd}` : "None" },
                 { label: "Quantity", value: quote.quantity },
+                { label: "MOQ", value: quote.moq },
                 { label: "Lead time", value: `${quote.leadTimeDays} days` },
-                { label: "Total value", value: `$${(quote.unitPriceUsd * quote.quantity).toLocaleString()}` },
+                { label: "Revision quoted", value: revision ? `Rev ${revision.revisionCode}` : "—" },
+                { label: "Material", value: material?.name ?? "—" },
+                { label: "Finish", value: quote.finish },
+                { label: "Inspection scope", value: quote.inspectionScope },
+                { label: "Shipping / freight", value: `$${quote.shippingFreightUsd}` },
+                { label: "Incoterm", value: quote.incoterm },
+                { label: "Payment terms", value: quote.paymentTerms },
+                { label: "Quote valid until", value: quote.quoteValidUntil },
+                { label: "Total value", value: `$${(quote.unitPriceUsd * quote.quantity + quote.toolingNreUsd + quote.shippingFreightUsd).toLocaleString()}` },
               ]}
             />
           </Panel>

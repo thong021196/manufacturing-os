@@ -5,7 +5,7 @@ import { MetaGrid } from "@/components/ui/meta-grid";
 import { StatusBadge } from "@/components/ui/badges";
 import { ProvenanceBadges, EvidenceTrail } from "@/components/ui/provenance";
 import { RelatedSection } from "@/components/ui/related-section";
-import { Orders, Companies, Suppliers, Components, CustomerQuotes, productionJobForOrder, outcomeForOrder } from "@/lib/data";
+import { Orders, Companies, Suppliers, Components, CustomerQuotes, Revisions, productionJobForOrder, outcomeForOrder } from "@/lib/data";
 
 export default async function OrderDetailPage({ params }: PageProps<"/execution/orders/[id]">) {
   const { id } = await params;
@@ -16,6 +16,7 @@ export default async function OrderDetailPage({ params }: PageProps<"/execution/
   const supplier = Suppliers.byId(order.supplierId);
   const component = Components.byId(order.componentId);
   const customerQuote = CustomerQuotes.byId(order.customerQuoteId);
+  const revision = Revisions.byId(order.revisionId);
   const productionJob = productionJobForOrder(order.id);
   const outcome = outcomeForOrder(order.id);
 
@@ -41,6 +42,7 @@ export default async function OrderDetailPage({ params }: PageProps<"/execution/
                 { label: "Company", value: company?.name ?? "—" },
                 { label: "Supplier", value: supplier?.name ?? "—" },
                 { label: "Component", value: component?.name ?? "—" },
+                { label: "Revision released", value: revision ? `Rev ${revision.revisionCode}` : "—" },
                 { label: "Order value", value: `$${order.orderValueUsd.toLocaleString()}` },
               ]}
             />

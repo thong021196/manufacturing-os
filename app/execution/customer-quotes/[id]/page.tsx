@@ -5,7 +5,7 @@ import { MetaGrid } from "@/components/ui/meta-grid";
 import { StatusBadge } from "@/components/ui/badges";
 import { ProvenanceBadges, EvidenceTrail } from "@/components/ui/provenance";
 import { RelatedSection } from "@/components/ui/related-section";
-import { CustomerQuotes, Companies, Rfqs, SupplierQuotes, Orders } from "@/lib/data";
+import { CustomerQuotes, Companies, Rfqs, SupplierQuotes, Orders, Revisions } from "@/lib/data";
 
 export default async function CustomerQuoteDetailPage({ params }: PageProps<"/execution/customer-quotes/[id]">) {
   const { id } = await params;
@@ -16,6 +16,7 @@ export default async function CustomerQuoteDetailPage({ params }: PageProps<"/ex
   const rfq = Rfqs.byId(quote.rfqId);
   const supplierQuote = SupplierQuotes.byId(quote.supplierQuoteId);
   const order = quote.orderId ? Orders.byId(quote.orderId) : undefined;
+  const revision = Revisions.byId(quote.revisionId);
 
   return (
     <div>
@@ -39,6 +40,7 @@ export default async function CustomerQuoteDetailPage({ params }: PageProps<"/ex
                 { label: "Sell unit price", value: `$${quote.sellUnitPriceUsd}` },
                 { label: "Supplier unit price", value: supplierQuote ? `$${supplierQuote.unitPriceUsd}` : "—" },
                 { label: "Margin", value: `${quote.marginPct}%` },
+                { label: "Revision quoted", value: revision ? `Rev ${revision.revisionCode}` : "—" },
               ]}
             />
           </Panel>
