@@ -1,0 +1,28 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored
+# (see repo .gitignore's "*.tfvars" rule added alongside this file) --
+# never commit real values here. db_master_password / db_app_password are
+# intentionally NOT set in this example file at all -- pass them via
+# TF_VAR_db_master_password / TF_VAR_db_app_password environment
+# variables (e.g. from your shell after generating with
+# `openssl rand -base64 24`, or from a GitHub Actions secret in CI) so
+# they never touch a file on disk that could be accidentally committed.
+
+aws_region  = "us-east-1"
+environment = "production"
+
+# --- DNS (optional) ---
+# Leave both empty to skip Route 53 / auto-issued ACM cert (see dns.tf).
+# route53_zone_id = "Z0123456789ABCDEFGHIJ"
+# domain_name     = "www.yourdomain.example"
+#
+# Or, if DNS lives outside Route 53, issue/validate a cert yourself and
+# paste its ARN here instead:
+# acm_certificate_arn = "arn:aws:acm:us-east-1:111111111111:certificate/..."
+
+site_url = "https://www.yourdomain.example"
+
+# --- Compute ---
+# Set by CI to the just-built image on every deploy; only needed here for
+# a manual first apply before any image has been pushed. A t4g.micro RDS
+# instance + a single small Fargate task is the whole compute footprint.
+# container_image = "<account-id>.dkr.ecr.us-east-1.amazonaws.com/manufacturing-os-app:latest"
