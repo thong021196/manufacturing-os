@@ -1,0 +1,3 @@
+:HL["/manufacturing-os/frontend-preview/_next/static/chunks/0-631z3g-xrbk.css","style"]
+:HL["/manufacturing-os/frontend-preview/_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"supply","param":null,"prefetchHints":4192,"slots":{"children":{"name":"suppliers","param":null,"prefetchHints":4192,"slots":{"children":{"name":"id","param":{"type":"d","key":"sup-precision-metal-works","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}}}},"staleTime":300,"buildId":"b9jtJ00oOxxQVPAzAo4tr"}
