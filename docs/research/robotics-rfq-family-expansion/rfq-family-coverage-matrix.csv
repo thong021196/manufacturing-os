@@ -2,12 +2,12 @@ RFQ family,Record count,Unique source count,Vendor-claimed count,Primary/standar
 precision CNC housing,11,14,4,7,73%,100%,73%,55%,73%,36%,18%,45%,36%,55%
 bracket/mount/adapter,6,9,3,3,83%,83%,67%,67%,83%,67%,0%,17%,33%,33%
 shaft/bearing seat/motor mount,7,11,2,5,86%,14%,43%,43%,86%,43%,0%,57%,29%,14%
-joint/structural link,4,6,1,3,50%,75%,50%,75%,75%,50%,25%,25%,25%,25%
-gripper jaw/finger,5,7,0,5,60%,40%,80%,20%,100%,40%,0%,40%,80%,40%
+joint/structural link,6,10,2,4,50%,67%,50%,67%,67%,50%,17%,33%,50%,33%
+gripper jaw/finger,7,10,2,5,57%,29%,71%,14%,100%,43%,0%,57%,86%,29%
 welded frame/chassis,6,6,2,4,33%,83%,83%,17%,67%,33%,50%,50%,50%,50%
 sheet-metal enclosure,5,10,5,0,80%,100%,80%,20%,60%,80%,20%,20%,80%,60%
 sensor/camera mount,5,10,1,4,100%,60%,80%,100%,100%,80%,20%,20%,60%,0%
 battery/electronics enclosure,6,12,2,4,50%,67%,33%,17%,83%,50%,50%,33%,17%,33%
 pressure/sealed housing,4,7,0,4,75%,25%,25%,50%,75%,0%,50%,50%,50%,25%
-jig/fixture/EOAT,3,7,2,1,67%,33%,33%,67%,67%,33%,67%,67%,100%,67%
-prototype multi-part assembly,3,5,1,2,0%,67%,33%,0%,0%,67%,0%,67%,100%,67%
+jig/fixture/EOAT,5,12,2,3,80%,40%,40%,40%,80%,60%,40%,60%,80%,40%
+prototype multi-part assembly,4,7,2,2,25%,75%,25%,0%,0%,50%,0%,75%,100%,75%
