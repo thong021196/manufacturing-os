@@ -1,0 +1,6 @@
+:root {
+  --density-spacious: 2rem;
+  --density-standard: 1.25rem;
+  --density-compact: 0.75rem;
+  --density-dense: 0.5rem;
+}

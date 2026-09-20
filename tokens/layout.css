@@ -1,0 +1,9 @@
+:root {
+  --layout-max: 88rem;
+  --layout-reading: 46rem;
+  --layout-technical: 76rem;
+  --layout-gutter: clamp(1rem, 3vw, 3rem);
+  --layout-header: 4.5rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+}

@@ -1,10 +1,16 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { Sidebar } from "@/components/layout/sidebar";
+import { PublicShell } from "@/components/layout/public-shell";
 
 export function Shell({ children }: { children: ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+  const isPublic = pathname === "/" || /^(\/parts|\/applications|\/capabilities|\/engineering|\/resources|\/quality|\/rfq)(\/|$)/.test(pathname);
+
+  if (isPublic) return <PublicShell>{children}</PublicShell>;
 
   return (
     <div className="flex min-h-screen">

@@ -1,181 +1,23 @@
 import Link from "next/link";
-import { PageHeader } from "@/components/ui/page-header";
-import { Panel } from "@/components/ui/panel";
-import { StatCard } from "@/components/ui/stat-card";
-import { StatusBadge } from "@/components/ui/badges";
-import { EmptyState } from "@/components/ui/empty-state";
-import {
-  Opportunities,
-  Rfqs,
-  Suppliers,
-  SearchSurfaces,
-  overviewStats,
-  outcomeForOrder,
-} from "@/lib/data";
-import { Outcomes, Orders } from "@/lib/data";
+import { Activity, ArrowRight, Check, Layers, Ruler, Shield } from "@/components/design-system/icons";
+import { Button, SectionHeading, StatusTag, TechnicalPanel } from "@/components/design-system/primitives";
 
-export default function OverviewPage() {
-  const stats = overviewStats();
-  const activeOpportunities = Opportunities.where((o) => o.stage !== "won" && o.stage !== "lost").slice(0, 5);
-  const openRfqs = Rfqs.all().filter((r) => !r.stage.startsWith("closed"));
-  const suppliers = Suppliers.all();
-  const surfaces = SearchSurfaces.all();
-  const deliveredOrders = Orders.where((o) => o.status === "delivered");
+const systems = [
+  { code: "01", title: "Parts", body: "Drawing-led routes for the interfaces that make hardware work.", href: "/parts/robot-joint-housing", tag: "TECHNICAL OBJECTS" },
+  { code: "02", title: "Capabilities", body: "Process guidance grounded in geometry, workholding, and inspection.", href: "/capabilities/5-axis-machining", tag: "PROCESS FIT" },
+  { code: "03", title: "Applications", body: "System views that connect part families to the product being built.", href: "/applications/humanoid-robots", tag: "SYSTEM CONTEXT" },
+];
 
-  const rfqStageOrder = [
-    "intake",
-    "normalized",
-    "supplier_matching",
-    "quoting",
-    "quoted",
-    "closed_won",
-    "closed_lost",
-  ];
+export default function HomePage() {
+  return <div>
+    <section className="home-hero"><div className="home-hero__copy"><p className="ds-eyebrow">MANUFACTURING OS / TECHNICAL SOURCING</p><h1>Manufacturing decisions, made inspectable.</h1><p className="home-hero__lead">A drawing-led interface for hardware teams moving from CAD to a qualified manufacturing route, quote, and production evidence.</p><div className="home-hero__actions"><Button href="/rfq" size="lg">Upload CAD / Request quote <ArrowRight size={16} /></Button><Link href="/parts/robot-joint-housing" className="text-link">Explore a technical part</Link></div><div className="home-hero__signals"><span><Check size={14} /> Revision-aware intake</span><span><Check size={14} /> Feature-level inspection</span><span><Check size={14} /> China manufacturing coordination</span></div></div><div className="home-hero__diagram"><div className="home-hero__diagram-grid" /><div className="home-hero__diagram-head"><span>FLOW / 001</span><span>CAD → RFQ → QC</span></div><div className="home-hero__diagram-route"><div><span>01</span><strong>CAD</strong><small>released files</small></div><i /><div><span>02</span><strong>ROUTE</strong><small>process + supplier</small></div><i /><div><span>03</span><strong>EVIDENCE</strong><small>inspection record</small></div></div><div className="home-hero__diagram-foot"><span>STATUS</span><StatusTag tone="green">READY TO REVIEW</StatusTag></div></div></section>
 
-  return (
-    <div>
-      <PageHeader
-        eyebrow="Overview"
-        title="System operating summary"
-        description="High-level view of the full Manufacturing OS loop: market demand, opportunities, RFQ pipeline, supplier coverage, search signals and outcomes. All data on this shell is seeded/mock and structured to be replaced by live Sanity/Postgres data."
-      />
+    <section className="home-section home-section--signals"><div className="home-kicker"><span>THE SYSTEM VIEW</span><span>BUILT FOR ENGINEERS</span></div><div className="home-statement"><h2>Precision is a sequence of decisions.</h2><p>Manufacturing OS keeps the technical context attached as a part moves through discovery, intake, routing, quoting, inspection, and repeat production.</p></div><div className="home-stat-grid"><div><Activity size={18} /><strong>01</strong><span>Understand the geometry</span></div><div><Ruler size={18} /><strong>02</strong><span>Choose the route</span></div><div><Shield size={18} /><strong>03</strong><span>Prove acceptance</span></div><div><Layers size={18} /><strong>04</strong><span>Carry the revision</span></div></div></section>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-        <StatCard label="Active opportunities" value={stats.activeOpportunitiesCount} sub={`${stats.totalOpportunitiesCount} total`} tone="accent" />
-        <StatCard label="Open RFQs" value={openRfqs.length} sub={`${stats.totalRfqs} total`} />
-        <StatCard label="Qualified suppliers" value={stats.qualifiedSuppliers} sub={`${stats.totalSuppliers} tracked`} />
-        <StatCard label="Qualified visitors / mo" value={stats.totalQualifiedVisitors} sub={`${stats.totalSearchVisitors} total visitors`} />
-        <StatCard label="Orders delivered" value={stats.deliveredOrders} sub={`${stats.totalOrders} total orders`} />
-        <StatCard
-          label="Latest gross margin"
-          value={stats.latestEconomics ? `${stats.latestEconomics.grossMarginPct.toFixed(1)}%` : "—"}
-          sub={stats.latestEconomics ? stats.latestEconomics.period : undefined}
-        />
-      </div>
+    <section className="home-section"><SectionHeading eyebrow="EXPLORE THE SYSTEM" title="Technical pages with a shared operating language" description="Each page type has a different job. The visual grammar stays stable: strong references, compact metadata, clear action, and evidence you can inspect." /><div className="home-system-grid">{systems.map((system) => <Link key={system.code} href={system.href} className="home-system-card"><span>{system.code} / {system.tag}</span><h3>{system.title}</h3><p>{system.body}</p><span className="home-system-card__link">Open view <ArrowRight size={15} /></span></Link>)}</div></section>
 
-      <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
-        <Panel title="Active opportunities" description="Opportunities not yet won or lost, across all markets.">
-          {activeOpportunities.length === 0 ? (
-            <EmptyState label="No active opportunities." />
-          ) : (
-            <ul className="divide-y divide-border">
-              {activeOpportunities.map((o) => (
-                <li key={o.id} className="py-2.5">
-                  <Link href={`/discovery/opportunity-map/${o.id}`} className="flex items-center justify-between gap-3 text-sm hover:text-accent">
-                    <span>
-                      <span className="font-medium text-navy-800">{o.name}</span>
-                      <span className="ml-2 text-xs text-muted">${o.estValueUsd.toLocaleString()}</span>
-                    </span>
-                    <StatusBadge status={o.stage} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </Panel>
+    <section className="home-section home-section--dark"><div className="home-dark-grid"><div><p className="ds-eyebrow">RFQ / THE FIRST HANDOFF</p><h2>Start with the files. Keep the questions visible.</h2><p>Upload the current CAD, drawing, BOM, and requirement set. The intake is designed to identify missing information before a route becomes a quote.</p><Button href="/rfq" variant="secondary">Open RFQ intake <ArrowRight size={16} /></Button></div><TechnicalPanel className="home-route-panel" label="ROUTE STATUS"><div className="home-route-row"><span>01</span><strong>Upload files</strong><StatusTag tone="green">READY</StatusTag></div><div className="home-route-row"><span>02</span><strong>Clarify requirements</strong><StatusTag tone="blue">VISIBLE</StatusTag></div><div className="home-route-row"><span>03</span><strong>Route + inspect</strong><StatusTag tone="neutral">TRACEABLE</StatusTag></div><div className="home-route-row"><span>04</span><strong>Quote + repeat</strong><StatusTag tone="neutral">REVISIONED</StatusTag></div></TechnicalPanel></div></section>
 
-        <Panel title="RFQ pipeline" description="Distribution of RFQs across normalization, matching, quoting and close stages.">
-          <ul className="space-y-2">
-            {rfqStageOrder.map((stage) => {
-              const count = stats.rfqStageCounts[stage] ?? 0;
-              const max = Math.max(1, ...Object.values(stats.rfqStageCounts));
-              return (
-                <li key={stage} className="flex items-center gap-3 text-sm">
-                  <span className="w-32 shrink-0 capitalize text-muted">{stage.replace(/_/g, " ")}</span>
-                  <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100">
-                    <div
-                      className="h-full rounded-full bg-accent"
-                      style={{ width: `${(count / max) * 100}%` }}
-                    />
-                  </div>
-                  <span className="w-4 shrink-0 text-right font-medium text-navy-800">{count}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </Panel>
-
-        <Panel title="Supplier coverage" description="Qualification status by supplier, spanning declared and observed capability.">
-          <ul className="divide-y divide-border">
-            {suppliers.map((s) => (
-              <li key={s.id} className="py-2.5">
-                <Link href={`/supply/suppliers/${s.id}`} className="flex items-center justify-between gap-3 text-sm hover:text-accent">
-                  <span className="font-medium text-navy-800">{s.name}</span>
-                  <StatusBadge status={s.status} />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Panel>
-
-        <Panel title="Search signals" description="Monthly visitors and qualified visitors per live search surface.">
-          <ul className="divide-y divide-border">
-            {surfaces.map((s) => (
-              <li key={s.id} className="py-2.5">
-                <Link href={`/knowledge/search-surfaces/${s.id}`} className="flex items-center justify-between gap-3 text-sm hover:text-accent">
-                  <span className="font-medium text-navy-800">{s.name}</span>
-                  <span className="text-xs text-muted">
-                    {s.qualifiedVisitors} qualified / {s.monthlyVisitors} visitors
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Panel>
-      </div>
-
-      <div className="mt-5">
-        <Panel title="Margin / outcome summary" description="Realized outcomes from completed orders, feeding demand and supplier learning.">
-          {deliveredOrders.length === 0 ? (
-            <EmptyState label="No delivered orders yet." />
-          ) : (
-            <div className="scrollbar-thin -mx-5 overflow-x-auto px-5">
-              <table className="w-full min-w-[640px] text-left text-sm">
-                <thead>
-                  <tr className="border-b border-border text-xs uppercase tracking-wide text-muted">
-                    <th className="py-2 pr-4 font-medium">Order</th>
-                    <th className="py-2 pr-4 font-medium">Order value</th>
-                    <th className="py-2 pr-4 font-medium">On time</th>
-                    <th className="py-2 pr-4 font-medium">Quality pass</th>
-                    <th className="py-2 pr-4 font-medium">Realized margin</th>
-                    <th className="py-2 pr-4 font-medium">Repeat purchase</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {deliveredOrders.map((order) => {
-                    const outcome = outcomeForOrder(order.id);
-                    return (
-                      <tr key={order.id} className="border-b border-border last:border-b-0">
-                        <td className="py-2.5 pr-4">
-                          <Link href={`/execution/orders/${order.id}`} className="font-medium text-navy-800 hover:text-accent">
-                            {order.id}
-                          </Link>
-                        </td>
-                        <td className="py-2.5 pr-4">${order.orderValueUsd.toLocaleString()}</td>
-                        <td className="py-2.5 pr-4">
-                          <StatusBadge status={!outcome ? "unknown" : outcome.onTime ? "on_time" : "late"} />
-                        </td>
-                        <td className="py-2.5 pr-4">
-                          <StatusBadge status={!outcome ? "unknown" : outcome.qualityPass ? "pass" : "fail"} />
-                        </td>
-                        <td className="py-2.5 pr-4">{outcome ? `${outcome.marginRealizedPct.toFixed(1)}%` : "—"}</td>
-                        <td className="py-2.5 pr-4">
-                          <StatusBadge status={!outcome ? "unknown" : outcome.repeatPurchase ? "yes" : "not_yet"} />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-          {Outcomes.all().length > 0 && (
-            <p className="mt-3 text-xs text-muted">
-              Outcomes such as these continuously feed back into demand learning and supplier learning records under Intelligence.
-            </p>
-          )}
-        </Panel>
-      </div>
-    </div>
-  );
+    <section className="home-section home-section--last"><div className="home-cta"><div><p className="ds-eyebrow">A BETTER STARTING POINT</p><h2>Bring a difficult part.</h2><p>We will tell you what is known, what needs a decision, and how the route can be proven.</p></div><Button href="/rfq" size="lg">Request a manufacturing review <ArrowRight size={16} /></Button></div></section>
+  </div>;
 }
