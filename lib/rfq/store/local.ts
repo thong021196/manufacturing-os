@@ -19,8 +19,10 @@ import type { CreateRfqInput, RfqStore } from "@/lib/rfq/store/interface";
  * faked success), which makes the RFQ flow truly end-to-end testable
  * without a live external database. It is NOT suitable as the production
  * store on a stateless serverless runtime (Vercel functions do not share
- * or persist a writable filesystem across invocations/deploys) -- use
- * SupabaseRfqStore in production. See .env.example / README deploy docs.
+ * or persist a writable filesystem across invocations/deploys), and a long
+ * -running Fargate task's filesystem is ephemeral/single-instance too --
+ * use AwsRfqStore (recommended) or SupabaseRfqStore (legacy) in
+ * production. See .env.example / DEPLOYMENT.md.
  */
 export class LocalRfqStore implements RfqStore {
   private baseDir: string;
@@ -32,7 +34,8 @@ export class LocalRfqStore implements RfqStore {
     if (process.env.NODE_ENV === "production") {
       console.warn(
         "[rfq] LocalRfqStore is active in a production NODE_ENV. This store is a dev/test fallback only " +
-          "and is not durable on serverless hosting. Set RFQ_BACKEND=supabase with SUPABASE_URL / " +
+          "and is not durable in production. Set RFQ_BACKEND=aws with DATABASE_URL / AWS_S3_RFQ_BUCKET " +
+          "(recommended, see DEPLOYMENT.md) or RFQ_BACKEND=supabase with SUPABASE_URL / " +
           "SUPABASE_SERVICE_ROLE_KEY for a real production deployment.",
       );
     }

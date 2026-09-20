@@ -7,16 +7,21 @@ export interface CreateRfqInput {
 }
 
 /**
- * Storage contract for RFQ intake. Two implementations:
+ * Storage contract for RFQ intake. Three implementations:
  *  - LocalRfqStore (lib/rfq/store/local.ts): disk-backed, for local dev and
  *    tests/CI. Genuinely writes and reads records -- never fakes success --
  *    but is NOT durable on a stateless serverless runtime in production.
+ *  - AwsRfqStore (lib/rfq/store/aws.ts): RDS Postgres + a private S3
+ *    bucket, the recommended production backend (see DEPLOYMENT.md /
+ *    infra/terraform/) as of the AWS-first pivot in PR #26 review comment
+ *    5750338323.
  *  - SupabaseRfqStore (lib/rfq/store/supabase.ts): Postgres + private
- *    Storage bucket, for production once a Supabase project exists.
+ *    Storage bucket -- kept working as an alternative/legacy backend, not
+ *    the primary production target.
  *
  * Selected by lib/rfq/store/index.ts based on RFQ_BACKEND / available env
  * vars (see lib/rfq/config.ts). The API route (app/api/rfq/route.ts) only
- * ever talks to this interface, so adding a third backend never touches
+ * ever talks to this interface, so adding another backend never touches
  * route/validation code.
  *
  * Access-control invariant every implementation MUST uphold: uploaded
