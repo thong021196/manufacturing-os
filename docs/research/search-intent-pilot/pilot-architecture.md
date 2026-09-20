@@ -1,6 +1,8 @@
-# Search-Intent Pilot — Site Architecture (34 pages)
+# Search-Intent Pilot — Site Architecture (34 pages: 19 validated, 13 validate-first, 2 deferred)
 
-Issue #20, Pass 6. This is a **proposed** site map for a 35-page pilot (34 pages proposed; see "Why not exactly 35–50" below), grounded in the evidence in `query-candidates.csv`, `intent-clusters.csv`, `pilot-pages.csv`, and `cannibalization-map.csv`. **Nothing here is published or deployed.** This document explains why each page exists and how it relates to its parent/children.
+Issue #20, Pass 6, plus the Human Gate fix pass on PR #21 (deepened P0/P1 query evidence, `build_status` field, tolerance-sourcing cleanup — see `market-summary.md`'s "Final summary" section). This is a **proposed** site map for a 35-page pilot (34 pages proposed; see "Why not exactly 35–50" below), grounded in the evidence in `query-candidates.csv` (115 queries total), `intent-clusters.csv`, `pilot-pages.csv`, and `cannibalization-map.csv`. **Nothing here is published or deployed.** This document explains why each page exists and how it relates to its parent/children.
+
+**Two different counts matter here and should not be conflated**: the **34-page candidate architecture** (the full proposed site map below) and the **19-page validated/build-ready set** (`build_status = validated` in `pilot-pages.csv`). The other 15 candidate pages are either `validate_first` (13 — real evidence exists but needs a further validation pass before full content investment) or `defer` (2 — APP02, APP05, explicitly experimental/UNKNOWN per the owner's review). See the "Build-status breakdown" section below for the full list.
 
 Architecture principle (per the issue): **physical RFQ object → technical problem → manufacturing route → quote**, not `process × material × robot type × country`. All object pages below are titled and scoped around a physical part; process/capability pages are cross-cutting and link back into the object pages rather than duplicating their content; application pages are buyer-persona hubs that link out to the relevant object pages.
 
@@ -22,6 +24,21 @@ Three seed objects that were originally planned as standalone pages were **merge
 - **Humanoid leg/knee parts** was folded into the humanoid application page rather than given its own object URL (competitors themselves don't split it out).
 
 Two candidate application pages (cobot, inspection/field robot) and two candidate problem pages (standalone CMM/inspection, broad China-RFQ) were evaluated and **not** given full independent pages because the evidence didn't support them (weak/contaminated SERP, or giant-platform dominance). Per the issue's own quality bar — "A page is valid only if it has... evidence that the intent exists in live search" — the total came in at 34 rather than padded to the 35–50 floor. This is a deliberate, evidence-disciplined choice, not an oversight; see `market-summary.md` for the specific reasoning per excluded candidate.
+
+**The fix pass re-confirmed this decision**: the deepened P0/P1 query pass (65 additional queries) found no new evidence that would justify adding pages toward the 35–50 floor, and it confirmed (rather than weakened) several of the original exclusion decisions — e.g. the LiDAR-mount merge was independently reconfirmed at Q109, and the cobot exclusion was refined (not overturned) by Q069/Q079. The page count stays at 34.
+
+### Build-status breakdown (fix-pass addition)
+
+Every page in `pilot-pages.csv` now carries a `build_status` field: `validated` (evidence supports building now), `validate_first` (real evidence exists, but a further validation pass is recommended before full content investment), or `defer` (owner-flagged experimental/UNKNOWN, not to be built this pilot). This is a separate axis from `priority` (P0–P3) — a P1 page can be `validate_first` (e.g. OBJ14) just as a P2 page can be `validate_first` (most of them are).
+
+| build_status | Count | Pages |
+|---|---:|---|
+| `validated` | 19 | CAT01, OBJ01, OBJ02, OBJ04, OBJ05, OBJ07, OBJ08, OBJ09, OBJ10, OBJ12, OBJ13B, OBJ16, OBJ18, APP01, APP04, APP06, PRB_A, PRB_D, PRB_E |
+| `validate_first` | 13 | OBJ03, OBJ06, OBJ11, OBJ13A, OBJ14, OBJ19, OBJ20, APP03, APP07, APP08, APP09, PRB_B, PRB_C |
+| `defer` | 2 | APP02, APP05 |
+| **Total** | **34** | |
+
+**19 of 34 (56%) candidate pages are validated/build-ready today.** The remaining 15 are legitimate parts of the candidate architecture (none were padded in or deleted to hit a number) but need either a further validation pass (13 pages — mostly P2 objects with thin standalone original evidence, plus OBJ14 which the deepened pass showed is more fragile than first assessed) or stay explicitly deferred (APP02, APP05, per the owner's direct instruction). See `pilot-pages.csv`'s `build_status` column for the one-line rationale behind each page's status, and `market-summary.md`'s "Final summary" section for the full accounting.
 
 ## Site map
 
@@ -87,3 +104,4 @@ These exist where the SAME specialist competitor set repeatedly appeared across 
 - No pages are published or deployed.
 - No production website structure is changed.
 - This document and the CSVs are a **proposal** for the human owner to review; the next action is human review and prioritization (see PR description), not implementation.
+- No app/frontend changes were made in this fix pass, and no merge occurred; the fix pass is scoped entirely to `docs/research/search-intent-pilot/` per the owner's review comment.
