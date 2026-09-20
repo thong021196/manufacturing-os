@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { NetworkPageContent } from "@/components/design-system/network-page";
+import { NetworkAtlas } from "@/components/design-system/pages/network-atlas";
 
 export const metadata: Metadata = {
-  title: "Manufacturing Network | Manufacturing OS",
-  description: "How Manufacturing OS coordinates engineering intent, production capability, and inspection evidence.",
+  title: "Network | Manufacturing OS",
+  description: "How Manufacturing OS routes engineering requirements through a qualified manufacturing network with inspection and evidence.",
 };
 
 export default function NetworkPage() {
-  return <NetworkPageContent breadcrumbLabel="Manufacturing Network" />;
+  return <NetworkAtlas breadcrumbLabel="Network" />;
 }

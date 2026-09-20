@@ -1,133 +1,138 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Building, Globe, Layers, Shield } from "@/components/design-system/icons";
-import { Breadcrumbs, Button, SectionHeading, TechnicalPanel } from "@/components/design-system/primitives";
+import { ArrowRight } from "@/components/design-system/icons";
+import { Breadcrumbs, Button, CornerTicks, IndexMark, MonoLabel, Panel, Reveal, TextLink } from "@/components/design-system/primitives";
 
 export const metadata: Metadata = {
   title: "Company | Manufacturing OS",
-  description: "Manufacturing OS is one accountable interface between hardware teams in the US and AU and a qualified China manufacturing network.",
+  description: "Manufacturing OS is one accountable interface between hardware teams and a qualified manufacturing network.",
 };
 
 const pillars = [
-  { icon: Shield, title: "One accountable interface", body: "A single point of engineering, commercial, and quality ownership from CAD intake through delivery — not a directory of disconnected vendors." },
-  { icon: Layers, title: "Engineering review, not guesswork", body: "Every package is reviewed for manufacturability before it is routed, so questions surface as decisions rather than as production risk." },
-  { icon: Globe, title: "China manufacturing depth", body: "A coordinated network of qualified partners across machining, sheet metal, finishing, and assembly, routed by demonstrated and declared capability." },
-  { icon: Building, title: "Quality coordinated, not assumed", body: "Inspection plans, evidence, and release records are carried with the part, so acceptance is explicit at every handoff." },
+  { index: "01", title: "One accountable interface", body: "A single point of engineering, commercial, and quality ownership from CAD intake through delivery — not a directory of disconnected vendors." },
+  { index: "02", title: "Engineering review, not guesswork", body: "Every package is reviewed for manufacturability before it is routed, so questions surface as decisions rather than as production risk." },
+  { index: "03", title: "Manufacturing network depth", body: "A coordinated network of qualified partners across machining, sheet metal, finishing, and assembly, routed by demonstrated and declared capability." },
+  { index: "04", title: "Quality coordinated, not assumed", body: "Inspection plans, evidence, and release records are carried with the part, so acceptance is explicit at every handoff." },
 ];
 
 const route = [
-  { step: "01", title: "US / AU customer", detail: "Custom hardware need, CAD, drawing, or BOM" },
+  { step: "01", title: "Requirement", detail: "Custom hardware need, CAD, drawing, or BOM" },
   { step: "02", title: "Engineering review", detail: "Manufacturability and requirement normalization" },
-  { step: "03", title: "Supplier routing", detail: "Qualified China manufacturing network" },
+  { step: "03", title: "Network routing", detail: "Qualified manufacturing capability" },
   { step: "04", title: "Production & QC", detail: "Coordinated build with inspection evidence" },
   { step: "05", title: "Delivery", detail: "One accountable interface, start to finish" },
 ];
 
 export default function CompanyPage() {
   return (
-    <div className="company-page">
-      <div className="company-hero">
+    <div className="mx-company">
+      <div className="mx-company__hero">
         <Breadcrumbs items={[{ label: "Manufacturing OS", href: "/" }, { label: "Company" }]} />
-        <div className="company-hero__grid">
+        <div className="mx-company__hero-grid">
           <div>
-            <p className="ds-eyebrow">COMPANY / GLOBAL MANUFACTURING PARTNER</p>
-            <h1>A serious interface between hardware teams and China manufacturing depth.</h1>
+            <MonoLabel className="mx-mono-label--on-console">COMPANY / EXECUTION INTERFACE</MonoLabel>
+            <h1>A serious interface between hardware teams and manufacturing depth.</h1>
             <p>Manufacturing OS exists for one reason: complex custom hardware deserves an accountable production partner, not a marketplace of disconnected quotes. We review the engineering, route the work to qualified capability, and coordinate quality through delivery.</p>
-            <div className="company-hero__actions">
+            <div className="mx-company__hero-actions">
               <Button href="/rfq" size="lg">Request a manufacturing review <ArrowRight size={16} /></Button>
-              <Link href="/company/manufacturing-network" className="text-link">See the manufacturing network <ArrowRight size={15} /></Link>
+              <TextLink href="/company/manufacturing-network">See the manufacturing network</TextLink>
             </div>
           </div>
-          <TechnicalPanel className="company-hero__panel" label="WHAT WE ARE">
-            <ul className="company-hero__list">
+          <Panel ticks label="WHAT WE ARE" className="mx-company__panel">
+            <ul className="mx-checklist">
               <li>An engineering-reviewed manufacturing interface</li>
-              <li>A coordinator of qualified China production capability</li>
+              <li>A coordinator of qualified manufacturing capability</li>
               <li>One accountable owner of quote, route, and quality</li>
             </ul>
-            <p className="company-hero__list-note">Not a catalog reseller. Not an open marketplace. Not a directory of unverified suppliers.</p>
-          </TechnicalPanel>
+            <p className="mx-company__panel-note">Not a catalog reseller. Not an open marketplace. Not a directory of unverified suppliers.</p>
+          </Panel>
         </div>
       </div>
 
-      <section className="public-section company-pillars">
-        <SectionHeading eyebrow="WHY MANUFACTURING OS" title="Depth on both sides of the handoff" description="Engineering credibility on intake, manufacturing depth on production — held together by one accountable interface." />
-        <div className="company-pillar-grid">
-          {pillars.map(({ icon: PillarIcon, title, body }) => (
-            <div className="company-pillar" key={title}>
-              <PillarIcon size={20} />
-              <strong>{title}</strong>
-              <p>{body}</p>
-            </div>
-          ))}
+      <Reveal className="mx-chapter mx-chapter--paper">
+        <div className="mx-chapter__inner">
+          <MonoLabel>WHY MANUFACTURING OS</MonoLabel>
+          <ol className="mx-manifesto">
+            {pillars.map((pillar) => (
+              <li key={pillar.index}>
+                <IndexMark value={pillar.index} />
+                <h2>{pillar.title}</h2>
+                <p>{pillar.body}</p>
+              </li>
+            ))}
+          </ol>
         </div>
-      </section>
+      </Reveal>
 
-      <section className="company-route-band">
-        <div className="company-route-band__inner">
-          <p className="ds-eyebrow">HOW THE INTERFACE WORKS</p>
-          <div className="company-route">
-            {route.map((item, index) => (
-              <div className="company-route__step" key={item.step}>
-                <span>{item.step}</span>
+      <div className="mx-company__route">
+        <div className="mx-company__route-inner">
+          <MonoLabel className="mx-mono-label--on-console">HOW THE INTERFACE WORKS</MonoLabel>
+          <div className="mx-process-rail mx-process-rail--console">
+            {route.map((item) => (
+              <div key={item.step} className="mx-process-rail__step">
+                <IndexMark value={item.step} />
                 <strong>{item.title}</strong>
                 <p>{item.detail}</p>
-                {index < route.length - 1 && <i className="company-route__line" />}
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="public-section company-network-callout">
-        <div className="company-network-callout__grid">
-          <div>
-            <p className="ds-eyebrow">MANUFACTURING NETWORK</p>
+      <Reveal className="mx-chapter mx-chapter--paper mx-chapter--muted">
+        <div className="mx-chapter__inner mx-chapter__inner--split">
+          <div className="mx-chapter__statement">
+            <MonoLabel>MANUFACTURING NETWORK</MonoLabel>
             <h2>Capability that is qualified, routed, and kept accountable.</h2>
             <p>Supplier capability is tracked at two layers — what a partner declares and what production has actually demonstrated — so routing decisions are grounded in evidence, not a sales pitch.</p>
-            <Link href="/company/manufacturing-network" className="text-link">Open the manufacturing network <ArrowRight size={15} /></Link>
+            <TextLink href="/company/manufacturing-network">Open the manufacturing network</TextLink>
           </div>
-          <TechnicalPanel label="NETWORK DISCIPLINE">
-            <ul className="company-network-callout__list">
+          <Panel ticks label="NETWORK DISCIPLINE">
+            <ul className="mx-checklist">
               <li>Declared capability reviewed before a part is routed</li>
               <li>Observed capability tracked from real production outcomes</li>
               <li>Revisioned CAD and drawings, never overwritten</li>
               <li>Inspection evidence attached to every completed job</li>
             </ul>
-          </TechnicalPanel>
+          </Panel>
         </div>
-      </section>
+      </Reveal>
 
-      <section className="public-section company-contact">
-        <SectionHeading eyebrow="TALK TO THE TEAM" title="Start with the engineering package" description="The fastest way to reach Manufacturing OS is to open a review. General and partnership inquiries are routed the same way, so nothing waits behind a contact form." />
-        <div className="company-contact-grid">
-          <div className="company-contact-card">
-            <strong>Request a quote</strong>
-            <p>Upload CAD, drawings, or a BOM for an engineering-led manufacturability review.</p>
-            <Link href="/rfq" className="text-link">Open RFQ intake <ArrowRight size={15} /></Link>
-          </div>
-          <div className="company-contact-card">
-            <strong>Manufacturing network</strong>
-            <p>Understand how capability is qualified, routed, and held accountable through production.</p>
-            <Link href="/company/manufacturing-network" className="text-link">See how routing works <ArrowRight size={15} /></Link>
-          </div>
-          <div className="company-contact-card">
-            <strong>Quality &amp; inspection</strong>
-            <p>Review how evidence, traceability, and supplier qualification are handled end to end.</p>
-            <Link href="/quality" className="text-link">See the quality system <ArrowRight size={15} /></Link>
+      <Reveal className="mx-chapter mx-chapter--paper">
+        <div className="mx-chapter__inner">
+          <MonoLabel>TALK TO THE TEAM</MonoLabel>
+          <h2>Start with the engineering package.</h2>
+          <p className="mx-chapter__lede">The fastest way to reach Manufacturing OS is to open a review. General and partnership inquiries are routed the same way, so nothing waits behind a contact form.</p>
+          <div className="mx-index-table">
+            <Link href="/rfq" className="mx-index-table__row">
+              <span className="mx-index-table__code">RFQ</span>
+              <span className="mx-index-table__body"><strong>Request a quote</strong><p>Upload CAD, drawings, or a BOM for an engineering-led manufacturability review.</p></span>
+              <ArrowRight size={15} />
+            </Link>
+            <Link href="/company/manufacturing-network" className="mx-index-table__row">
+              <span className="mx-index-table__code">NETWORK</span>
+              <span className="mx-index-table__body"><strong>Manufacturing network</strong><p>Understand how capability is qualified, routed, and held accountable through production.</p></span>
+              <ArrowRight size={15} />
+            </Link>
+            <Link href="/quality" className="mx-index-table__row">
+              <span className="mx-index-table__code">QUALITY</span>
+              <span className="mx-index-table__body"><strong>Quality &amp; inspection</strong><p>Review how evidence, traceability, and supplier qualification are handled end to end.</p></span>
+              <ArrowRight size={15} />
+            </Link>
           </div>
         </div>
-      </section>
+      </Reveal>
 
-      <section className="public-section public-section--cta">
-        <div className="cta-band">
+      <Reveal className="mx-chapter mx-chapter--console mx-chapter--close">
+        <div className="mx-chapter__inner mx-chapter__inner--close">
           <div>
-            <p className="ds-eyebrow">A SERIOUS PLACE TO START</p>
-            <h2>Bring us the hardware you cannot afford to get wrong.</h2>
-            <p>Engineering review, supplier routing, and quality coordination — held to one accountable interface.</p>
+            <MonoLabel className="mx-mono-label--on-console">A SERIOUS PLACE TO START</MonoLabel>
+            <h2 className="mx-home__closing-statement">Bring us the hardware you cannot afford to get wrong.</h2>
+            <Button href="/rfq" size="lg">Upload CAD / Request quote <ArrowRight size={16} /></Button>
           </div>
-          <Button href="/rfq" size="lg">Upload CAD / Request quote</Button>
         </div>
-      </section>
+      </Reveal>
+      <CornerTicks />
     </div>
   );
 }

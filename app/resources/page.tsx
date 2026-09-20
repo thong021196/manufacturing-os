@@ -1,6 +1,8 @@
 import { getFrontendPage } from "@/lib/frontend/adapter";
-import { pageMetadata, PublicTechnicalPage } from "@/components/design-system/public-page";
+import { pageMetadata, KnowledgeIndex } from "@/components/design-system/pages/knowledge-index";
 
 const page = getFrontendPage("resource");
 export const metadata = pageMetadata(page);
-export default function ResourcesPage() { return <PublicTechnicalPage page={page} />; }
+export default function ResourcesPage() {
+  return <KnowledgeIndex page={page} />;
+}

@@ -35,3 +35,14 @@ export function getFrontendPage(kind: FrontendPageModel["kind"]): FrontendPageMo
 export function getPageMetadata(page: FrontendPageModel) {
   return { title: page.seo.title, description: page.seo.description };
 }
+
+/** Pulls the single block of a given type out of a page's block array. Each
+ * page composition reads only the blocks it needs and lays them out on its
+ * own terms — there is no generic renderer that stamps every block type in
+ * array order across every page kind. */
+export function pickBlock<T extends FrontendBlock["type"]>(
+  page: FrontendPageModel,
+  type: T,
+): Extract<FrontendBlock, { type: T }> | undefined {
+  return page.blocks.find((block): block is Extract<FrontendBlock, { type: T }> => block.type === type);
+}

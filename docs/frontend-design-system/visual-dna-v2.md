@@ -119,9 +119,13 @@ technical-drawing motif tied to specific compositions).
 
 ## Motion & interaction
 
-- Section entry: opacity 0→1 + translateY(8px→0), 220ms ease-out,
-  triggered once via `IntersectionObserver`, respecting
-  `prefers-reduced-motion`.
+- Section entry: opacity 0→1 + translateY(8px→0), 320ms ease-out, played
+  once via a CSS animation on mount — deliberately not gated on scroll
+  position or an `IntersectionObserver`. Content must never depend on a
+  scroll event to become visible (fragile for fast scrolling, programmatic
+  full-page capture, and some assistive tech); it also degrades correctly
+  with no JS at all. `prefers-reduced-motion` disables the animation
+  outright.
 - Hover: color/border-color transition only, 120ms, no transform.
 - Active nav / active RFQ step: solid `signal-500` underline/left-border,
   not a filled pill.
