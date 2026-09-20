@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/design-system/primitives";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: "/company/legal/privacy",
   title: "Privacy Policy | Manufacturing OS",
   description: "Manufacturing OS privacy policy.",
-};
+  noindex: true,
+});
 
 export default function PrivacyPage() {
   return (

@@ -2,26 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "@/components/design-system/icons";
 import { Breadcrumbs, Button, CornerTicks, IndexMark, MonoLabel, Panel, Reveal, TextLink } from "@/components/design-system/primitives";
+import { buildMetadata } from "@/lib/seo";
+import { companyPillars as pillars, companyRoute as route } from "@/lib/content/site-copy";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: "/company",
   title: "Company | Manufacturing OS",
   description: "Manufacturing OS is one accountable interface between hardware teams and a qualified manufacturing network.",
-};
-
-const pillars = [
-  { index: "01", title: "One accountable interface", body: "A single point of engineering, commercial, and quality ownership from CAD intake through delivery — not a directory of disconnected vendors." },
-  { index: "02", title: "Engineering review, not guesswork", body: "Every package is reviewed for manufacturability before it is routed, so questions surface as decisions rather than as production risk." },
-  { index: "03", title: "Manufacturing network depth", body: "A coordinated network of qualified partners across machining, sheet metal, finishing, and assembly, routed by demonstrated and declared capability." },
-  { index: "04", title: "Quality coordinated, not assumed", body: "Inspection plans, evidence, and release records are carried with the part, so acceptance is explicit at every handoff." },
-];
-
-const route = [
-  { step: "01", title: "Requirement", detail: "Custom hardware need, CAD, drawing, or BOM" },
-  { step: "02", title: "Engineering review", detail: "Manufacturability and requirement normalization" },
-  { step: "03", title: "Network routing", detail: "Qualified manufacturing capability" },
-  { step: "04", title: "Production & QC", detail: "Coordinated build with inspection evidence" },
-  { step: "05", title: "Delivery", detail: "One accountable interface, start to finish" },
-];
+});
 
 export default function CompanyPage() {
   return (

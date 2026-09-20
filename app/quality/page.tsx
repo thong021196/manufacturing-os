@@ -1,8 +1,10 @@
 import { getFrontendPage } from "@/lib/frontend/adapter";
-import { pageMetadata, QualityLedger } from "@/components/design-system/pages/quality-ledger";
+import { buildMetadata } from "@/lib/seo";
+import { QualityLedger } from "@/components/design-system/pages/quality-ledger";
 
-const page = getFrontendPage("quality");
-export const metadata = pageMetadata(page);
+const PATH = "/quality";
+const page = getFrontendPage(PATH);
+export const metadata = buildMetadata({ path: PATH, title: page.seo.title, description: page.seo.description });
 export default function QualityPage() {
   return <QualityLedger page={page} />;
 }

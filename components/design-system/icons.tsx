@@ -25,3 +25,4 @@ export const FileText = (props: IconProps) => <Icon {...props}><path d="M6 3h9l3
 export const Globe = (props: IconProps) => <Icon {...props}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9S9.5 5.5 12 3Z" /></Icon>;
 export const Building = (props: IconProps) => <Icon {...props}><path d="M4 21V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v16M12 21v-9a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v9M4 21h16M7 8h1M7 11h1M7 14h1M9.5 8h1M9.5 11h1M9.5 14h1M15 13h1M15 16h1M18 13h1M18 16h1" /></Icon>;
 export const Mail = (props: IconProps) => <Icon {...props}><path d="M4 5h16v14H4z" /><path d="m4 6 8 7 8-7" /></Icon>;
+export const AlertTriangle = (props: IconProps) => <Icon {...props}><path d="M12 3 2 20h20L12 3Z" /><path d="M12 10v4M12 17h.01" /></Icon>;

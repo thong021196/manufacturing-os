@@ -7,6 +7,7 @@ import { Menu, X } from "@/components/design-system/icons";
 import { Button, cx } from "@/components/design-system/primitives";
 
 const primaryLinks = [
+  { label: "How it works", href: "/how-it-works" },
   { label: "Capabilities", href: "/capabilities/5-axis-machining" },
   { label: "Parts", href: "/parts/robot-joint-housing" },
   { label: "Applications", href: "/applications/humanoid-robots" },
@@ -18,6 +19,7 @@ const footerGroups = [
   {
     heading: "System",
     links: [
+      { label: "How it works", href: "/how-it-works" },
       { label: "Parts", href: "/parts/robot-joint-housing" },
       { label: "Capabilities", href: "/capabilities/5-axis-machining" },
       { label: "Applications", href: "/applications/humanoid-robots" },

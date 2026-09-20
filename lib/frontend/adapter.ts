@@ -1,35 +1,24 @@
-import { frontendPages } from "@/lib/frontend/mock";
-import type { FactProvenance, FrontendBlock, FrontendPageModel } from "@/lib/frontend/types";
+import type { FrontendBlock, FrontendPageModel } from "@/lib/frontend/types";
+import { contentAdapter } from "@/lib/content/adapter";
 
-const mockProvenance: FactProvenance = {
-  source: "structured_mock_fixture",
-  confidence: "medium",
-  lastVerified: "2026-09-20",
-  evidence: "Design-system fixture; replace with CMS or operational evidence before publication.",
-};
-
-function addProvenance<T extends object>(entry: T & { provenance?: FactProvenance }): T & { provenance: FactProvenance } {
-  return { ...entry, provenance: entry.provenance ?? mockProvenance };
-}
-
-function normalizeBlocks(blocks: FrontendBlock[]): FrontendBlock[] {
-  return blocks.map((block) => {
-    if (block.type === "specGrid") return { ...block, items: block.items.map(addProvenance) };
-    if (block.type === "criticalFeatures") return { ...block, features: block.features.map(addProvenance) };
-    if (block.type === "materials") return { ...block, rows: block.rows.map(addProvenance) };
-    if (block.type === "manufacturingRoute") return { ...block, steps: block.steps.map(addProvenance) };
-    if (block.type === "inspection") return { ...block, rows: block.rows.map(addProvenance) };
-    if (block.type === "applications" || block.type === "relatedEntities") return { ...block, items: block.items.map(addProvenance) };
-    return block;
-  });
-}
-
-function normalizePage(page: FrontendPageModel): FrontendPageModel {
-  return { ...page, blocks: normalizeBlocks(page.blocks) };
-}
-
-export function getFrontendPage(kind: FrontendPageModel["kind"]): FrontendPageModel {
-  return normalizePage(frontendPages[kind]);
+/**
+ * Resolves a public page by its URL path through the Page Registry /
+ * structured content layer (see lib/content/). This replaced a flat
+ * kind-keyed mock object (lib/frontend/mock.ts, removed) — content now
+ * lives in typed entities + reusable ContentBlocks + Evidence
+ * (lib/content/repository/*), gated by a PageRegistry, and is only
+ * resolved into this presentation-facing FrontendPageModel shape here.
+ * Presentational components (components/design-system/pages/*) are
+ * unchanged: they still read only FrontendPageModel/FrontendBlock.
+ */
+export function getFrontendPage(path: string): FrontendPageModel {
+  const page = contentAdapter.getPageModel(path);
+  if (!page) {
+    throw new Error(
+      `No published PageRegistry entry for "${path}". Add one in lib/content/repository/page-registry.ts before routing to it.`,
+    );
+  }
+  return page;
 }
 
 export function getPageMetadata(page: FrontendPageModel) {

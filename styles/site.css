@@ -301,6 +301,11 @@
 .mx-dropzone span { color: var(--color-text-on-paper-muted); font-size: 0.76rem; }
 .mx-file-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .mx-file-chips span { display: inline-flex; align-items: center; gap: 0.35rem; border: 1px solid var(--color-border-on-paper); padding: 0.4rem 0.55rem; color: var(--graphite-600); font-family: var(--font-mono); font-size: 0.66rem; }
+.mx-file-chips button { display: inline-flex; align-items: center; justify-content: center; margin-left: 0.15rem; border: none; background: none; color: var(--color-text-on-paper-subtle); font-size: 0.9rem; line-height: 1; cursor: pointer; padding: 0; }
+.mx-file-chips button:hover { color: var(--color-danger); }
+.mx-form-error { display: flex; align-items: flex-start; gap: 0.5rem; margin-top: 1rem; border: 1px solid var(--color-danger); background: var(--color-danger-muted); padding: 0.7rem 0.85rem; color: var(--risk-500); font-size: 0.8rem; }
+.mx-form-error svg { flex-shrink: 0; margin-top: 0.1rem; }
+.mx-visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .mx-console__actions { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.8rem; padding-top: 1.2rem; border-top: 1px solid var(--color-border-on-paper); }
 .mx-console__review-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.4rem; }
 .mx-console__review dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 0; }
@@ -311,6 +316,9 @@
 .mx-console__success-mark { display: grid; place-items: center; width: 3.4rem; height: 3.4rem; margin-bottom: 0.8rem; border: 1px solid var(--color-evidence); color: var(--color-evidence); }
 .mx-console__success h2 { margin: 0; font-size: 1.5rem; }
 .mx-console__success p { max-width: 28rem; margin: 0.6rem 0 1.4rem; color: var(--color-text-on-paper-muted); }
+.mx-console__reference { margin: 0 0 0.2rem; font-family: var(--font-mono); font-size: 0.95rem; color: var(--graphite-900); }
+.mx-console__reference strong { letter-spacing: 0.03em; }
+.mx-console__reference-note { max-width: 26rem; margin: 0 0 1.6rem !important; color: var(--color-text-on-paper-subtle); font-size: 0.72rem !important; }
 
 /* ============================================================
    Application system map

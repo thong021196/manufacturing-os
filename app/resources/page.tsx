@@ -1,8 +1,10 @@
 import { getFrontendPage } from "@/lib/frontend/adapter";
-import { pageMetadata, KnowledgeIndex } from "@/components/design-system/pages/knowledge-index";
+import { buildMetadata } from "@/lib/seo";
+import { KnowledgeIndex } from "@/components/design-system/pages/knowledge-index";
 
-const page = getFrontendPage("resource");
-export const metadata = pageMetadata(page);
+const PATH = "/resources";
+const page = getFrontendPage(PATH);
+export const metadata = buildMetadata({ path: PATH, title: page.seo.title, description: page.seo.description });
 export default function ResourcesPage() {
   return <KnowledgeIndex page={page} />;
 }

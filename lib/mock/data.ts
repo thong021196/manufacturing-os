@@ -28,7 +28,7 @@ import type {
   Opportunity,
   Order,
   Outcome,
-  Part,
+  PartInstance,
   ProductionJob,
   QcResult,
   Revision,
@@ -1322,7 +1322,7 @@ export const revisions: Revision[] = [
   },
 ];
 
-export const parts: Part[] = [
+export const parts: PartInstance[] = [
   {
     id: "part-gripper-jaw-left",
     name: "Gripper Jaw - Left",

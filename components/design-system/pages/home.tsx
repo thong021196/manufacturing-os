@@ -1,25 +1,11 @@
 import Link from "next/link";
 import { ArrowRight, Check } from "@/components/design-system/icons";
 import { Button, IndexMark, MonoLabel, Reveal, TextLink } from "@/components/design-system/primitives";
-
-const requirementSequence = [
-  { index: "01", title: "Understand", detail: "CAD, drawing, BOM, or an unsolved problem is structured into an explicit manufacturing requirement — interfaces, datums, and acceptance criteria made explicit, not assumed." },
-  { index: "02", title: "Route", detail: "Geometry, material, quantity, and timeline are matched to a manufacturing route and a qualified partner in the network — not the first available quote." },
-  { index: "03", title: "Produce & inspect", detail: "Production is coordinated against the released revision, with inspection scoped to the features that actually control the outcome." },
-  { index: "04", title: "Deliver with evidence", detail: "The part ships with the record that proves it — measurement results, release evidence, and a revision history that survives the next order." },
-];
-
-const systemRows = [
-  { code: "PARTS", label: "Technical objects", detail: "Drawing-led routes for the interfaces that make hardware work — start from a real part, not a category page.", href: "/parts/robot-joint-housing", example: "Robot joint housing" },
-  { code: "CAPABILITIES", label: "Manufacturing competence", detail: "Process guidance grounded in geometry, workholding, and inspection — a recommendation, not a keyword page.", href: "/capabilities/5-axis-machining", example: "5-axis machining" },
-  { code: "APPLICATIONS", label: "System context", detail: "The part families and processes behind a complete product — how the pieces of a system connect.", href: "/applications/humanoid-robots", example: "Humanoid robots" },
-];
-
-const evidenceCheckpoints = [
-  { index: "A", title: "Source", detail: "Every technical fact carries a source, a confidence level, and the date it was last verified." },
-  { index: "B", title: "Revision", detail: "CAD and drawings are never overwritten — a new release creates a new, traceable inspection context." },
-  { index: "C", title: "Observed vs. declared", detail: "Supplier capability is tracked at two layers: what a partner declares, and what production has actually proven." },
-];
+import {
+  homeEvidenceCheckpoints as evidenceCheckpoints,
+  homeRequirementSequence as requirementSequence,
+  homeSystemRows as systemRows,
+} from "@/lib/content/site-copy";
 
 export function HomeExperience() {
   return (

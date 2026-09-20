@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import { Shell } from "@/components/layout/shell";
+import { siteOrigin } from "@/lib/seo";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,7 +22,11 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Manufacturing OS",
+  metadataBase: new URL(siteOrigin()),
+  title: {
+    default: "Manufacturing OS",
+    template: "%s",
+  },
   description:
     "A global manufacturing intelligence and execution interface for custom hardware — from CAD and drawing to a routed, inspected, accountable delivery.",
 };
