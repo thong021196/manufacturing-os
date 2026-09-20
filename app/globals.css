@@ -89,7 +89,7 @@ table { border-collapse: collapse; }
 .public-footer { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; max-width: var(--layout-max); margin: 0 auto; padding: 4.5rem var(--layout-gutter) 2rem; border-top: var(--border-subtle); color: var(--ink-600); }
 .public-footer p { max-width: 28rem; margin: 1.2rem 0 0; font-size: 0.82rem; }
 .brand-mark--footer { color: var(--ink-950); }
-.footer-links { display: flex; justify-content: flex-end; gap: 4rem; }
+.footer-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 2.75rem; }
 .footer-links div { display: grid; gap: 0.5rem; align-content: start; font-size: 0.78rem; }
 .footer-links span { margin-bottom: 0.3rem; color: var(--ink-500); font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; }
 .footer-links a:hover { color: var(--blue-700); }
@@ -258,6 +258,7 @@ table { border-collapse: collapse; }
 .home-dark-grid .ds-button--secondary { border-color: #8eacba; background: transparent; color: var(--white); }
 .home-dark-grid .ds-button--secondary:hover { background: rgb(255 255 255 / 0.08); }
 .home-route-panel { background: var(--white); }
+.home-hero .ds-eyebrow, .home-dark-grid .ds-eyebrow { color: #8fb9db; }
 .home-route-row { display: grid; grid-template-columns: 2rem 1fr auto; gap: 0.6rem; align-items: center; padding: 0.85rem 0; border-bottom: var(--border-subtle); }
 .home-route-row:last-child { border-bottom: 0; }
 .home-route-row > span { color: var(--blue-700); font-family: var(--font-mono); font-size: 0.63rem; }
@@ -375,8 +376,14 @@ table { border-collapse: collapse; }
 .public-header { background: #041326; border-bottom-color: rgb(255 255 255 / .16); }
 .public-header__inner { max-width: 92rem; min-height: 4.9rem; }
 .brand-mark__symbol { width: 2.1rem; height: 2.1rem; border-radius: 0; border-color: rgb(255 255 255 / .42); background: #0d315b; }
+/* The header sits on the dark brand navy; every header text/icon needs a light-on-dark
+   color (the footer's brand mark keeps its own light-background override below). */
+.public-header .brand-mark, .public-header .brand-mark strong { color: #fff; }
+.public-header .brand-mark small { color: #9fb7c9; }
 .public-nav, .header-resource { font-family: var(--font-mono); font-size: .64rem; letter-spacing: .07em; text-transform: uppercase; }
+.public-nav a, .header-resource { color: #a9c0d1; }
 .public-nav a:hover, .header-resource:hover { color: #fff; }
+.mobile-menu-button { color: #fff; }
 .public-footer { max-width: 92rem; padding-top: 5rem; }
 .public-footer .brand-mark--footer { color: var(--blue-950); }
 .public-footer .brand-mark--footer .brand-mark__symbol { background: var(--blue-950); border-color: var(--blue-800); }
@@ -407,7 +414,11 @@ table { border-collapse: collapse; }
 
 /* Homepage has a company-level dark opening and a measured editorial cadence. */
 .home-hero { min-height: 45rem; background: #041326; }
-.home-hero h1 { letter-spacing: -.085em; line-height: .9; }
+.home-hero h1 { color: #fff; letter-spacing: -.085em; line-height: .9; }
+.home-hero__lead { color: #bdcad8; }
+.home-hero__signals { color: #9fb7c9; }
+.home-hero .text-link { color: #bdd6ea; }
+.home-hero .text-link:hover { color: #fff; }
 .home-hero__diagram { border-color: #315577; background: #071b33; }
 .home-hero__diagram-route > div { border-color: #6797bf; }
 .home-section { max-width: 92rem; }
@@ -417,6 +428,10 @@ table { border-collapse: collapse; }
 .home-system-card { min-height: 17rem; border-top-width: 2px; }
 .home-section--dark { background: #0d315b; }
 .home-route-panel { border-color: #385e80; background: #041326; }
+.home-route-panel .panel-label { color: #8fb9db; }
+.home-route-row > span:first-child { color: #8fb9db; }
+.home-route-row strong { color: #fff; }
+.home-route-row { border-bottom-color: rgb(255 255 255 / .14); }
 
 /* Different page types keep the DNA but shift narrative emphasis. */
 .public-page--part .technical-hero { background: linear-gradient(90deg, #fff 0%, #fff 58%, #f4f7fa 100%); }
@@ -434,7 +449,9 @@ table { border-collapse: collapse; }
 .public-page--engineering .technical-hero, .public-page--resource .technical-hero { background: #f4f7fa; }
 .public-page--engineering .technical-figure, .public-page--resource .technical-figure { min-height: 26rem; }
 .public-page--quality .technical-hero { background: #041326; }
+.public-page--quality .technical-hero .ds-eyebrow { color: #8fb9db; }
 .public-page--quality .technical-hero h1 { color: #fff; }
+.public-page--quality .technical-hero__actions .text-link { color: #bdd6ea; }
 .public-page--quality .technical-hero__summary { color: #bdcad8; }
 .public-page--quality .technical-hero__meta { border-color: #8fb9db; }
 .public-page--quality .technical-hero__meta span { color: #8fb9db; }
@@ -450,6 +467,8 @@ table { border-collapse: collapse; }
 /* Responsive refinement */
 @media (max-width: 64rem) {
   .mobile-nav { border-top-color: rgb(255 255 255 / .16); background: #041326; }
+  .mobile-nav a { color: #cdd9e2; }
+  .mobile-nav a:hover { color: #fff; }
   .public-page--capability .technical-figure { order: initial; }
 }
 @media (max-width: 48rem) {
@@ -530,3 +549,57 @@ table { border-collapse: collapse; }
 @media (max-width: 64rem) { .network-hero__grid, .network-proof__grid { grid-template-columns: 1fr; } .network-map { min-height: 24rem; } }
 @media (max-width: 48rem) { .network-stage-grid { grid-template-columns: repeat(2, 1fr); } .network-stage-grid > div:nth-child(2) { border-right: 0; } }
 @media (max-width: 36rem) { .network-stage-grid { grid-template-columns: 1fr; } .network-stage-grid > div { border-right: 0; } .network-map { min-height: 19rem; } }
+
+/* Company — corporate identity page. Distinct from Network: no radial map, a linear
+   global route band, and a trust/contact layer instead of a control-layer narrative. */
+.company-page { background: #fff; }
+.company-hero { padding: 1.8rem max(var(--layout-gutter), calc((100vw - 92rem) / 2)) 0; background: #041326; color: #fff; }
+.company-hero .breadcrumbs { color: #8fb9db; }
+.company-hero .breadcrumbs a:hover { color: #fff; }
+.company-hero__grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(21rem, 0.95fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; max-width: 92rem; min-height: 34rem; margin: 0 auto; padding: 2rem 0 5rem; }
+.company-hero h1 { max-width: 40rem; margin: 0; color: #fff; font-size: var(--type-h1); letter-spacing: -.07em; line-height: .96; }
+.company-hero .ds-eyebrow { color: #8fb9db; }
+.company-hero__grid > div > p:not(.ds-eyebrow) { max-width: 33rem; margin: 1.4rem 0 0; color: #bdcad8; font-size: 1rem; line-height: 1.65; }
+.company-hero__actions { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-top: 2rem; }
+.company-hero .text-link { color: #bdd6ea; }
+.company-hero__panel { border-color: #315577; background: #071b33; color: #fff; }
+.company-hero__panel .panel-label { color: #8fb9db; }
+.company-hero__list { display: grid; gap: .8rem; margin: 0; padding: 0; list-style: none; font-size: .88rem; }
+.company-hero__list li { padding-left: 1.1rem; border-left: 2px solid #4a7ba3; color: #e4ebf1; }
+.company-hero__list-note { margin: 1.4rem 0 0; padding-top: 1.2rem; border-top: 1px solid #2c4c69; color: #8fb9db; font-size: .74rem; letter-spacing: .02em; }
+.company-pillars { max-width: 92rem; }
+.company-pillar-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 2px solid var(--blue-950); }
+.company-pillar { min-height: 13rem; padding: 1.4rem 1.2rem; border-right: 1px solid var(--ink-200); border-bottom: 1px solid var(--ink-200); color: var(--blue-700); }
+.company-pillar:last-child { border-right: 0; }
+.company-pillar strong { display: block; margin-top: 1.6rem; color: var(--blue-950); font-size: .95rem; letter-spacing: -.01em; }
+.company-pillar p { margin: .6rem 0 0; color: var(--ink-600); font-size: .78rem; line-height: 1.5; }
+.company-route-band { background: var(--blue-900); color: #fff; }
+.company-route-band__inner { max-width: 92rem; margin: 0 auto; padding: 3.5rem var(--layout-gutter); }
+.company-route-band .ds-eyebrow { color: #8fb9db; }
+.company-route { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; margin-top: 1.8rem; }
+.company-route__step { position: relative; padding: 1rem 1rem 0; border-top: 2px solid #4a7ba3; }
+.company-route__step span { color: #8fb9db; font-family: var(--font-mono); font-size: .62rem; font-weight: 700; }
+.company-route__step strong { display: block; margin-top: 1.1rem; color: #fff; font-size: .88rem; }
+.company-route__step p { margin: .5rem 0 0; color: #b9c9d8; font-size: .74rem; }
+.company-route__line { position: absolute; top: -2px; right: -0.5rem; width: 1rem; border-top: 2px solid #4a7ba3; }
+.company-network-callout { max-width: 92rem; }
+.company-network-callout__grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(22rem, 1.05fr); gap: 4rem; align-items: center; }
+.company-network-callout__grid h2 { max-width: 30rem; margin: 0; color: var(--blue-950); font-size: var(--type-h2); letter-spacing: -.05em; line-height: 1.05; }
+.company-network-callout__grid > div > p:not(.ds-eyebrow) { max-width: 30rem; margin: 1rem 0 1.4rem; color: var(--ink-600); }
+.company-network-callout__list { display: grid; gap: .8rem; margin: 0; padding: 0; list-style: none; color: var(--blue-900); font-size: .8rem; }
+.company-network-callout__list li { padding-bottom: .8rem; border-bottom: 1px solid var(--ink-200); }
+.company-network-callout__list li:last-child { border-bottom: 0; padding-bottom: 0; }
+.company-contact { max-width: 92rem; background: var(--color-bg-secondary); }
+.company-contact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+.company-contact-card { min-height: 11rem; border: var(--border-thin); background: #fff; padding: 1.3rem; }
+.company-contact-card strong { display: block; color: var(--blue-950); font-size: .95rem; }
+.company-contact-card p { margin: .55rem 0 1.1rem; color: var(--ink-600); font-size: .78rem; line-height: 1.5; }
+@media (max-width: 64rem) { .company-hero__grid, .company-network-callout__grid { grid-template-columns: 1fr; } .company-route { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 48rem) { .company-pillar-grid, .company-contact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .company-pillar:nth-child(2) { border-right: 0; } .company-route { grid-template-columns: repeat(2, minmax(0, 1fr)); } .company-route__line { display: none; } }
+@media (max-width: 36rem) { .company-pillar-grid, .company-contact-grid, .company-route { grid-template-columns: 1fr; } }
+
+/* Legal stub pages */
+.legal-page { max-width: 42rem; margin: 0 auto; padding: 2.5rem var(--layout-gutter) 6rem; }
+.legal-page h1 { margin: 1.2rem 0 0; color: var(--blue-950); font-size: var(--type-h2); letter-spacing: -.04em; }
+.legal-page__lede { margin: .9rem 0 1.8rem; color: var(--blue-700); font-family: var(--font-mono); font-size: .7rem; letter-spacing: .05em; text-transform: uppercase; }
+.legal-page p { margin: 0 0 1rem; color: var(--ink-600); font-size: .92rem; line-height: 1.65; }
