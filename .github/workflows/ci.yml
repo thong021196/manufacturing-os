@@ -16,6 +16,14 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      # Next.js 16 generates the PageProps/LayoutProps route-type helpers
+      # (node_modules/next/dist/docs/.../page.md: "Types are generated
+      # during next dev, next build, or with next typegen") into
+      # .next/types on demand -- a bare `tsc --noEmit` on a fresh checkout
+      # fails with "Cannot find name 'PageProps'" without this having run
+      # at least once first. Found and fixed while verifying this pass's
+      # own changes typecheck cleanly (PR #26 / AWS-first pivot).
+      - run: npx next typegen
       - run: npx tsc --noEmit
       - run: npm run lint
       - run: npm run build

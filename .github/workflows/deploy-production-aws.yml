@@ -1,0 +1,98 @@
+name: Deploy production (AWS)
+
+# Builds the production Docker image (Dockerfile, output: "standalone" --
+# see next.config.ts) and deploys it to the manufacturing-os ECS Fargate
+# service on every push to main. This is the PRIMARY production deploy
+# path per the owner's AWS-first pivot (PR #26 review comment
+# 5750338323); .github/workflows/deploy-production.yml (Vercel) is kept
+# as the legacy/alternative path -- see DEPLOYMENT.md.
+#
+# Requires infra/terraform/ to have already been applied once (creates
+# the ECR repo, ECS cluster/service/task definition, etc. -- see
+# DEPLOYMENT.md "Deploy steps"). Requires ONE repo secret:
+#   AWS_DEPLOY_ROLE_ARN -- an IAM role this workflow assumes via GitHub's
+#   OIDC provider (no long-lived AWS access keys stored in GitHub at all).
+#   See DEPLOYMENT.md "Set up GitHub OIDC → AWS deploy role" for the exact
+#   trust policy / permissions this role needs (kept minimal: push to the
+#   manufacturing-os-app ECR repo, update the manufacturing-os-app-service
+#   ECS service -- nothing else).
+# Until that secret exists, this workflow intentionally no-ops instead of
+# failing loudly on every push to main, same pattern as
+# deploy-production.yml. This repo's session did NOT create a live AWS
+# account, IAM role, or ECS service -- provisioning that (via
+# infra/terraform/) and adding this secret is the explicit external/human
+# step this workflow is waiting for.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production-aws
+  cancel-in-progress: false
+
+permissions:
+  id-token: write # required for OIDC -> aws-actions/configure-aws-credentials
+  contents: read
+
+env:
+  AWS_REGION: ${{ vars.AWS_REGION || 'us-east-1' }}
+  ECR_REPOSITORY: manufacturing-os-app
+  ECS_CLUSTER: ${{ vars.AWS_ECS_CLUSTER || 'manufacturing-os-cluster' }}
+  ECS_SERVICE: ${{ vars.AWS_ECS_SERVICE || 'manufacturing-os-app-service' }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required secret is configured
+        id: check
+        run: |
+          if [ -n "${{ secrets.AWS_DEPLOY_ROLE_ARN }}" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Skipping AWS production deploy: AWS_DEPLOY_ROLE_ARN secret is not set yet. See DEPLOYMENT.md."
+          fi
+
+      - name: Configure AWS credentials (OIDC)
+        if: steps.check.outputs.ready == 'true'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        if: steps.check.outputs.ready == 'true'
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push image
+        if: steps.check.outputs.ready == 'true'
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+        run: |
+          IMAGE="$REGISTRY/$ECR_REPOSITORY"
+          docker build -t "$IMAGE:${{ github.sha }}" -t "$IMAGE:latest" .
+          docker push "$IMAGE:${{ github.sha }}"
+          docker push "$IMAGE:latest"
+
+      # Fargate services keep referencing the same task definition;
+      # forcing a new deployment makes the ECS agent re-pull the ":latest"
+      # tag (its digest just changed above), so no new task-definition
+      # revision is required for this MVP-simple pattern. See
+      # DEPLOYMENT.md "A note on image tagging" for the immutable-tag +
+      # task-def-revision upgrade path once this needs stricter
+      # rollback/audit guarantees than "latest" gives.
+      - name: Force new ECS deployment
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          aws ecs update-service \
+            --cluster "$ECS_CLUSTER" \
+            --service "$ECS_SERVICE" \
+            --force-new-deployment \
+            --region "$AWS_REGION"

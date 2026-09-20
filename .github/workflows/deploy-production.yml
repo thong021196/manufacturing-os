@@ -1,5 +1,12 @@
-name: Deploy production (Vercel)
+name: Deploy production (Vercel, legacy/alternative)
 
+# LEGACY/ALTERNATIVE path, kept working but no longer the primary
+# production target as of the AWS-first pivot (PR #26 review comment
+# 5750338323) -- see .github/workflows/deploy-production-aws.yml for the
+# primary path and DEPLOYMENT.md for why. This workflow is unchanged
+# otherwise and still deploys correctly if the owner chooses this path
+# instead of (or in addition to, for a staging comparison) AWS.
+#
 # Builds and deploys the full Next.js app (server runtime -- the RFQ API
 # route needs Node execution, not static export) to Vercel. Requires three
 # repo secrets the OWNER must add before this does anything:

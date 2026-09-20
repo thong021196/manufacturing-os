@@ -30,8 +30,10 @@ reference id, persisted under `.data/rfq/`, gitignored).
 
 ## Deployment
 
-See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for the full production/custom-domain
-setup (Vercel + Supabase), the exact external account steps still needed,
+**Production target: AWS** (ECS Fargate + RDS Postgres + private S3 —
+see `infra/terraform/`). Vercel + Supabase remain a working
+legacy/alternative path. See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for the
+full setup (both paths), the exact external account steps still needed,
 and how to verify a deployment.
 
 ## Structure
@@ -46,8 +48,13 @@ Public product:
   view model the design-system components render).
 - `lib/rfq/` — the RFQ intake backend: validation, spam/rate-limit checks,
   and a swappable `RfqStore` (`store/local.ts` disk-backed dev/test
-  fallback, `store/supabase.ts` production). `app/api/rfq/route.ts` is the
-  server endpoint; `supabase/migrations/` has the real schema.
+  fallback, `store/aws.ts` production — RDS + private S3,
+  `store/supabase.ts` legacy/alternative production). `app/api/rfq/route.ts`
+  is the server endpoint; `infra/sql/` and `supabase/migrations/` have the
+  real schema for each backend.
+- `infra/terraform/` — the AWS infrastructure-as-code (VPC, RDS, S3, ECS
+  Fargate, ALB, IAM, Secrets Manager — see `DEPLOYMENT.md`).
+- `Dockerfile` — the production image the ECS Fargate task runs.
 - `components/design-system/`, `styles/`, `tokens/` — the accepted visual
   system (see `docs/frontend-design-system/`).
 
