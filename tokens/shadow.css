@@ -1,5 +1,5 @@
 :root {
   --shadow-none: none;
-  --shadow-raised: 0 10px 30px rgb(19 32 43 / 0.08);
-  --shadow-focus: 0 0 0 3px rgb(31 95 139 / 0.22);
+  --shadow-raised: 0 18px 42px rgb(4 19 38 / 0.12);
+  --shadow-focus: 0 0 0 3px rgb(35 105 167 / 0.24);
 }

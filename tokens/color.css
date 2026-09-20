@@ -1,33 +1,34 @@
 :root {
-  --blue-950: #081525;
-  --blue-900: #0d223b;
-  --blue-800: #153452;
-  --blue-700: #1b4669;
-  --blue-600: #1f5f8b;
-  --blue-500: #2c7bad;
-  --blue-100: #dcecf5;
-  --blue-50: #eef7fb;
-  --ink-950: #13202b;
-  --ink-800: #2c3d4b;
-  --ink-600: #5c6d79;
-  --ink-500: #758590;
-  --ink-300: #b8c5cd;
-  --ink-200: #d6e0e5;
-  --ink-100: #e8eef1;
-  --ink-50: #f4f7f8;
+  /* Deep blue is the identity; lighter blues are reserved for action and diagrams. */
+  --blue-950: #041326;
+  --blue-900: #082241;
+  --blue-800: #0d315b;
+  --blue-700: #164a7a;
+  --blue-600: #2369a7;
+  --blue-500: #3f86c7;
+  --blue-100: #d7e7f4;
+  --blue-50: #eef5fa;
+  --ink-950: #101c2b;
+  --ink-800: #26384c;
+  --ink-600: #53667a;
+  --ink-500: #708195;
+  --ink-300: #b5c3d0;
+  --ink-200: #d2dde7;
+  --ink-100: #e4ebf1;
+  --ink-50: #f4f7fa;
   --white: #ffffff;
-  --green-700: #18704d;
-  --green-100: #dff3e9;
-  --amber-700: #92570c;
-  --amber-100: #fff0d2;
-  --red-700: #a43832;
-  --red-100: #fce5e2;
+  --green-700: #14634a;
+  --green-100: #dcefe7;
+  --amber-700: #8a580e;
+  --amber-100: #fff1d7;
+  --red-700: #9d3835;
+  --red-100: #fce5e4;
 
   --color-bg-primary: var(--white);
-  --color-bg-secondary: var(--ink-50);
+  --color-bg-secondary: #f1f5f8;
   --color-bg-inverse: var(--blue-950);
   --color-surface-1: var(--white);
-  --color-surface-2: #f9fbfc;
+  --color-surface-2: #f7f9fb;
   --color-surface-raised: var(--white);
   --color-text-primary: var(--ink-950);
   --color-text-secondary: var(--ink-600);
@@ -37,7 +38,7 @@
   --color-border-subtle: var(--ink-100);
   --color-border-default: var(--ink-200);
   --color-border-strong: var(--ink-300);
-  --color-action-primary: var(--blue-700);
+  --color-action-primary: var(--blue-800);
   --color-action-hover: var(--blue-800);
   --color-action-muted: var(--blue-50);
   --color-success: var(--green-700);
@@ -48,8 +49,8 @@
   --color-danger-muted: var(--red-100);
   --color-info: var(--blue-600);
   --color-info-muted: var(--blue-50);
-  --color-engineering: #5364a3;
+  --color-engineering: var(--blue-700);
   --color-manufacturing: var(--blue-700);
   --color-quality: var(--green-700);
-  --color-rfq: #b05f21;
+  --color-rfq: var(--blue-600);
 }

@@ -8,7 +8,7 @@ import { PublicShell } from "@/components/layout/public-shell";
 export function Shell({ children }: { children: ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
-  const isPublic = pathname === "/" || /^(\/parts|\/applications|\/capabilities|\/engineering|\/resources|\/quality|\/rfq)(\/|$)/.test(pathname);
+  const isPublic = pathname === "/" || /^(\/parts|\/applications|\/capabilities|\/engineering|\/resources|\/quality|\/rfq|\/network)(\/|$)/.test(pathname);
 
   if (isPublic) return <PublicShell>{children}</PublicShell>;
 
