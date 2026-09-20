@@ -2,6 +2,11 @@ import type { MetadataRoute } from "next";
 import { contentAdapter } from "@/lib/content/adapter";
 import { absoluteUrl } from "@/lib/seo";
 
+// Static content, computed at build time either way — force-static also
+// keeps this compatible with the GitHub Pages static-export build (see
+// .github/workflows/frontend-preview.yml).
+export const dynamic = "force-static";
+
 /** Generated from the Page Registry (lib/content/repository/page-registry.ts)
  * — only published, indexable entries are listed, so a draft/noindex page
  * (e.g. the legal placeholders pending counsel review) never appears here. */
