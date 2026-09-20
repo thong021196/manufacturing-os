@@ -1,0 +1,11 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /ops
+Disallow: /discovery/
+Disallow: /execution/
+Disallow: /intelligence/
+Disallow: /knowledge/
+Disallow: /supply/
+
+Sitemap: https://thong021196.github.io/manufacturing-os/frontend-preview/sitemap.xml
