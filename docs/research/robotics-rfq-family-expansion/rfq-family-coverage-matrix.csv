@@ -1,0 +1,13 @@
+RFQ family,Record count,Unique source count,Vendor-claimed count,Primary/standard/academic count,geometry,material_process,finish_heat_weld,tolerance_gdt,interface,fastening_assembly,inspection,lifecycle_revision,failure_repeat,process_strategy
+precision CNC housing,11,14,4,7,73%,100%,73%,55%,73%,36%,18%,45%,36%,55%
+bracket/mount/adapter,6,9,3,3,83%,83%,67%,67%,83%,67%,0%,17%,33%,33%
+shaft/bearing seat/motor mount,7,11,2,5,86%,14%,43%,43%,86%,43%,0%,57%,29%,14%
+joint/structural link,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
+gripper jaw/finger,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
+welded frame/chassis,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
+sheet-metal enclosure,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
+sensor/camera mount,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
+battery/electronics enclosure,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
+pressure/sealed housing,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
+jig/fixture/EOAT,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
+prototype multi-part assembly,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
