@@ -2,9 +2,9 @@ RFQ family,Record count,Unique source count,Vendor-claimed count,Primary/standar
 precision CNC housing,11,14,4,7,73%,100%,73%,55%,73%,36%,18%,45%,36%,55%
 bracket/mount/adapter,6,9,3,3,83%,83%,67%,67%,83%,67%,0%,17%,33%,33%
 shaft/bearing seat/motor mount,7,11,2,5,86%,14%,43%,43%,86%,43%,0%,57%,29%,14%
-joint/structural link,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
-gripper jaw/finger,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
-welded frame/chassis,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
+joint/structural link,4,6,1,3,50%,75%,50%,75%,75%,50%,25%,25%,25%,25%
+gripper jaw/finger,5,7,0,5,60%,40%,80%,20%,100%,40%,0%,40%,80%,40%
+welded frame/chassis,6,6,2,4,33%,83%,83%,17%,67%,33%,50%,50%,50%,50%
 sheet-metal enclosure,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
 sensor/camera mount,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
 battery/electronics enclosure,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
