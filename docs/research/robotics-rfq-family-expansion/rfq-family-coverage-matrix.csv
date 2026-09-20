@@ -5,9 +5,9 @@ shaft/bearing seat/motor mount,7,11,2,5,86%,14%,43%,43%,86%,43%,0%,57%,29%,14%
 joint/structural link,4,6,1,3,50%,75%,50%,75%,75%,50%,25%,25%,25%,25%
 gripper jaw/finger,5,7,0,5,60%,40%,80%,20%,100%,40%,0%,40%,80%,40%
 welded frame/chassis,6,6,2,4,33%,83%,83%,17%,67%,33%,50%,50%,50%,50%
-sheet-metal enclosure,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
-sensor/camera mount,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
-battery/electronics enclosure,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
+sheet-metal enclosure,3,6,3,0,100%,100%,100%,33%,67%,100%,33%,0%,100%,67%
+sensor/camera mount,3,6,1,2,100%,33%,67%,100%,100%,100%,33%,33%,33%,0%
+battery/electronics enclosure,3,6,1,2,67%,67%,0%,0%,100%,67%,67%,33%,33%,33%
 pressure/sealed housing,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
 jig/fixture/EOAT,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
 prototype multi-part assembly,0,0,0,0,0%,0%,0%,0%,0%,0%,0%,0%,0%,0%
