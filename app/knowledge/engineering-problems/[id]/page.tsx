@@ -36,3 +36,4 @@ export default async function EngineeringProblemDetailPage({ params }: PageProps
     </div>
   );
 }
+export function generateStaticParams() { return EngineeringProblems.all().map((item) => ({ id: item.id })); }

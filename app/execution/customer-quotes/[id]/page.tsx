@@ -61,3 +61,4 @@ export default async function CustomerQuoteDetailPage({ params }: PageProps<"/ex
     </div>
   );
 }
+export function generateStaticParams() { return CustomerQuotes.all().map((item) => ({ id: item.id })); }

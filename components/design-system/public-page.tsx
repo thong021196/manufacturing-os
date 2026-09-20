@@ -10,5 +10,6 @@ export function pageMetadata(page: FrontendPageModel): Metadata {
 export function PublicTechnicalPage({ page }: { page: FrontendPageModel }) {
   const hero = page.blocks.find((block) => block.type === "hero");
   if (!hero || hero.type !== "hero") return null;
-  return <><TechnicalHero breadcrumbs={page.breadcrumbs} eyebrow={hero.eyebrow} title={hero.title} summary={hero.summary} meta={hero.meta} visualLabel={hero.visualLabel} visualCode={hero.visualCode} /><BlockRenderer blocks={page.blocks} /></>;
+  const hasSpecification = page.blocks.some((block) => block.type === "specGrid");
+  return <><TechnicalHero breadcrumbs={page.breadcrumbs} eyebrow={hero.eyebrow} title={hero.title} summary={hero.summary} meta={hero.meta} visualLabel={hero.visualLabel} visualCode={hero.visualCode} specificationHref={hasSpecification ? "#specification" : undefined} /><BlockRenderer blocks={page.blocks} /></>;
 }

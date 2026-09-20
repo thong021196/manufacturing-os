@@ -118,3 +118,4 @@ export default async function ComponentDetailPage({ params }: PageProps<"/knowle
     </div>
   );
 }
+export function generateStaticParams() { return Components.all().map((item) => ({ id: item.id })); }

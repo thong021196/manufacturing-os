@@ -118,3 +118,4 @@ export default async function OpportunityDetailPage({ params }: PageProps<"/disc
     </div>
   );
 }
+export function generateStaticParams() { return Opportunities.all().map((item) => ({ id: item.id })); }

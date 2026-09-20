@@ -63,3 +63,4 @@ export default async function ProductionJobDetailPage({ params }: PageProps<"/ex
     </div>
   );
 }
+export function generateStaticParams() { return ProductionJobs.all().map((item) => ({ id: item.id })); }

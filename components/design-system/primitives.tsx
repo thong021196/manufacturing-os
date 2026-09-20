@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import { ArrowRight } from "@/components/design-system/icons";
 
 export function cx(...values: Array<string | false | null | undefined>) {
@@ -20,7 +20,10 @@ export function Button({
   size?: "sm" | "md" | "lg";
 }) {
   const classes = cx("ds-button", `ds-button--${variant}`, `ds-button--${size}`, className);
-  if (href) return <Link href={href} className={classes}>{children}</Link>;
+  if (href) {
+    const linkProps = props as AnchorHTMLAttributes<HTMLAnchorElement>;
+    return <Link href={href} className={classes} {...linkProps}>{children}</Link>;
+  }
   return <button className={classes} {...props}>{children}</button>;
 }
 
