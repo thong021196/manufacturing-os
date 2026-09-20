@@ -136,3 +136,4 @@ export default async function SupplierDetailPage({ params }: PageProps<"/supply/
     </div>
   );
 }
+export function generateStaticParams() { return Suppliers.all().map((item) => ({ id: item.id })); }

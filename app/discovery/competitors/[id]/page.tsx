@@ -54,3 +54,4 @@ export default async function CompetitorDetailPage({ params }: PageProps<"/disco
     </div>
   );
 }
+export function generateStaticParams() { return Competitors.all().map((item) => ({ id: item.id })); }

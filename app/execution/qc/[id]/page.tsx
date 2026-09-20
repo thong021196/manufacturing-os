@@ -66,3 +66,4 @@ export default async function QcResultDetailPage({ params }: PageProps<"/executi
     </div>
   );
 }
+export function generateStaticParams() { return QcResults.all().map((item) => ({ id: item.id })); }

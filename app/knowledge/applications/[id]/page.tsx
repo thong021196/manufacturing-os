@@ -43,3 +43,4 @@ export default async function ApplicationDetailPage({ params }: PageProps<"/know
     </div>
   );
 }
+export function generateStaticParams() { return Applications.all().map((item) => ({ id: item.id })); }

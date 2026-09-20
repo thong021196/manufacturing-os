@@ -14,7 +14,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
   return (
     <nav className="scrollbar-thin flex h-full flex-col overflow-y-auto bg-navy-950 px-3 py-4 text-sm">
-      <Link href="/" onClick={onNavigate} className="mb-5 flex items-center gap-2 px-2">
+      <Link href="/ops" onClick={onNavigate} className="mb-5 flex items-center gap-2 px-2">
         <span className="flex h-7 w-7 items-center justify-center rounded-md bg-accent text-xs font-bold text-white">
           MO
         </span>

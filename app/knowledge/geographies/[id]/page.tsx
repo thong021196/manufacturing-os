@@ -40,3 +40,4 @@ export default async function GeographyDetailPage({ params }: PageProps<"/knowle
     </div>
   );
 }
+export function generateStaticParams() { return Geographies.all().map((item) => ({ id: item.id })); }

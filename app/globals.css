@@ -1,27 +1,38 @@
 @import "tailwindcss";
+@import "../tokens/color.css";
+@import "../tokens/typography.css";
+@import "../tokens/spacing.css";
+@import "../tokens/radius.css";
+@import "../tokens/border.css";
+@import "../tokens/shadow.css";
+@import "../tokens/motion.css";
+@import "../tokens/layout.css";
+@import "../tokens/density.css";
+@import "../tokens/z-index.css";
+@import "../styles/site.css";
 
 :root {
-  --background: #f5f6f8;
-  --surface: #ffffff;
-  --foreground: #101828;
-  --muted: #667085;
-  --border: #e4e7ec;
-  --navy-950: #050c1f;
-  --navy-900: #0a1730;
-  --navy-800: #10203f;
-  --navy-700: #16305c;
-  --navy-600: #1d3f78;
-  --navy-500: #2a56a0;
-  --accent: #2a56a0;
-  --accent-soft: #eaf0fb;
-  --success: #0a7c53;
-  --success-soft: #e5f6ee;
-  --warning: #9a5b00;
-  --warning-soft: #fdf1de;
-  --danger: #b3261e;
-  --danger-soft: #fdeceb;
-  --info: #3a5ba0;
-  --info-soft: #eef2fb;
+  --background: var(--color-bg-secondary);
+  --surface: var(--color-surface-1);
+  --foreground: var(--color-text-primary);
+  --muted: var(--color-text-secondary);
+  --border: var(--color-border-default);
+  --accent: var(--color-action-primary);
+  --accent-soft: var(--color-action-muted);
+  --success: var(--color-success);
+  --success-soft: var(--color-success-muted);
+  --warning: var(--color-warning);
+  --warning-soft: var(--color-warning-muted);
+  --danger: var(--color-danger);
+  --danger-soft: var(--color-danger-muted);
+  --info: var(--color-info);
+  --info-soft: var(--color-info-muted);
+  --navy-950: var(--ink-950);
+  --navy-900: var(--ink-900);
+  --navy-800: var(--ink-800);
+  --navy-700: var(--ink-700);
+  --navy-600: var(--ink-600);
+  --navy-500: var(--signal-500);
 }
 
 @theme inline {
@@ -30,12 +41,6 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
-  --color-navy-950: var(--navy-950);
-  --color-navy-900: var(--navy-900);
-  --color-navy-800: var(--navy-800);
-  --color-navy-700: var(--navy-700);
-  --color-navy-600: var(--navy-600);
-  --color-navy-500: var(--navy-500);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
   --color-success: var(--success);
@@ -46,34 +51,33 @@
   --color-danger-soft: var(--danger-soft);
   --color-info: var(--info);
   --color-info-soft: var(--info-soft);
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+  --color-navy-600: var(--navy-600);
+  --color-navy-500: var(--navy-500);
   --font-sans: var(--font-inter);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); font-size: var(--type-body); line-height: var(--leading-copy); }
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+*:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+::selection { background: var(--signal-050); color: var(--ink-950); }
+table { border-collapse: collapse; }
+.scrollbar-thin::-webkit-scrollbar { height: 6px; width: 6px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: var(--radius-pill); }
 
-* {
-  border-color: var(--border);
-}
-
-::selection {
-  background: var(--accent-soft);
-  color: var(--navy-900);
-}
-
-table {
-  border-collapse: collapse;
-}
-
-.scrollbar-thin::-webkit-scrollbar {
-  height: 6px;
-  width: 6px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 999px;
-}
+/* Internal /ops shell compatibility only — not used by any public composition. */
+.bg-navy-950 { background: var(--ink-950); }
+.bg-navy-900 { background: var(--ink-900); }
+.text-navy-950, .text-navy-900, .text-navy-800 { color: var(--ink-900); }
+.text-muted { color: var(--color-text-secondary); }
+.text-accent { color: var(--color-accent); }
+.bg-accent { background: var(--color-accent); }
+.bg-accent-soft { background: var(--color-action-muted); }
+.border-border { border-color: var(--color-border-default); }

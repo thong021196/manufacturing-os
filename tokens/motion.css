@@ -1,0 +1,13 @@
+:root {
+  --motion-fast: 120ms ease;
+  --motion-standard: 180ms ease;
+  --motion-slow: 260ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms linear;
+    --motion-standard: 0ms linear;
+    --motion-slow: 0ms linear;
+  }
+}

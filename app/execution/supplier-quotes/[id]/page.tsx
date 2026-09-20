@@ -68,3 +68,4 @@ export default async function SupplierQuoteDetailPage({ params }: PageProps<"/ex
     </div>
   );
 }
+export function generateStaticParams() { return SupplierQuotes.all().map((item) => ({ id: item.id })); }
