@@ -1,5 +1,6 @@
 User-Agent: *
 Allow: /
+Disallow: /admin
 Disallow: /api/
 Disallow: /ops
 Disallow: /discovery/
