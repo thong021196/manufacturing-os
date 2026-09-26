@@ -28,6 +28,17 @@ the box against a disk-backed dev/test fallback store — no external
 account needed to try the flow end-to-end (`/rfq` → submit → real
 reference id, persisted under `.data/rfq/`, gitignored).
 
+## Operating it
+
+- **Owner admin** at `/admin` (login + optional 2FA): RFQ inbox with status
+  workflow, notes and private file downloads; a "This week" dashboard for a
+  twice-weekly visit; the content calendar. See
+  [docs/ops/weekly-operating-rhythm.md](./docs/ops/weekly-operating-rhythm.md).
+- **New pages** are drafted as `scheduled` entries in a PR, approved by
+  merging, and go live on their date without a deploy —
+  [docs/ops/content-pipeline.md](./docs/ops/content-pipeline.md).
+- **Launching on AWS**: [docs/ops/LAUNCH-RUNBOOK.md](./docs/ops/LAUNCH-RUNBOOK.md).
+
 ## Deployment
 
 **Production target: AWS** (ECS Fargate + RDS Postgres + private S3 —

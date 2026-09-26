@@ -8,6 +8,14 @@ documented legacy/alternative path further down this file, but nothing in
 production launch requires the owner to create a Supabase project or
 resolve Vercel billing anymore.
 
+> **Launching?** The exact, copy-pasteable bootstrap (tools, Terraform
+> apply, GitHub variables, admin credentials, first deploy, the owner's DNS
+> steps, key revocation, rough cost) is
+> **[docs/ops/LAUNCH-RUNBOOK.md](./docs/ops/LAUNCH-RUNBOOK.md)**. Running
+> it week to week: [docs/ops/weekly-operating-rhythm.md](./docs/ops/weekly-operating-rhythm.md).
+> Publishing new pages: [docs/ops/content-pipeline.md](./docs/ops/content-pipeline.md).
+> This file keeps the architecture reasoning.
+
 This app has three deployment surfaces:
 
 1. **GitHub Pages static preview** (`/frontend-preview/`) — marketing
@@ -84,20 +92,18 @@ summarized here.)
   that NAT's AZ has an outage) for materially lower cost. A single Fargate
   task already has no cross-AZ HA story to protect.
 - **CloudFront, WAF, Fargate Spot, Container Insights, RDS Performance
-  Insights, VPC Flow Logs, a Terraform S3/DynamoDB remote state backend**
-  — each would be a reasonable *next* step, not an MVP-launch requirement.
-  `infra/terraform/versions.tf` has the remote-state backend block
-  pre-written and commented out for when it's wanted.
+  Insights, VPC Flow Logs** — each would be a reasonable *next* step, not
+  an MVP-launch requirement. (Terraform remote state is no longer optional:
+  `versions.tf` uses an S3 backend with S3-native locking, bucket created
+  by the runbook, because the first apply runs in an ephemeral agent
+  session.)
 
-### Rough, conservative MVP-scale cost estimate
+### Rough cost
 
-**Approximate only, not verified against current AWS pricing — get a real
-number from the AWS Pricing Calculator or Cost Explorer before treating
-this as a budget.** Single region, single-AZ RDS, one small Fargate task,
-one NAT Gateway, low traffic: roughly **US$60–100/month**, dominated by
-the NAT Gateway (~$32/mo + data) and the always-on RDS instance and
-Fargate task (each roughly $10–15/mo at these sizes); S3/Secrets
-Manager/ALB/data transfer at MVP volume are typically a few dollars each.
+See the (explicitly rough) table in
+[docs/ops/LAUNCH-RUNBOOK.md § Rough monthly cost](./docs/ops/LAUNCH-RUNBOOK.md#rough-monthly-cost):
+roughly US$95–120/month at MVP scale, dominated by the NAT Gateway, ALB,
+Fargate task, RDS instance and public IPv4 addresses. Not a quote.
 
 ---
 
@@ -151,29 +157,38 @@ isolated from every other project already using AWS"):
 - `infra/terraform/` — the full Terraform configuration (VPC, RDS, S3,
   IAM, security groups, Secrets Manager, ECR, ECS Fargate service, ALB,
   optional Route 53/ACM). See `infra/terraform/terraform.tfvars.example`.
-- `infra/sql/0001_rfq_intake_rds.sql` — plain-Postgres schema for RDS
-  (same table shape as the Supabase migration, adapted: no Supabase
-  Storage/RLS-specific bits, adds a least-privilege
-  `manufacturing_os_app` database role).
+- `infra/sql/0001_rfq_intake_rds.sql`, `0002_admin_workflow_rds.sql` —
+  plain-Postgres schema for RDS (same table shape as the Supabase
+  migrations, adapted: no Supabase Storage/RLS-specific bits, grants for a
+  least-privilege `manufacturing_os_app` database role). Applied by
+  `scripts/migrate.mjs` (tracks `schema_migrations`, idempotent) as a
+  one-off ECS task on every deploy.
+- `infra/terraform/github_oidc.tf` — GitHub OIDC provider + a deploy role
+  that only `main` of this repo can assume (ECR push, register task
+  definitions, run the migration task, update the one service).
+- `infra/terraform/ses.tf` — optional SES domain identity (DKIM records in
+  the outputs) for same-day new-RFQ alerts to the owner.
 - `Dockerfile` / `.dockerignore` — multi-stage build producing the image
   the ECS task runs, from Next.js's `output: "standalone"` trace
   (`next.config.ts`).
 - `lib/rfq/store/aws.ts` — the `RfqStore` implementation for RDS + S3 (see
   [§ RfqStore: AWS backend](#rfqstore-aws-backend) below).
-- `.github/workflows/deploy-production-aws.yml` — builds the Docker image
-  and deploys it to the ECS service on every push to `main`, but only
-  runs once the `AWS_DEPLOY_ROLE_ARN` secret exists; until then it no-ops
-  with a clear warning instead of failing.
-- `.github/workflows/ci.yml` — typecheck/lint/build on every PR and push
-  to `main` (unchanged behavior, one incidental fix: added
-  `npx next typegen` before `tsc --noEmit`, which Next.js 16 requires for
-  `PageProps`/`LayoutProps` route-type helpers to resolve on a fresh
-  checkout — found while verifying this pass's own changes).
+- `.github/workflows/deploy-production-aws.yml` — on every push to
+  `main`: build + push the image (tagged by commit SHA), register task
+  definitions, run DB migrations as a one-off ECS task, roll the service
+  (circuit breaker auto-rollback), smoke-check `/api/health` for the new
+  version. No-ops with a warning until the `AWS_DEPLOY_ROLE_ARN` repository
+  variable exists.
+- `.github/workflows/ci.yml` — typecheck/lint/unit tests/build; migrations
+  applied twice against a throwaway Postgres 16 plus the AWS store's SQL
+  run as the app role; `terraform fmt -check` + `validate`.
 - `.env.example` — every environment variable this app reads, across all
   three backends, documented.
 - Kept from the prior pass, now the legacy/alternative path:
-  `supabase/migrations/0001_rfq_intake.sql`, `vercel.json`,
-  `.github/workflows/deploy-production.yml`.
+  `supabase/migrations/` (0001 + 0002), `vercel.json`,
+  `.github/workflows/deploy-production.yml` (manual dispatch only — no
+  longer deploys on push, so production data can't split across two
+  backends).
 
 ## RfqStore: AWS backend
 
@@ -184,10 +199,11 @@ has no idea which backend is active.
 
 - **Database**: a `pg` connection pool against `DATABASE_URL` (RDS
   Postgres), connecting as the least-privilege `manufacturing_os_app`
-  role (`infra/sql/0001_rfq_intake_rds.sql` grants it exactly
-  `SELECT`/`INSERT`/`UPDATE` on the two RFQ tables, nothing else — the RDS
-  master user is a separate credential used only to run migrations, never
-  by the running app). `createSubmission` runs inside a transaction so a
+  role (`infra/sql/0001…`/`0002…` grant it `SELECT`/`INSERT`/`UPDATE` on
+  the RFQ tables, `SELECT`/`INSERT` only on the append-only notes and
+  status-history tables, nothing else — the RDS master user is a separate
+  credential only the one-off migration task receives, never the running
+  app). `createSubmission` runs inside a transaction so a
   failed file upload can't leave an orphaned submission row.
 - **Files**: uploaded via `@aws-sdk/client-s3`'s `PutObjectCommand`
   straight to the `manufacturing-os-rfq-files-<account-id>` bucket, with
@@ -205,7 +221,8 @@ has no idea which backend is active.
   alone the public internet.
 - **Credentials**: the running ECS task assumes an IAM role
   (`manufacturing-os-ecs-task-role`) scoped to exactly `PutObject`/
-  `GetObject`/`ListBucket` on this one bucket — no static AWS access keys
+  `GetObject`/`ListBucket` on this one bucket (plus `ses:SendEmail` on the
+  two alert identities when alerts are enabled) — no static AWS access keys
   are ever set as an app env var. `DATABASE_URL` is injected by ECS from
   Secrets Manager at container start (`infra/terraform/ecs.tf`'s
   `secrets` block, resolved via the execution role) — it is never a
@@ -216,6 +233,12 @@ Selected via `RFQ_BACKEND=aws` (or auto-detected when `DATABASE_URL` +
 `AWS_S3_RFQ_BUCKET` are both set — see `lib/rfq/config.ts`).
 
 ## Content layer: no AWS dependency needed
+
+(Scheduling/publishing on top of it — `publishStatus`, `publishAt`, the
+owner's pause switch — is described in
+[docs/ops/content-pipeline.md](./docs/ops/content-pipeline.md); the only
+AWS-side piece is the small `content_overrides` table used by Pause.)
+
 
 `ContentAdapter` (`lib/content/adapter.ts`) stays exactly as it was —
 repository-backed (TypeScript data files compiled into the build), no AWS
@@ -233,190 +256,27 @@ nothing else in this pass needed to change to keep that path open.
 
 ## Deploy steps (AWS)
 
-### 0. Prerequisites (owner-side, account-level)
+Moved to **[docs/ops/LAUNCH-RUNBOOK.md](./docs/ops/LAUNCH-RUNBOOK.md)**,
+which replaces the earlier manual steps here (manual `psql` migration,
+`:latest` image + `--force-new-deployment`, hand-made OIDC role). Summary:
 
-1. Decide: a dedicated AWS account for `manufacturing-os` (preferred), or
-   a shared account with the isolation model above (already enforced by
-   this Terraform config either way).
-2. Have AWS credentials for that account/region available locally (or in
-   CI) with permission to create the resources this config defines —
-   `AdministratorAccess` for the first `terraform apply` is the simplest
-   starting point for an account dedicated to this project; scope it down
-   afterward if desired.
-3. Install [Terraform](https://developer.hashicorp.com/terraform/install)
-   >= 1.5 and the [AWS CLI](https://aws.amazon.com/cli/) v2.
-4. (Optional, only if using Route 53 in this account for the domain) Know
-   the hosted zone ID for the production domain.
+1. A session with temporary AWS keys installs Terraform + the AWS provider
+   from `releases.hashicorp.com` (no registry access needed), creates the
+   S3 state bucket, and runs `terraform apply` (service starts at 0 tasks).
+2. The `terraform output github_actions_variables` values become GitHub
+   repository variables (only `AWS_DEPLOY_ROLE_ARN` is required).
+3. Admin credentials are generated (scrypt hash + session secret + TOTP),
+   stored in the `manufacturing-os/admin` secret, and handed to the owner
+   through a one-time secret.
+4. The deploy workflow is triggered: image build → migrations (one-off ECS
+   task) → rollout → `/api/health` reports the commit.
+5. OWNER: ACM validation + site CNAMEs, SES DKIM CNAMEs, SES verification
+   click; agent re-applies with `external_dns_validated = true` for HTTPS.
+6. The bootstrap access key is deleted. From then on only the main-branch
+   OIDC role deploys.
 
-**This repository's own session had none of the above — no AWS
-credentials, no AWS MCP tools, and did not and could not provision any
-live AWS resource.** Everything under `infra/terraform/` was written,
-formatted (`terraform fmt`), and validated (`terraform validate` — via a
-real `hashicorp/aws` provider install through a manually-configured
-filesystem mirror, since this sandbox's network policy blocks
-`registry.terraform.io`'s discovery endpoint but allows
-`releases.hashicorp.com`'s direct downloads; see the mirror technique
-in this PR's description if useful) against the real AWS provider schema.
-A `terraform plan` was also attempted and got past every local
-validation, all the way to a real AWS STS `GetCallerIdentity` call, which
-correctly failed for lack of credentials — i.e., the configuration's
-resource graph and references are confirmed sound; only live
-provisioning (which requires the owner's own credentials) was not done.
-
-### 1. Provision the infrastructure
-
-```bash
-cd infra/terraform
-cp terraform.tfvars.example terraform.tfvars
-# edit terraform.tfvars: aws_region, environment, site_url, and DNS vars
-# if using Route 53 (see § DNS below). Do NOT put passwords in this file.
-
-export TF_VAR_db_master_password="$(openssl rand -base64 24)"
-export TF_VAR_db_app_password="$(openssl rand -base64 24)"
-# Save both somewhere safe (a password manager) -- you'll need the master
-# password again in step 2.
-
-terraform init
-terraform plan   # review what it's about to create
-terraform apply
-```
-
-This creates: the VPC + subnets + NAT/IGW + route tables, the RDS
-instance, the S3 bucket (+ public access block + encryption + lifecycle
-rule), the ECR repo, the ECS cluster + task definition + service, the
-ALB (+ target group + listeners), IAM roles/policies, security groups,
-Secrets Manager entries, and (if `route53_zone_id`/`domain_name` are set)
-the ACM certificate + validation records + Route 53 alias. Exact resource
-list and naming: see [§ Isolation model](#isolation-model) above.
-
-The ECS service will fail its first deployment (no real image pushed
-yet — `var.container_image` defaults to a placeholder) — that's expected
-until step 3.
-
-### 2. Apply the database schema
-
-```bash
-# Get the master connection string (or read it from Secrets Manager:
-# the db_master_credentials_secret_arn Terraform output).
-MASTER_URL=$(terraform output -raw db_master_credentials_secret_arn | \
-  xargs -I{} aws secretsmanager get-secret-value --secret-id {} \
-  --query SecretString --output text | jq -r .database_url)
-
-psql "$MASTER_URL" \
-  -v app_password="$TF_VAR_db_app_password" \
-  -f ../sql/0001_rfq_intake_rds.sql
-```
-
-This creates the `manufacturing_os_app` role (password from
-`TF_VAR_db_app_password`, matching what Terraform already put in the
-`db_app_credentials` Secrets Manager entry the running app reads) and the
-`rfq_submissions` / `rfq_files` tables with least-privilege grants. Run
-this once; re-running is safe (every statement is `if not exists` /
-`create or replace`).
-
-### 3. Build and push the app image, deploy it
-
-The first deploy can be done manually; every subsequent one happens
-automatically via `.github/workflows/deploy-production-aws.yml` once its
-one required secret exists (see step 4).
-
-```bash
-aws ecr get-login-password --region "$AWS_REGION" | \
-  docker login --username AWS --password-stdin "$(terraform output -raw ecr_repository_url | cut -d/ -f1)"
-
-docker build -t manufacturing-os-app .
-docker tag manufacturing-os-app:latest "$(terraform output -raw ecr_repository_url):latest"
-docker push "$(terraform output -raw ecr_repository_url):latest"
-
-aws ecs update-service --cluster "$(terraform output -raw ecs_cluster_name)" \
-  --service "$(terraform output -raw ecs_service_name)" --force-new-deployment
-```
-
-#### A note on image tagging
-
-This MVP pass uses a mutable `:latest` tag + `--force-new-deployment` —
-the simplest pattern that works, at the cost of losing an explicit
-"which exact image is task definition revision N" audit trail. If/when
-that guarantee matters, switch to: tag images by git SHA, render a new
-task definition JSON with that image (e.g.
-`aws-actions/amazon-ecs-render-task-definition` +
-`amazon-ecs-deploy-task-definition` in the GitHub Actions workflow), and
-let ECS create a new task definition revision per deploy (enabling clean
-rollback via `aws ecs update-service --task-definition <prior-revision>`).
-Not done in this pass — an explicit "avoid premature automation, don't
-overbuild" tradeoff (AGENTS.md rule 10).
-
-### 4. Set up GitHub OIDC → AWS deploy role (for CI/CD)
-
-So `.github/workflows/deploy-production-aws.yml` can build/push/deploy
-without any long-lived AWS access keys stored in GitHub:
-
-1. Create (or reuse, if this AWS account already has one) an OIDC
-   identity provider for `token.actions.githubusercontent.com` — see
-   [GitHub's own guide](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services).
-2. Create an IAM role `manufacturing-os-github-deploy-role` (kept out of
-   `infra/terraform/` deliberately — this role's trust policy needs this
-   specific GitHub repo/branch, which is more of an account-bootstrap
-   step than app infrastructure) trusting that OIDC provider, scoped to:
-   `ecr:GetAuthorizationToken`, `ecr:BatchCheckLayerAvailability`,
-   `ecr:PutImage`, `ecr:InitiateLayerUpload`, `ecr:UploadLayerPart`,
-   `ecr:CompleteLayerUpload` on the `manufacturing-os-app` ECR repo, and
-   `ecs:UpdateService`, `ecs:DescribeServices` on the
-   `manufacturing-os-app-service` ECS service.
-3. Add that role's ARN as the repo secret `AWS_DEPLOY_ROLE_ARN`
-   (`Settings → Secrets and variables → Actions`).
-4. (Optional) Set repo variables `AWS_REGION`, `AWS_ECS_CLUSTER`,
-   `AWS_ECS_SERVICE` if the Terraform `name_prefix`/`aws_region` were
-   changed from their defaults.
-
-### 5. DNS / custom domain
-
-**If the domain's DNS is managed in Route 53, in this AWS account:**
-set `route53_zone_id` and `domain_name` in `terraform.tfvars` and re-run
-`terraform apply` — it requests an ACM certificate, DNS-validates it
-automatically (creates the validation CNAME records itself), attaches it
-to the ALB's HTTPS listener, and creates the `A` alias record pointing at
-the ALB. Nothing further to do; the certificate auto-renews.
-
-**If DNS is managed outside Route 53** (a registrar, Cloudflare, etc.):
-
-1. Issue a certificate for the domain via
-   [AWS Certificate Manager](https://console.aws.amazon.com/acm/) with
-   DNS validation, and add the CNAME record it gives you at your DNS
-   provider.
-2. Once validated, set `acm_certificate_arn` in `terraform.tfvars` to
-   that certificate's ARN and re-run `terraform apply` — this attaches it
-   to the ALB's HTTPS listener.
-3. At your DNS provider, point the domain at the ALB: a `CNAME` (for a
-   subdomain) or, for an apex/root domain most providers support some
-   form of "ALIAS"/"ANAME" record — to the ALB's DNS name (`terraform
-   output alb_dns_name`).
-4. Set `NEXT_PUBLIC_SITE_URL` (via `var.site_url` in `terraform.tfvars`,
-   which sets it as an ECS task environment variable) to the final
-   `https://` domain and redeploy, so canonical URLs / Open Graph /
-   `sitemap.xml` / `robots.txt` point at the real domain.
-
-Either way, until a certificate exists, the ALB serves plain HTTP on its
-own `*.elb.amazonaws.com` DNS name (`terraform output alb_dns_name`) —
-fine for an initial smoke test, not for real production traffic.
-
-### 6. Verify
-
-1. `GET https://<domain>/api/health` (or the ALB DNS name over HTTP
-   before a cert exists) should return
-   `{"status":"ok", "rfqBackend":"aws", ...}`. If `rfqBackend` reads
-   `"local"`, the ECS task's env vars/secrets are missing or misnamed —
-   check the task definition (`infra/terraform/ecs.tf`) actually applied.
-2. Submit a real test RFQ through `/rfq` and confirm a row appears in
-   `rfq_submissions` (via `psql` against the master connection string)
-   and an object appears in the `manufacturing-os-rfq-files-<account-id>`
-   S3 bucket.
-3. Confirm the S3 object is NOT publicly reachable (e.g.
-   `curl -I https://manufacturing-os-rfq-files-<account-id>.s3.amazonaws.com/<key>`
-   should return `403`, never `200`).
-4. `GET /sitemap.xml` and `/robots.txt` reflect the real domain.
-5. Spot-check `/`, `/parts/robot-joint-housing`, `/how-it-works`, `/rfq`,
-   and a 404 route on both desktop and mobile widths.
+**The admin (`/admin`) only works over HTTPS** — its session cookie is
+`Secure` with the `__Host-` prefix — so it becomes usable at step 5.
 
 ---
 
@@ -458,6 +318,24 @@ RFQ submissions locally use the disk-backed fallback
 `DATABASE_URL` + `AWS_S3_RFQ_BUCKET` (AWS) or `SUPABASE_URL` +
 `SUPABASE_SERVICE_ROLE_KEY` (legacy) are set in `.env.local`. See
 `.env.example` for every variable.
+
+**Owner admin locally** (`http://localhost:3000/admin`): add to
+`.env.local`
+
+```bash
+ADMIN_USERNAME=owner
+ADMIN_PASSWORD_HASH=<output of: npm run admin:hash-password>
+ADMIN_SESSION_SECRET=<output of: openssl rand -base64 48>
+# optional 2FA: ADMIN_TOTP_SECRET=<output of: npm run admin:totp-secret>
+```
+
+The session cookie is `Secure`; browsers treat `http://localhost` as a
+secure context, so this works locally, but on any other plain-HTTP host the
+admin deliberately cannot log in. `CONTENT_SMOKE_FIXTURES=true` (build and
+start) adds four `/robot-parts/smoke-fixture-*` pages for exercising the
+content calendar (`lib/content/repository/guides/smoke-fixtures.ts`); never
+set it in production. `npm run migrate` applies `infra/sql/` to
+`MIGRATION_DATABASE_URL` (a local Postgres; `AWS_DB_SSL=off`).
 
 To build and run the production Docker image locally against the local
 fallback store:
