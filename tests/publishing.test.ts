@@ -8,7 +8,7 @@ import { smokeFixtureGuides } from "@/lib/content/repository/guides/smoke-fixtur
 import type { PageRegistryEntry } from "@/lib/content/types";
 
 const base: PageRegistryEntry = {
-  path: "/x",
+  path: "/robot-parts/x",
   pageKind: "guide",
   contentBlockIds: ["cb"],
   title: "X",
@@ -34,8 +34,8 @@ test("publish rules: published / scheduled past / scheduled future / draft / unp
 });
 
 test("owner pause hides an otherwise-live page", () => {
-  assert.equal(isEntryLive(base, now, new Set(["/x"])), false);
-  assert.equal(calendarState(base, now, new Set(["/x"])), "paused");
+  assert.equal(isEntryLive(base, now, new Set(["/robot-parts/x"])), false);
+  assert.equal(calendarState(base, now, new Set(["/robot-parts/x"])), "paused");
   assert.equal(calendarState(base, now, none), "live");
   assert.equal(calendarState({ ...base, publishStatus: "scheduled", publishAt: "2099-01-01T00:00:00Z" }, now, none), "scheduled");
   assert.equal(calendarState({ ...base, publishStatus: "scheduled", publishAt: "tomorrow" }, now, none), "invalid");
@@ -69,13 +69,15 @@ test("smoke fixtures are valid registry entries", () => {
 
 test("validateRegistry catches bad content PRs", () => {
   const errors = validateRegistry([
-    { ...base, path: "/a" },
-    { ...base, path: "/a" },
-    { ...base, path: "/b/", publishStatus: "scheduled", publishAt: "2026-10-01" },
+    { ...base, path: "/robot-parts/a" },
+    { ...base, path: "/robot-parts/a" },
+    { ...base, path: "/robot-parts/b/", publishStatus: "scheduled", publishAt: "2026-10-01" },
     { ...base, path: "/admin/x" },
+    { ...base, path: "/elsewhere/c" },
   ]);
   assert.ok(errors.some((e) => e.includes("duplicate")));
   assert.ok(errors.some((e) => e.includes("trailing slash")));
   assert.ok(errors.some((e) => e.includes("explicit offset")));
   assert.ok(errors.some((e) => e.includes("reserved")));
+  assert.ok(errors.some((e) => e.includes("must live under")));
 });

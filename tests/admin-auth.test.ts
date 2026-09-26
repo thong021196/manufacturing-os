@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { hashPassword, verifyPassword } from "@/lib/admin/password";
-import { base32Decode, base32Encode, resetTotpReplayGuard, totpCode, verifyTotp } from "@/lib/admin/totp";
+import { base32Decode, base32Encode, markTotpUsed, matchTotp, resetTotpReplayGuard, totpCode, verifyTotp } from "@/lib/admin/totp";
 import { createSessionToken, readSessionToken } from "@/lib/admin/session";
 import type { AdminConfig } from "@/lib/admin/config";
 import { clientIpFromHeaders, loginRetryAfterMs, recordLoginFailure, recordLoginSuccess, resetLoginRateLimits } from "@/lib/admin/rate-limit";
@@ -45,6 +45,19 @@ test("TOTP verification allows +/-1 step and rejects replay", () => {
   assert.equal(verifyTotp(secretB32, totpCode(secret, counter), now), false, "replayed code must fail");
   assert.equal(verifyTotp(secretB32, totpCode(secret, counter + 5), now), false, "far-future code must fail");
   assert.equal(verifyTotp(secretB32, "abcdef", now), false);
+});
+
+test("a matched-but-not-committed TOTP code (failed login) can still be used once", () => {
+  resetTotpReplayGuard();
+  const secret = Buffer.from("12345678901234567890");
+  const secretB32 = base32Encode(secret);
+  const now = 1_700_000_300_000;
+  const code = totpCode(secret, Math.floor(now / 1000 / 30));
+  assert.notEqual(matchTotp(secretB32, code, now), null); // wrong password: not marked
+  const step = matchTotp(secretB32, code, now);
+  assert.notEqual(step, null, "retry with the same code works");
+  markTotpUsed(step!);
+  assert.equal(matchTotp(secretB32, code, now), null, "after a successful login it is burnt");
 });
 
 const config: AdminConfig = {

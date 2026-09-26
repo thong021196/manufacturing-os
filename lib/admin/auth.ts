@@ -6,7 +6,7 @@ import { readAdminConfig } from "@/lib/admin/config";
 import { verifyPassword } from "@/lib/admin/password";
 import { loginRetryAfterMs, recordLoginFailure, recordLoginSuccess } from "@/lib/admin/rate-limit";
 import { ADMIN_COOKIE, createSessionToken, readSessionToken, sessionCookieOptions, type AdminSession } from "@/lib/admin/session";
-import { verifyTotp } from "@/lib/admin/totp";
+import { markTotpUsed, matchTotp } from "@/lib/admin/totp";
 
 /**
  * Server-side admin authorization. proxy.ts is the first gate (it redirects
@@ -74,7 +74,8 @@ export async function attemptLogin(input: { username: string; password: string; 
   // timing does not reveal whether the username was right.
   const usernameOk = constantTimeEquals(input.username.trim(), config.username);
   const passwordOk = await verifyPassword(input.password, config.passwordHash);
-  const totpOk = config.totpSecret ? verifyTotp(config.totpSecret, input.totp) : true;
+  const totpStep = config.totpSecret ? matchTotp(config.totpSecret, input.totp) : null;
+  const totpOk = config.totpSecret ? totpStep !== null : true;
 
   if (!(usernameOk && passwordOk && totpOk)) {
     recordLoginFailure(input.ip);
@@ -82,6 +83,7 @@ export async function attemptLogin(input: { username: string; password: string; 
     return { ok: false, error: GENERIC_LOGIN_ERROR };
   }
 
+  if (totpStep !== null) markTotpUsed(totpStep);
   recordLoginSuccess(input.ip);
   console.info("[admin] owner signed in", { ip: input.ip });
   const { token, maxAge } = createSessionToken(config);

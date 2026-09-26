@@ -193,7 +193,8 @@ export class LocalRfqStore implements RfqStore {
   async healthCheck() {
     try {
       await mkdir(this.baseDir, { recursive: true });
-      return { ok: true, detail: `local disk store at ${path.relative(process.cwd(), this.baseDir) || "."} (dev/test only)` };
+      const rel = path.relative(process.cwd(), this.baseDir);
+      return { ok: true, detail: `local disk store at ${rel && !rel.startsWith("..") ? rel : this.baseDir} (dev/test only)` };
     } catch (error) {
       return { ok: false, detail: `local store not writable: ${(error as Error).message}` };
     }

@@ -22,6 +22,9 @@ import { sanitizeText } from "@/lib/rfq/validate";
 
 export interface LoginState {
   error?: string;
+  /** Echoed back so the owner doesn't retype it after a failed attempt
+   * (never the password or code). */
+  username?: string;
 }
 
 function field(form: FormData, key: string, max = 512): string {
@@ -37,7 +40,7 @@ export async function loginAction(_prev: LoginState, form: FormData): Promise<Lo
     totp: field(form, "totp", 16),
     ip,
   });
-  if (!result.ok) return { error: result.error };
+  if (!result.ok) return { error: result.error, username: field(form, "username", 200) };
   await setSessionCookie(result.token, result.maxAge);
   redirect(safeAdminNext(field(form, "next", 512)));
 }

@@ -76,7 +76,9 @@ export default async function RfqDetailPage({ params }: PageProps<"/admin/rfqs/[
               </button>
             </form>
           ))}
-          <form action={updateRfqStatusAction} className="flex items-center gap-2">
+          {/* key: remount after a status change so the select shows the new value
+              (React resets uncontrolled fields to their first defaultValue). */}
+          <form key={rfq.status} action={updateRfqStatusAction} className="flex items-center gap-2">
             <input type="hidden" name="id" value={rfq.id} />
             <label className="text-xs text-muted" htmlFor="status-select">
               or set

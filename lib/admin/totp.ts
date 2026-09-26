@@ -66,13 +66,15 @@ export function totpCounter(nowMs: number): number {
 
 let lastAcceptedCounter = -1;
 
-/** Returns true when `code` is valid for `secretB32` at `nowMs` and has not
- * been used before. */
-export function verifyTotp(secretB32: string, code: string, nowMs: number = Date.now()): boolean {
+/** Returns the matching time-step for `code` (current step +/- 1), or null.
+ * Does NOT record the step as used: call markTotpUsed() only once the whole
+ * login succeeded, so a failed attempt (e.g. wrong password with a valid
+ * code) doesn't burn the code the owner is about to retry with. */
+export function matchTotp(secretB32: string, code: string, nowMs: number = Date.now()): number | null {
   const secret = base32Decode(secretB32);
-  if (!secret || secret.length < 10) return false;
+  if (!secret || secret.length < 10) return null;
   const candidate = code.replace(/\s/g, "");
-  if (!/^\d{6}$/.test(candidate)) return false;
+  if (!/^\d{6}$/.test(candidate)) return null;
   const current = totpCounter(nowMs);
   let matched = -1;
   // Check every window (no early exit) so timing doesn't reveal which one.
@@ -80,8 +82,21 @@ export function verifyTotp(secretB32: string, code: string, nowMs: number = Date
     const expected = Buffer.from(totpCode(secret, counter));
     if (timingSafeEqual(expected, Buffer.from(candidate))) matched = counter;
   }
-  if (matched === -1 || matched <= lastAcceptedCounter) return false;
-  lastAcceptedCounter = matched;
+  // Replay protection: a step at or before the last successful login's
+  // step is never accepted again.
+  if (matched === -1 || matched <= lastAcceptedCounter) return null;
+  return matched;
+}
+
+export function markTotpUsed(counter: number): void {
+  lastAcceptedCounter = Math.max(lastAcceptedCounter, counter);
+}
+
+/** match + mark in one step (tests / simple callers). */
+export function verifyTotp(secretB32: string, code: string, nowMs: number = Date.now()): boolean {
+  const matched = matchTotp(secretB32, code, nowMs);
+  if (matched === null) return false;
+  markTotpUsed(matched);
   return true;
 }
 

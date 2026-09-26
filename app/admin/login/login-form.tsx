@@ -32,7 +32,7 @@ export function LoginForm({ next, totpRequired }: { next: string; totpRequired: 
       <input type="hidden" name="next" value={next} />
       <label className="block text-xs font-medium text-navy-800">
         Username
-        <input name="username" autoComplete="username" required className={inputClass} />
+        <input name="username" autoComplete="username" required defaultValue={state.username} key={state.username} className={inputClass} />
       </label>
       <label className="block text-xs font-medium text-navy-800">
         Password

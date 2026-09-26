@@ -1,9 +1,27 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { readAdminConfig } from "@/lib/admin/config";
 import { ADMIN_COOKIE, readSessionToken } from "@/lib/admin/session";
+import { contentAdapter } from "@/lib/content/adapter";
+import { GUIDE_PREFIXES } from "@/lib/content/publishing";
+
+// Every registry path served by a guide route (app/<prefix>/[[...slug]]).
+const guidePaths = new Set(
+  contentAdapter
+    .getAllEntries()
+    .filter((e) => e.pageKind === "guide")
+    .map((e) => e.path),
+);
 
 /**
- * Next.js 16 Proxy (formerly middleware) -- first gate for the owner admin.
+ * Next.js 16 Proxy (formerly middleware). Two jobs:
+ *
+ * 1. Content-calendar guide prefixes (/robot-parts/...): any path that is not
+ *    a registry guide path is rewritten to the site's normal 404 page before
+ *    it reaches the ISR route, so scanners can't create cache entries (see
+ *    app/robot-parts/[[...slug]]/page.tsx). Registry paths pass through; the
+ *    page itself decides live vs 404 from the content calendar.
+ *
+ * 2. First gate for the owner admin.
  * Runs on the Node.js runtime (the default for proxy in this version), so it
  * verifies the encrypted session cookie with node:crypto directly.
  *
@@ -17,6 +35,14 @@ import { ADMIN_COOKIE, readSessionToken } from "@/lib/admin/session";
  */
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+
+  if (GUIDE_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))) {
+    const normalized = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
+    if (guidePaths.has(normalized)) return NextResponse.next();
+    // No route exists at this path, so Next renders app/not-found.tsx (404).
+    return NextResponse.rewrite(new URL("/_not-a-registry-page", request.url));
+  }
+
   const isApi = pathname.startsWith("/api/admin");
   const isLogin = pathname === "/admin/login";
 
@@ -51,5 +77,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*", "/api/admin/:path*"],
+  matcher: ["/admin", "/admin/:path*", "/api/admin/:path*", "/robot-parts", "/robot-parts/:path*"],
 };

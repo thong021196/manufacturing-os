@@ -57,6 +57,10 @@ export function calendarState(entry: PageRegistryEntry, now: Date, pausedPaths: 
  * the site or the RFQ intake down). Unpublishing these needs a reviewed PR. */
 export const UNPAUSABLE_PATHS: ReadonlySet<string> = new Set(["/", "/rfq"]);
 
+/** URL prefixes that have a guide route file (app/<prefix>/[[...slug]]).
+ * A guide page must live under one of them -- see lib/content/guide-route.tsx. */
+export const GUIDE_PREFIXES = ["/robot-parts"] as const;
+
 /** Structural checks run by `npm test` (tests/publishing.test.ts) so a bad
  * content PR fails CI instead of silently never going live. */
 export function validateRegistry(entries: PageRegistryEntry[]): string[] {
@@ -73,6 +77,9 @@ export function validateRegistry(entries: PageRegistryEntry[]): string[] {
     }
     if (entry.pageKind === "guide" && (!entry.contentBlockIds || entry.contentBlockIds.length === 0)) {
       errors.push(`${entry.path}: guide pages need contentBlockIds`);
+    }
+    if (entry.pageKind === "guide" && !GUIDE_PREFIXES.some((p) => entry.path === p || entry.path.startsWith(`${p}/`))) {
+      errors.push(`${entry.path}: guide pages must live under ${GUIDE_PREFIXES.join(" or ")} (or add a route file for a new prefix)`);
     }
     if (entry.path.startsWith("/admin") || entry.path.startsWith("/api")) {
       errors.push(`${entry.path}: /admin and /api are reserved`);

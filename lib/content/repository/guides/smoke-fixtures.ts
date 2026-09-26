@@ -8,10 +8,10 @@ import type { GuidePage } from "@/lib/content/repository/guides";
  * not). They exist so the scheduled-publishing behaviour can be verified end
  * to end in a local smoke test:
  *
- *   /smoke-fixtures/scheduled-past     scheduled, publishAt in the past -> renders
- *   /smoke-fixtures/scheduled-future   scheduled, publishAt in 2099     -> 404
- *   /smoke-fixtures/draft              draft                            -> 404
- *   /smoke-fixtures/scheduled-soon     scheduled at CONTENT_SMOKE_SOON_AT
+ *   /robot-parts/smoke-fixture-scheduled-past    scheduled, publishAt in the past -> renders
+ *   /robot-parts/smoke-fixture-scheduled-future  scheduled, publishAt in 2099     -> 404
+ *   /robot-parts/smoke-fixture-draft             draft                            -> 404
+ *   /robot-parts/smoke-fixture-scheduled-soon    scheduled at CONTENT_SMOKE_SOON_AT
  *                                      (optional) -> 404, then renders after
  *                                      that time on the next revalidation
  *
@@ -26,7 +26,7 @@ const fixtureProvenance: Provenance = {
 };
 
 function fixture(slug: string, title: string, publishStatus: PageRegistryEntry["publishStatus"], publishAt?: string): GuidePage {
-  const path = `/smoke-fixtures/${slug}`;
+  const path = `/robot-parts/smoke-fixture-${slug}`;
   const blocks: ContentBlock[] = [
     {
       id: `cb-smoke-${slug}-hero`,
