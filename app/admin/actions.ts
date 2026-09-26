@@ -81,7 +81,9 @@ export async function setContentPausedAction(form: FormData): Promise<void> {
   await store.setPaused(path, paused, reason, session.username);
   invalidateContentOverrideCache();
   console.info(`[admin] content ${paused ? "paused" : "resumed"}: ${path}`, { by: session.username });
-  // Re-render public pages now (the page itself, nav links, sitemap)
-  // rather than waiting for the 5-minute revalidation.
+  // Re-render public pages now (the page itself, nav links) rather than
+  // waiting for the 5-minute revalidation. The sitemap is a route handler,
+  // not a page under the root layout, so it needs its own invalidation.
   revalidatePath("/", "layout");
+  revalidatePath("/sitemap.xml");
 }

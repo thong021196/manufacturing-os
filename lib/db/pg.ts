@@ -1,7 +1,9 @@
 import { Pool, type PoolConfig } from "pg";
+import { processState } from "@/lib/process-state";
 
 /**
- * One shared Postgres pool per server process, used by every AWS-backend
+ * One shared Postgres pool per server PROCESS (processState -- not per
+ * route bundle), used by every AWS-backend
  * module (lib/rfq/store/aws.ts, lib/content/overrides/aws.ts) so the app
  * holds a single small set of connections to RDS instead of one pool per
  * module.
@@ -11,7 +13,7 @@ import { Pool, type PoolConfig } from "pg";
  * The RDS master credentials are never visible to the app -- only the
  * one-off migration task (scripts/migrate.mjs) receives those.
  */
-let pool: Pool | null = null;
+const holder = processState("pgPool", () => ({ pool: null as Pool | null }));
 
 export function pgSslConfig(): PoolConfig["ssl"] {
   // RDS requires TLS. "relaxed" (default) encrypts but does not validate
@@ -24,14 +26,14 @@ export function pgSslConfig(): PoolConfig["ssl"] {
 }
 
 export function getPgPool(): Pool {
-  if (pool) return pool;
+  if (holder.pool) return holder.pool;
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     throw new Error(
       "DATABASE_URL is not set (RDS Postgres connection string). Set RFQ_BACKEND=local to use the dev/test fallback instead.",
     );
   }
-  pool = new Pool({
+  const pool = new Pool({
     connectionString,
     ssl: pgSslConfig(),
     max: Number(process.env.PG_POOL_MAX) > 0 ? Number(process.env.PG_POOL_MAX) : 5,
@@ -43,6 +45,7 @@ export function getPgPool(): Pool {
     // the Node process; the pool replaces the client on next checkout.
     console.error("[db] idle Postgres client error", error.message);
   });
+  holder.pool = pool;
   return pool;
 }
 

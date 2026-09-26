@@ -1,4 +1,5 @@
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
+import { processState } from "@/lib/process-state";
 
 /**
  * RFC 6238 TOTP (HMAC-SHA1, 30 s step, 6 digits) -- what Google
@@ -64,7 +65,9 @@ export function totpCounter(nowMs: number): number {
   return Math.floor(nowMs / 1000 / STEP_SECONDS);
 }
 
-let lastAcceptedCounter = -1;
+// Process-wide (lib/process-state.ts), so the replay guard holds across
+// route bundles.
+const replay = processState("totpReplayGuard", () => ({ lastAcceptedCounter: -1 }));
 
 /** Returns the matching time-step for `code` (current step +/- 1), or null.
  * Does NOT record the step as used: call markTotpUsed() only once the whole
@@ -84,12 +87,12 @@ export function matchTotp(secretB32: string, code: string, nowMs: number = Date.
   }
   // Replay protection: a step at or before the last successful login's
   // step is never accepted again.
-  if (matched === -1 || matched <= lastAcceptedCounter) return null;
+  if (matched === -1 || matched <= replay.lastAcceptedCounter) return null;
   return matched;
 }
 
 export function markTotpUsed(counter: number): void {
-  lastAcceptedCounter = Math.max(lastAcceptedCounter, counter);
+  replay.lastAcceptedCounter = Math.max(replay.lastAcceptedCounter, counter);
 }
 
 /** match + mark in one step (tests / simple callers). */
@@ -108,5 +111,5 @@ export function totpUri(secretB32: string, account: string, issuer = "Manufactur
 
 /** Test hook: reset replay protection. */
 export function resetTotpReplayGuard(): void {
-  lastAcceptedCounter = -1;
+  replay.lastAcceptedCounter = -1;
 }

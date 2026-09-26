@@ -1,3 +1,5 @@
+import { processState } from "@/lib/process-state";
+
 /**
  * Login throttling / lockout for the single-owner admin.
  *
@@ -25,8 +27,14 @@ interface Bucket {
   lockedUntil: number;
 }
 
-const perIp = new Map<string, Bucket>();
-const global: Bucket = { failures: [], lockedUntil: 0 };
+// processState: one limiter for the whole server process, not one per
+// route bundle (lib/process-state.ts).
+const limiter = processState("loginRateLimit", () => ({
+  perIp: new Map<string, Bucket>(),
+  global: { failures: [], lockedUntil: 0 } as Bucket,
+}));
+const perIp = limiter.perIp;
+const global = limiter.global;
 
 function prune(bucket: Bucket, now: number) {
   bucket.failures = bucket.failures.filter((t) => now - t < WINDOW_MS);

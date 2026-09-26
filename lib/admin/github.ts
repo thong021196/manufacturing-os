@@ -1,3 +1,5 @@
+import { processState } from "@/lib/process-state";
+
 /**
  * "Content waiting for approval" = open pull requests labelled `content`
  * (opened by the scheduled content routine -- docs/ops/content-pipeline.md).
@@ -29,10 +31,11 @@ export function contentPrListUrl(): string {
   return `https://github.com/${contentRepo()}/pulls?q=${encodeURIComponent(`is:pr is:open label:${contentPrLabel()}`)}`;
 }
 
-let cache: { at: number; result: ContentPrResult } | null = null;
+const prCache = processState("contentPrCache", () => ({ value: null as { at: number; result: ContentPrResult } | null }));
 const CACHE_MS = 5 * 60_000;
 
 export async function fetchContentPrs(): Promise<ContentPrResult> {
+  const cache = prCache.value;
   if (cache && Date.now() - cache.at < CACHE_MS) return cache.result;
   let result: ContentPrResult;
   try {
@@ -66,6 +69,6 @@ export async function fetchContentPrs(): Promise<ContentPrResult> {
   } catch (error) {
     result = { ok: false, error: (error as Error).message };
   }
-  cache = { at: Date.now(), result };
+  prCache.value = { at: Date.now(), result };
   return result;
 }

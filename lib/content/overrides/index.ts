@@ -1,3 +1,4 @@
+import { processState } from "@/lib/process-state";
 import { rfqBackend } from "@/lib/rfq/config";
 
 /**
@@ -26,42 +27,40 @@ export interface ContentOverrideStore {
   setPaused(path: string, paused: boolean, reason: string, updatedBy: string): Promise<void>;
 }
 
-let cachedStore: ContentOverrideStore | null = null;
-
 export async function getContentOverrideStore(): Promise<ContentOverrideStore> {
-  if (cachedStore) return cachedStore;
   const backend = rfqBackend();
   if (backend === "aws") {
     const { AwsContentOverrideStore } = await import("@/lib/content/overrides/aws");
-    cachedStore = new AwsContentOverrideStore();
-  } else if (backend === "supabase") {
-    const { SupabaseContentOverrideStore } = await import("@/lib/content/overrides/supabase");
-    cachedStore = new SupabaseContentOverrideStore();
-  } else {
-    const { LocalContentOverrideStore } = await import("@/lib/content/overrides/local");
-    cachedStore = new LocalContentOverrideStore();
+    return new AwsContentOverrideStore(); // stateless; shares the process-wide pg pool
   }
-  return cachedStore;
+  if (backend === "supabase") {
+    const { SupabaseContentOverrideStore } = await import("@/lib/content/overrides/supabase");
+    return new SupabaseContentOverrideStore();
+  }
+  const { LocalContentOverrideStore } = await import("@/lib/content/overrides/local");
+  return new LocalContentOverrideStore();
 }
 
-// Short in-process cache so public page renders don't hit the database on
+// Short process-wide cache so public page renders don't hit the database on
 // every regeneration. The admin action clears it immediately after a write.
+// processState: shared by every route bundle (see lib/process-state.ts).
 const CACHE_MS = 30_000;
-let cache: { at: number; paused: Set<string> } | null = null;
+const state = processState("contentOverrideCache", () => ({ cache: null as { at: number; paused: Set<string> } | null }));
 
 export function invalidateContentOverrideCache(): void {
-  cache = null;
+  state.cache = null;
 }
 
 /** Paths currently paused by the owner. Fails OPEN (returns an empty set)
  * if the store is unreachable: a database blip must not 404 the whole
  * public site; the worst case is a paused page briefly reappearing. */
 export async function getPausedPaths(): Promise<Set<string>> {
+  const cache = state.cache;
   if (cache && Date.now() - cache.at < CACHE_MS) return cache.paused;
   try {
     const store = await getContentOverrideStore();
     const paused = new Set((await store.list()).filter((o) => o.paused).map((o) => o.path));
-    cache = { at: Date.now(), paused };
+    state.cache = { at: Date.now(), paused };
     return paused;
   } catch (error) {
     console.error("[content] could not read content overrides; treating none as paused", (error as Error).message);
