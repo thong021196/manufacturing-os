@@ -21,26 +21,31 @@
 --     for the application to connect as, instead of using the RDS master
 --     user for runtime traffic.
 --
--- How to apply: see DEPLOYMENT.md § "Apply the database schema (RDS)".
--- Nothing in this repo runs this automatically against a live database —
--- it is applied once, by the owner, after `terraform apply` creates the
--- RDS instance.
+-- How to apply: automatically. The production deploy workflow
+-- (.github/workflows/deploy-production-aws.yml) runs `node
+-- scripts/migrate.mjs` as a one-off ECS task (task definition
+-- manufacturing-os-migrate, infra/terraform/ecs.tf) before every service
+-- rollout. The runner applies every infra/sql/NNNN_*.sql file not yet
+-- recorded in the `schema_migrations` table, each in its own transaction,
+-- under a Postgres advisory lock. See docs/ops/LAUNCH-RUNBOOK.md.
 
 create extension if not exists "pgcrypto";
 
--- Dedicated application role. The master (admin) credentials created by
--- Terraform (infra/terraform/rds.tf) are used only to run migrations and
--- create this role; the running app connects as manufacturing_os_app using
--- a separate password stored in its own Secrets Manager entry (see
--- infra/terraform/secrets.tf). Keeps the blast radius of the app's runtime
--- credential to exactly these two tables.
-do $$
-begin
-  if not exists (select 1 from pg_roles where rolname = 'manufacturing_os_app') then
-    create role manufacturing_os_app with login password :'app_password';
-  end if;
-end
-$$;
+-- Dedicated application role `manufacturing_os_app`. The master (admin)
+-- credentials created by Terraform (infra/terraform/rds.tf) are used only
+-- by the one-off migration task; the running app connects as
+-- manufacturing_os_app using a separate password stored in its own Secrets
+-- Manager entry (infra/terraform/secrets.tf). Keeps the blast radius of the
+-- app's runtime credential to exactly the tables granted below and in
+-- later migrations.
+--
+-- The role itself is created (and its password kept in sync with Secrets
+-- Manager) by scripts/migrate.mjs BEFORE this file runs, using the
+-- DB_APP_PASSWORD the migration task receives from Secrets Manager. It is
+-- not created here because a password cannot be passed into plain SQL
+-- without either committing it or relying on psql-only variable syntax
+-- (an earlier draft of this file used `:'app_password'` inside a DO block,
+-- which psql does not interpolate inside dollar-quoted strings).
 
 create table if not exists rfq_submissions (
   id uuid primary key default gen_random_uuid(),

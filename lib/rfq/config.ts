@@ -65,3 +65,12 @@ export function rfqBackend(): "aws" | "supabase" | "local" {
 export function rfqLocalStorageDir(): string {
   return process.env.RFQ_LOCAL_STORAGE_DIR || ".data/rfq";
 }
+
+/** Lifetime of a presigned S3 / Supabase Storage download URL issued to the
+ * owner admin. Short on purpose: the URL is a bearer token for a customer
+ * CAD file. Clamped to 60..900 seconds. */
+export function rfqDownloadUrlTtlSeconds(): number {
+  const raw = Number(process.env.RFQ_DOWNLOAD_URL_TTL_SECONDS);
+  if (!Number.isFinite(raw) || raw <= 0) return 300;
+  return Math.min(900, Math.max(60, Math.floor(raw)));
+}
