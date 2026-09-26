@@ -1,4 +1,5 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { after, NextResponse, type NextRequest } from "next/server";
+import { notifyNewRfq } from "@/lib/notify/new-rfq";
 import { getRfqStore } from "@/lib/rfq/store";
 import { generateReferenceId } from "@/lib/rfq/reference";
 import { checkSpam, isRateLimited, sanitizeText, validateFields, type RfqFormFields } from "@/lib/rfq/validate";
@@ -94,6 +95,10 @@ export async function POST(request: NextRequest) {
       fields: persistedFields,
       files: fileBuffers,
     });
+    // Owner email alert runs AFTER the response is sent and swallows its own
+    // errors (lib/notify/new-rfq.ts): it can never delay or fail the
+    // customer's submission.
+    after(() => notifyNewRfq(record));
     return NextResponse.json({ referenceId: record.referenceId, submittedAt: record.createdAt }, { status: 201 });
   } catch (error) {
     console.error("[rfq] failed to persist submission", error);
