@@ -90,3 +90,4 @@ export default async function SearchSurfaceDetailPage({ params }: PageProps<"/kn
     </div>
   );
 }
+export function generateStaticParams() { return SearchSurfaces.all().map((item) => ({ id: item.id })); }

@@ -80,3 +80,4 @@ export default async function OrderDetailPage({ params }: PageProps<"/execution/
     </div>
   );
 }
+export function generateStaticParams() { return Orders.all().map((item) => ({ id: item.id })); }

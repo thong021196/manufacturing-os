@@ -80,3 +80,4 @@ export default async function CadPackageDetailPage({ params }: PageProps<"/execu
     </div>
   );
 }
+export function generateStaticParams() { return CadPackages.all().map((item) => ({ id: item.id })); }

@@ -1,0 +1,85 @@
+:root {
+  /* Console register — near-black deep navy. This is the product's dominant
+     surface in key moments, not an accent stripe on a white site. */
+  --ink-950: #05070b;
+  --ink-900: #0a0f18;
+  --ink-800: #121a29;
+  --ink-700: #1b2740;
+  --ink-600: #29385c;
+  --ink-400: #6a7da0;
+  --ink-200: #a9b7cf;
+
+  /* Document register — cool paper, not pure white, not warm cream. */
+  --paper-0: #f6f7f5;
+  --paper-50: #eff1ed;
+  --graphite-900: #10141a;
+  --graphite-600: #454c56;
+  --graphite-400: #767e88;
+  --graphite-200: #d8dbd9;
+  --graphite-100: #e7e9e6;
+
+  --white: #ffffff;
+
+  /* One accent. Everything else is ink / paper / graphite. */
+  --signal-500: #2f5cc7;
+  --signal-600: #24469b;
+  --signal-300: #7fa0e8;
+  --signal-050: #e7ecfa;
+
+  --evidence-500: #1f8f6b;
+  --evidence-050: #deefe7;
+  --caution-500: #b4842c;
+  --caution-050: #f3e9d6;
+  --risk-500: #b14a3f;
+  --risk-050: #f4e0dd;
+
+  /* Semantic aliases consumed by components. */
+  --color-bg-console: var(--ink-950);
+  --color-bg-console-raised: var(--ink-900);
+  --color-bg-paper: var(--paper-0);
+  --color-bg-paper-raised: var(--paper-50);
+  --color-text-on-console: var(--white);
+  --color-text-on-console-muted: var(--ink-200);
+  --color-text-on-console-subtle: var(--ink-400);
+  --color-text-on-paper: var(--graphite-900);
+  --color-text-on-paper-muted: var(--graphite-600);
+  --color-text-on-paper-subtle: var(--graphite-400);
+  --color-border-on-console: var(--ink-600);
+  --color-border-on-console-subtle: var(--ink-700);
+  --color-border-on-paper: var(--graphite-200);
+  --color-border-on-paper-subtle: var(--graphite-100);
+  --color-accent: var(--signal-500);
+  --color-accent-hover: var(--signal-600);
+  --color-accent-on-console: var(--signal-300);
+  --color-accent-tint: var(--signal-050);
+  --color-evidence: var(--evidence-500);
+  --color-evidence-tint: var(--evidence-050);
+  --color-caution: var(--caution-500);
+  --color-caution-tint: var(--caution-050);
+  --color-risk: var(--risk-500);
+  --color-risk-tint: var(--risk-050);
+
+  /* Back-compat aliases kept only for the internal /ops shell (sidebar,
+     data tables, badges) — not used by any public-facing composition. */
+  --color-bg-primary: var(--white);
+  --color-bg-secondary: var(--paper-0);
+  --color-surface-1: var(--white);
+  --color-surface-2: var(--paper-50);
+  --color-text-primary: var(--graphite-900);
+  --color-text-secondary: var(--graphite-600);
+  --color-text-muted: var(--graphite-400);
+  --color-border-subtle: var(--graphite-100);
+  --color-border-default: var(--graphite-200);
+  --color-border-strong: var(--ink-600);
+  --color-action-primary: var(--signal-500);
+  --color-action-hover: var(--signal-600);
+  --color-action-muted: var(--signal-050);
+  --color-success: var(--evidence-500);
+  --color-success-muted: var(--evidence-050);
+  --color-warning: var(--caution-500);
+  --color-warning-muted: var(--caution-050);
+  --color-danger: var(--risk-500);
+  --color-danger-muted: var(--risk-050);
+  --color-info: var(--signal-500);
+  --color-info-muted: var(--signal-050);
+}

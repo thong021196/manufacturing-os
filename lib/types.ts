@@ -5,6 +5,17 @@
 // conforms to these types (see lib/mock/*). When Sanity/Postgres-backed
 // data is introduced, only lib/data.ts and lib/mock/* should need to
 // change -- these types and every component built on them stay put.
+//
+// UQ-1 resolution (docs/architecture/entity-publishing-system/migration-plan.md,
+// resolved by issue #25): this file's `Part` interface below was the
+// PRIVATE, RFQ-specific physical part concept (bound to one CAD package /
+// revision / RFQ), which collided in name with the PUBLIC "Part" knowledge
+// entity introduced by the entity-publishing architecture (see
+// lib/content/types.ts). Per the issue's explicit instruction, the private
+// concept here is renamed `PartInstance`; `Part` is reserved for the public
+// knowledge entity. `PartInstance` may reference a public `Part` by a
+// future `contentPartId` field once the internal ops app is wired to the
+// content layer -- not added speculatively in this pass.
 
 /** Provenance rule: never treat an AI guess, a marketing claim, verified
  * documentation, a quote and a proven production outcome as equivalent. */
@@ -312,7 +323,10 @@ export interface Revision extends Traceable {
   internalFileRef: string;
 }
 
-export interface Part extends Traceable {
+/** The private, RFQ-specific physical part instance -- bound to one CAD
+ * package, one component, and a chain of revisions. Not the public "Part"
+ * knowledge entity (see lib/content/types.ts); see the UQ-1 note above. */
+export interface PartInstance extends Traceable {
   name: string;
   cadPackageId: string;
   componentId: string;

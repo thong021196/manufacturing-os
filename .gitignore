@@ -32,9 +32,25 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# terraform (infra/terraform/) -- state and var files may contain
+# resource details or secrets and must never be committed. *.tf and
+# *.tfvars.example are NOT ignored (see the negations below).
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+crash.*.log
 
 # vercel
 .vercel
+
+# local RFQ intake fallback store (dev/test only — never committed, see
+# lib/rfq/store/local.ts and .env.example RFQ_LOCAL_STORAGE_DIR)
+/.data/
 
 # typescript
 *.tsbuildinfo

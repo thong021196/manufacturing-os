@@ -169,3 +169,4 @@ export default async function RfqDetailPage({ params }: PageProps<"/execution/rf
     </div>
   );
 }
+export function generateStaticParams() { return Rfqs.all().map((item) => ({ id: item.id })); }

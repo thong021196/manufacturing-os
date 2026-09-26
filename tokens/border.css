@@ -1,0 +1,10 @@
+:root {
+  --border-thin: 1px solid var(--color-border-default);
+  --border-subtle: 1px solid var(--color-border-subtle);
+  --border-strong: 1px solid var(--color-border-strong);
+  --border-accent: 2px solid var(--color-action-primary);
+  --border-on-console: 1px solid var(--color-border-on-console);
+  --border-on-console-subtle: 1px solid var(--color-border-on-console-subtle);
+  --border-on-paper: 1px solid var(--color-border-on-paper);
+  --border-on-paper-subtle: 1px solid var(--color-border-on-paper-subtle);
+}

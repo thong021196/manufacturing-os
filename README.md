@@ -1,29 +1,86 @@
 # manufacturing-os
 Manufacturing operating system for demand research, supplier capability, RFQ, quoting, production, QC, and learning loops.
 
-## Frontend shell (v1)
+This repo contains two things:
 
-This repo currently contains the first complete frontend system view, built with Next.js (App Router) and TypeScript, running entirely on seeded mock data. It exists to make the full business/system architecture navigable before real market and supplier data is introduced — see `docs/product/FRONTEND_SPEC.md` and `docs/architecture/` for the specification this implements.
+1. **The public product** (`/`, `/parts/...`, `/applications/...`,
+   `/capabilities/...`, `/quality`, `/how-it-works`, `/company`,
+   `/resources`, `/rfq`, ...) — the customer-facing site and RFQ intake.
+   See `docs/frontend-design-system/` for the visual system and
+   `docs/architecture/entity-publishing-system/` for the public content
+   architecture (`lib/content/`).
+2. **An internal ops dashboard** (`/ops`, `/discovery/...`,
+   `/knowledge/...`, `/supply/...`, `/execution/...`, `/intelligence/...`)
+   — the original Issue #2 build, on seeded mock data, modeling the
+   private operational object graph (`lib/types.ts`). Not linked from the
+   public site and excluded from `robots.txt`.
 
-### Running locally
+## Running locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open http://localhost:3000.
+Then open http://localhost:3000. Copy `.env.example` to `.env.local` and
+see it for what each variable does. RFQ submissions work locally out of
+the box against a disk-backed dev/test fallback store — no external
+account needed to try the flow end-to-end (`/rfq` → submit → real
+reference id, persisted under `.data/rfq/`, gitignored).
 
-### Structure
+## Operating it
 
-- `lib/types.ts` — the core object model (see `docs/architecture/OBJECT_MODEL.md`).
-- `lib/mock/data.ts` — hand-linked mock fixtures demonstrating the full `Market → Opportunity → Component → Supplier → CAD Package → RFQ → Supplier Quote → Customer Quote → Order → Production → QC → Outcome` flow.
-- `lib/data.ts` — the data access layer. All pages read through here, never through `lib/mock/data.ts` directly, so mock fixtures can later be replaced by Sanity (public knowledge) and Postgres/Supabase (private operational data) without a UI rewrite.
-- `components/ui/` — shared presentation primitives (tables, badges, provenance/evidence display, related-object links).
-- `components/layout/` — the navigation shell (sidebar, responsive drawer, topbar).
-- `app/` — one route per primary navigation area from `docs/product/FRONTEND_SPEC.md`, with detail routes for objects that need to expose related-object navigation.
+- **Owner admin** at `/admin` (login + optional 2FA): RFQ inbox with status
+  workflow, notes and private file downloads; a "This week" dashboard for a
+  twice-weekly visit; the content calendar. See
+  [docs/ops/weekly-operating-rhythm.md](./docs/ops/weekly-operating-rhythm.md).
+- **New pages** are drafted as `scheduled` entries in a PR, approved by
+  merging, and go live on their date without a deploy —
+  [docs/ops/content-pipeline.md](./docs/ops/content-pipeline.md).
+- **Launching on AWS**: [docs/ops/LAUNCH-RUNBOOK.md](./docs/ops/LAUNCH-RUNBOOK.md).
 
-### Checks
+## Deployment
+
+**Production target: AWS** (ECS Fargate + RDS Postgres + private S3 —
+see `infra/terraform/`). Vercel + Supabase remain a working
+legacy/alternative path. See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for the
+full setup (both paths), the exact external account steps still needed,
+and how to verify a deployment.
+
+## Structure
+
+Public product:
+- `lib/content/` — the public structured content layer: `types.ts` (Part /
+  Application / ProcessCapability / Material / EngineeringProblem /
+  ContentBlock / Evidence / PageRegistry), `repository/` (the current
+  repository-backed data — swappable for a real Sanity project later
+  behind the same `ContentAdapter` interface in `adapter.ts`), and
+  `compose.ts` (resolves a Page Registry entry into the `FrontendPageModel`
+  view model the design-system components render).
+- `lib/rfq/` — the RFQ intake backend: validation, spam/rate-limit checks,
+  and a swappable `RfqStore` (`store/local.ts` disk-backed dev/test
+  fallback, `store/aws.ts` production — RDS + private S3,
+  `store/supabase.ts` legacy/alternative production). `app/api/rfq/route.ts`
+  is the server endpoint; `infra/sql/` and `supabase/migrations/` have the
+  real schema for each backend.
+- `infra/terraform/` — the AWS infrastructure-as-code (VPC, RDS, S3, ECS
+  Fargate, ALB, IAM, Secrets Manager — see `DEPLOYMENT.md`).
+- `Dockerfile` — the production image the ECS Fargate task runs.
+- `components/design-system/`, `styles/`, `tokens/` — the accepted visual
+  system (see `docs/frontend-design-system/`).
+
+Internal ops dashboard (unchanged from Issue #2):
+- `lib/types.ts` — the private operational object model (see
+  `docs/architecture/OBJECT_MODEL.md`). Note: its `PartInstance` type (a
+  specific physical part tied to one RFQ/revision) is distinct from the
+  public `Part` knowledge entity in `lib/content/types.ts` — see that
+  file's UQ-1 comment for why.
+- `lib/mock/data.ts` / `lib/data.ts` — mock fixtures and the data access
+  layer for the ops dashboard.
+- `components/ui/`, `components/layout/sidebar.tsx` — ops dashboard
+  presentation primitives and shell.
+
+## Checks
 
 ```bash
 npm run lint

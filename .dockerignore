@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.github
+.data
+out
+docs
+infra
+!infra/sql
+*.md
+.env*
+!.env.example

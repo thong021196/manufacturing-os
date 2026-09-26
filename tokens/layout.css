@@ -1,0 +1,10 @@
+:root {
+  --layout-max: 96rem;
+  --layout-rail: 22rem;
+  --layout-reading: 44rem;
+  --layout-gutter: clamp(1.25rem, 3.2vw, 3.5rem);
+  --layout-header: 4.75rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+}

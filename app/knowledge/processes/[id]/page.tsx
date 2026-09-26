@@ -63,3 +63,4 @@ export default async function ProcessDetailPage({ params }: PageProps<"/knowledg
     </div>
   );
 }
+export function generateStaticParams() { return Processes.all().map((item) => ({ id: item.id })); }

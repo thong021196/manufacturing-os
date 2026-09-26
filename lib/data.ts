@@ -27,7 +27,7 @@ import type {
   Opportunity,
   Order,
   Outcome,
-  Part,
+  PartInstance,
   ProductionJob,
   QcResult,
   Revision,
@@ -81,7 +81,7 @@ export const SupplierPerformances = collection<SupplierPerformance>(mock.supplie
 export const Companies = collection<Company>(mock.companies);
 export const Contacts = collection<Contact>(mock.contacts);
 export const CadPackages = collection<CadPackage>(mock.cadPackages);
-export const Parts = collection<Part>(mock.parts);
+export const Parts = collection<PartInstance>(mock.parts);
 export const Revisions = collection<Revision>(mock.revisions);
 export const Rfqs = collection<Rfq>(mock.rfqs);
 export const SupplierQuotes = collection<SupplierQuote>(mock.supplierQuotes);

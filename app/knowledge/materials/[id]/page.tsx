@@ -41,3 +41,4 @@ export default async function MaterialDetailPage({ params }: PageProps<"/knowled
     </div>
   );
 }
+export function generateStaticParams() { return Materials.all().map((item) => ({ id: item.id })); }

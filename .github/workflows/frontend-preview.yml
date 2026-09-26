@@ -1,0 +1,65 @@
+name: Frontend preview
+
+# Publishes a STATIC subset of the public marketing pages to GitHub Pages
+# under /frontend-preview/. This is a marketing-only preview: app/api is
+# removed before the static build because Next.js Route Handlers with a
+# dynamic (POST) body cannot be statically exported (see
+# node_modules/next/dist/docs/01-app/02-guides/static-exports.md). The RFQ
+# page still renders here, but shows a "static preview" notice instead of
+# submitting, since there is no server to submit to on GitHub Pages. The
+# real RFQ backend requires the Node-runtime production deployment — see
+# .github/workflows/deploy-production.yml and DEPLOYMENT.md.
+
+on:
+  push:
+    branches:
+      - frontend/design-system
+      - feature/mvp-launch
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: frontend-preview
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Remove server-only routes (unsupported in static export)
+        # API routes, the owner admin (cookies/server actions) and the Proxy
+        # need a Node server; none of them belong in a public static preview.
+        # The content-calendar route (app/robot-parts) is exported with only
+        # the guide pages live at build time; `output: "export"` refuses a
+        # dynamic route with zero pages, so it is dropped while none is live.
+        run: |
+          rm -rf app/api app/admin proxy.ts
+          LIVE_GUIDES=$(npx tsx -e 'import { allGuidePages } from "@/lib/content/repository/guides"; import { isLiveBySchedule } from "@/lib/content/publishing"; console.log(allGuidePages().filter((g) => isLiveBySchedule(g.entry)).length);')
+          echo "Live guide pages: $LIVE_GUIDES"
+          if [ "$LIVE_GUIDES" = "0" ]; then rm -rf app/robot-parts; fi
+      - name: Build static preview
+        run: npm run build
+        env:
+          GITHUB_PAGES: "true"
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          NEXT_PUBLIC_STATIC_PREVIEW: "true"
+          NEXT_PUBLIC_SITE_URL: "https://thong021196.github.io/manufacturing-os/frontend-preview"
+      - name: Publish preview subpath
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./out
+          destination_dir: frontend-preview
+          keep_files: true

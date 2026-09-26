@@ -1,10 +1,22 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { Sidebar } from "@/components/layout/sidebar";
+import { PublicShell } from "@/components/layout/public-shell";
 
-export function Shell({ children }: { children: ReactNode }) {
+// Internal (mock-data) operations console routes. Everything else that is
+// not /admin is the public site -- including content-calendar pages served
+// by app/[...slug] and the public 404 page.
+const INTERNAL_PREFIX = /^(\/ops|\/discovery|\/execution|\/intelligence|\/knowledge|\/supply)(\/|$)/;
+
+export function Shell({ children, hiddenPaths = [] }: { children: ReactNode; hiddenPaths?: string[] }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname() ?? "/";
+
+  // The owner admin renders its own plain layout (app/admin/layout.tsx).
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) return <>{children}</>;
+  if (!INTERNAL_PREFIX.test(pathname)) return <PublicShell hiddenPaths={hiddenPaths}>{children}</PublicShell>;
 
   return (
     <div className="flex min-h-screen">

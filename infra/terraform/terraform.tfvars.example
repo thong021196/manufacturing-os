@@ -1,0 +1,47 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored
+# (repo .gitignore "*.tfvars") -- never commit real values here.
+# db_master_password / db_app_password are intentionally NOT in this file:
+# pass them as TF_VAR_db_master_password / TF_VAR_db_app_password
+# environment variables (docs/ops/LAUNCH-RUNBOOK.md step 3 generates them).
+
+aws_region  = "us-east-1"
+environment = "production"
+
+# The canonical URL (sitemap, canonical links, admin links in alert emails).
+site_url = "https://www.yourdomain.example"
+
+# --- Domain / HTTPS (optional on the first apply) ---
+# DNS at an external provider (most likely): set domain_name, apply, add the
+# `acm_validation_records` + `site_dns_records` outputs at the provider, then
+# set external_dns_validated = true and apply again.
+# domain_name            = "www.yourdomain.example"
+# domain_aliases         = ["yourdomain.example"]
+# external_dns_validated = false
+#
+# DNS in Route 53 in this account: also set the zone and everything is
+# automatic.
+# route53_zone_id = "Z0123456789ABCDEFGHIJ"
+#
+# Or bring an already-issued certificate:
+# acm_certificate_arn = "arn:aws:acm:us-east-1:111111111111:certificate/..."
+
+# --- New-RFQ email alerts (SES) -- all three or none ---
+# ses_domain       = "yourdomain.example"
+# ses_from_address = "rfq-alerts@yourdomain.example"
+# notify_email_to  = "owner@yourdomain.example"
+
+# --- Owner admin display ---
+# admin_timezone   = "Europe/London"
+# admin_visit_days = "Mon,Thu"
+
+# --- GitHub deploy (defaults shown) ---
+# github_repository    = "thong021196/manufacturing-os"
+# github_deploy_branch = "main"
+# If this AWS account already has a token.actions.githubusercontent.com OIDC
+# provider, pass its ARN instead of creating a second one (which would fail):
+# github_oidc_provider_arn = "arn:aws:iam::111111111111:oidc-provider/token.actions.githubusercontent.com"
+
+# --- Compute ---
+# Leave container_image unset: the first CI deploy pushes the image and
+# scales the service from 0 to desired_count.
+# desired_count = 1

@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      # Next.js 16 generates the PageProps/LayoutProps route-type helpers
+      # (node_modules/next/dist/docs/.../page.md: "Types are generated
+      # during next dev, next build, or with next typegen") into
+      # .next/types on demand -- a bare `tsc --noEmit` on a fresh checkout
+      # fails with "Cannot find name 'PageProps'" without this having run
+      # at least once first. Found and fixed while verifying this pass's
+      # own changes typecheck cleanly (PR #26 / AWS-first pivot).
+      - run: npx next typegen
+      - run: npx tsc --noEmit
+      - run: npm run lint
+      # Unit tests: admin auth (scrypt, TOTP RFC 6238 vectors, session
+      # tamper/expiry, lockout), content-calendar rules + registry
+      # validation (a bad content PR fails here), notification formatting.
+      - run: npm test
+      - run: npm run build
+        env:
+          # Full server build (not static export) so the RFQ API route and
+          # every server component compiles for real -- this is what
+          # actually deploys to production, unlike the GitHub Pages
+          # preview build which is a stripped-down static subset.
+          RFQ_BACKEND: local
+          NEXT_PUBLIC_SITE_URL: "https://www.manufacturingos.example"
+
+  migrations:
+    # Applies infra/sql/*.sql with scripts/migrate.mjs against a throwaway
+    # Postgres 16, twice (idempotency), then runs the AWS store's SQL as the
+    # least-privilege app role.
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: manufacturing_os
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      MIGRATION_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/manufacturing_os
+      DB_APP_PASSWORD: ci-app-password
+      AWS_DB_SSL: "off"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run migrate
+      - run: npm run migrate
+      - run: npx tsx tests/integration/aws-store.pg.ts
+        env:
+          DATABASE_URL: postgresql://manufacturing_os_app:ci-app-password@localhost:5432/manufacturing_os
+          AWS_S3_RFQ_BUCKET: unused-in-this-test
+
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra/terraform
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.5
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false -input=false
+      - run: terraform validate
