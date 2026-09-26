@@ -1,5 +1,6 @@
 terraform {
-  required_version = ">= 1.5.0"
+  # 1.10+ for S3-native state locking (use_lockfile) -- no DynamoDB table.
+  required_version = ">= 1.10.0"
 
   required_providers {
     aws = {
@@ -8,19 +9,23 @@ terraform {
     }
   }
 
-  # Uncomment and configure once the owner has decided where Terraform
-  # state should live (an S3 bucket + DynamoDB lock table in the dedicated
-  # manufacturing-os AWS account -- see DEPLOYMENT.md "Terraform state").
-  # Left as local state by default so this pass never assumes a backend
-  # bucket exists.
+  # Remote state in a dedicated, versioned, encrypted S3 bucket in the same
+  # account (partial configuration: the bucket name is passed at init time,
+  # because it contains the account id). docs/ops/LAUNCH-RUNBOOK.md step 2
+  # creates the bucket and runs:
   #
-  # backend "s3" {
-  #   bucket         = "manufacturing-os-tfstate-<account-id>"
-  #   key            = "manufacturing-os/production/terraform.tfstate"
-  #   region         = "us-east-1"
-  #   dynamodb_table = "manufacturing-os-tfstate-lock"
-  #   encrypt        = true
-  # }
+  #   terraform init \
+  #     -backend-config="bucket=manufacturing-os-tfstate-<account-id>" \
+  #     -backend-config="region=<region>"
+  #
+  # State must NOT stay local: it holds the RDS passwords and would be lost
+  # with the ephemeral agent session that runs the first apply. For offline
+  # validation use `terraform init -backend=false`.
+  backend "s3" {
+    key          = "manufacturing-os/production/terraform.tfstate"
+    encrypt      = true
+    use_lockfile = true
+  }
 }
 
 provider "aws" {

@@ -19,10 +19,12 @@ name: Deploy production (Vercel, legacy/alternative)
 # description) -- provisioning that project and adding these secrets is
 # the explicit external/human step this workflow is waiting for.
 
+# DISABLED as an automatic deploy: AWS (deploy-production-aws.yml) is the
+# production path, and two production targets deploying the same commit
+# would split RFQ data between backends. Kept runnable by hand only
+# (Actions -> "Deploy production (Vercel, legacy/alternative)" -> Run
+# workflow) for a deliberate comparison/fallback.
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 concurrency:

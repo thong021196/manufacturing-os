@@ -6,6 +6,7 @@ node_modules
 out
 docs
 infra
+!infra/sql
 *.md
 .env*
 !.env.example

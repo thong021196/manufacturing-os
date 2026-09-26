@@ -105,9 +105,9 @@ variable "container_port" {
 }
 
 variable "container_image" {
-  description = "Full ECR image URI (with tag/digest) to deploy, e.g. \"<account-id>.dkr.ecr.<region>.amazonaws.com/manufacturing-os-app:latest\". Left as a placeholder default so `terraform plan` never assumes an image exists yet -- the CI/CD deploy step (see .github/workflows/deploy-production.yml) overrides this with the real, just-built image URI on every deploy via -var."
+  description = "Image URI for the task definitions Terraform registers. Leave empty (default) for the normal flow: Terraform registers a bootstrap revision pointing at <ecr-repo>:bootstrap with the service scaled to 0, and the GitHub Actions deploy (.github/workflows/deploy-production-aws.yml) registers new revisions with the real image, runs migrations and scales the service up. Terraform ignores later task-definition/desired-count changes made by CI (see ecs.tf lifecycle)."
   type        = string
-  default     = "PLACEHOLDER_SET_VIA_CI_OR_-var_container_image"
+  default     = ""
 }
 
 variable "task_cpu" {
@@ -123,7 +123,7 @@ variable "task_memory" {
 }
 
 variable "desired_count" {
-  description = "Number of running Fargate tasks. 1 is the MVP-appropriate default -- no autoscaling group at this stage (see ecs.tf comments for what was deliberately left out)."
+  description = "Number of running Fargate tasks once an image exists. Keep 1: the admin login rate limiter and TOTP replay guard are in-process (lib/admin/rate-limit.ts) and assume a single task. The service is created at 0 when container_image is empty; the deploy workflow scales it to its AWS_ECS_DESIRED_COUNT repo variable (default 1)."
   type        = number
   default     = 1
 }
@@ -137,7 +137,7 @@ variable "log_retention_days" {
 # --- Site / app configuration -------------------------------------------
 
 variable "site_url" {
-  description = "The production https:// URL the app should treat as canonical (NEXT_PUBLIC_SITE_URL). Placeholder default -- set to the real domain once DNS is decided (see DEPLOYMENT.md)."
+  description = "The production https:// URL the app treats as canonical (SITE_URL on the ECS task: sitemap, canonical links, admin links in alert emails). Placeholder default -- set to the real domain once DNS is decided (docs/ops/LAUNCH-RUNBOOK.md). Read at runtime, so changing it needs only `terraform apply` + a deploy, not a rebuild."
   type        = string
   default     = "https://www.manufacturingos.example"
 }
@@ -166,13 +166,79 @@ variable "route53_zone_id" {
 }
 
 variable "domain_name" {
-  description = "The apex/subdomain to create a Route 53 alias + ACM certificate for (e.g. \"www.manufacturingos.example\"). Only used when route53_zone_id is set."
+  description = "The hostname the site is served on (e.g. \"www.example.com\"). When set (and acm_certificate_arn is empty) Terraform requests an ACM certificate for it. With route53_zone_id set, validation + the alias record are automatic; otherwise the validation CNAMEs are in the `acm_validation_records` output for the owner to add at their DNS provider, then re-apply with external_dns_validated = true."
   type        = string
   default     = ""
+}
+
+variable "domain_aliases" {
+  description = "Extra hostnames on the same certificate (e.g. [\"example.com\"] for the apex next to www). Each needs its own DNS record pointing at the ALB."
+  type        = list(string)
+  default     = []
+}
+
+variable "external_dns_validated" {
+  description = "Set to true AFTER the owner has added the acm_validation_records CNAMEs at an external DNS provider (not Route 53). Terraform then waits for the certificate to be ISSUED and creates the HTTPS listener (HTTP starts redirecting to HTTPS). Leave false until then so `terraform apply` never blocks."
+  type        = bool
+  default     = false
 }
 
 variable "acm_certificate_arn" {
   description = "ARN of an existing, already-validated ACM certificate to use for the HTTPS listener, for the case where DNS is managed OUTSIDE Route 53 (see DEPLOYMENT.md \"DNS is managed outside Route 53\") -- e.g. a cert issued via DNS validation at an external registrar, or imported. Leave empty to let this config request+validate its own certificate via Route 53 instead (requires route53_zone_id). If both are empty, the ALB serves plain HTTP only until one is provided."
   type        = string
   default     = ""
+}
+
+# --- GitHub Actions deploy (OIDC) ----------------------------------------
+
+variable "github_repository" {
+  description = "owner/repo allowed to assume the deploy role via GitHub OIDC. Only pushes to github_deploy_branch of THIS repo can deploy."
+  type        = string
+  default     = "thong021196/manufacturing-os"
+}
+
+variable "github_deploy_branch" {
+  description = "The only branch whose workflows may assume the deploy role."
+  type        = string
+  default     = "main"
+}
+
+variable "github_oidc_provider_arn" {
+  description = "ARN of an EXISTING token.actions.githubusercontent.com OIDC provider in this account, if one already exists (an account can only have one per URL). Leave empty to let this configuration create it."
+  type        = string
+  default     = ""
+}
+
+# --- Owner notifications (SES) --------------------------------------------
+
+variable "ses_domain" {
+  description = "Domain to send alert email from (e.g. \"example.com\"). Creates an SES domain identity with Easy DKIM; the three DKIM CNAMEs are in the `ses_dkim_records` output (created automatically when route53_zone_id is set). Leave empty to disable email alerts."
+  type        = string
+  default     = ""
+}
+
+variable "ses_from_address" {
+  description = "From address for new-RFQ alerts, inside ses_domain (e.g. \"rfq-alerts@example.com\")."
+  type        = string
+  default     = ""
+}
+
+variable "notify_email_to" {
+  description = "Owner inbox that receives new-RFQ alerts. While the SES account is in the sandbox the recipient must be verified too, so Terraform creates an email identity for it and SES sends it a one-time verification link (owner clicks it)."
+  type        = string
+  default     = ""
+}
+
+# --- Owner admin ------------------------------------------------------------
+
+variable "admin_timezone" {
+  description = "IANA timezone the /admin dashboard shows dates in (e.g. \"Europe/London\", \"America/New_York\")."
+  type        = string
+  default     = "UTC"
+}
+
+variable "admin_visit_days" {
+  description = "Owner's regular visit days, used by the /admin \"publishing before your next visit\" section (docs/ops/weekly-operating-rhythm.md)."
+  type        = string
+  default     = "Mon,Thu"
 }

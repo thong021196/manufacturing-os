@@ -1,27 +1,31 @@
 name: Deploy production (AWS)
 
-# Builds the production Docker image (Dockerfile, output: "standalone" --
-# see next.config.ts) and deploys it to the manufacturing-os ECS Fargate
-# service on every push to main. This is the PRIMARY production deploy
-# path per the owner's AWS-first pivot (PR #26 review comment
-# 5750338323); .github/workflows/deploy-production.yml (Vercel) is kept
-# as the legacy/alternative path -- see DEPLOYMENT.md.
+# PRIMARY production deploy. On every push to main (and on manual dispatch
+# from main):
+#   1. build the Docker image (Dockerfile, Next.js standalone) and push it
+#      to ECR, tagged with the commit SHA
+#   2. register new revisions of the app + migration task definitions with
+#      that image (APP_VERSION = commit SHA)
+#   3. run database migrations as a one-off ECS task (scripts/migrate.mjs,
+#      idempotent, tracked in schema_migrations) and stop if it fails
+#   4. roll the ECS service to the new revision (circuit breaker rolls back
+#      automatically if the new tasks never get healthy) and wait for stable
+#   5. smoke-check /api/health until it reports the new commit
 #
-# Requires infra/terraform/ to have already been applied once (creates
-# the ECR repo, ECS cluster/service/task definition, etc. -- see
-# DEPLOYMENT.md "Deploy steps"). Requires ONE repo secret:
-#   AWS_DEPLOY_ROLE_ARN -- an IAM role this workflow assumes via GitHub's
-#   OIDC provider (no long-lived AWS access keys stored in GitHub at all).
-#   See DEPLOYMENT.md "Set up GitHub OIDC → AWS deploy role" for the exact
-#   trust policy / permissions this role needs (kept minimal: push to the
-#   manufacturing-os-app ECR repo, update the manufacturing-os-app-service
-#   ECS service -- nothing else).
-# Until that secret exists, this workflow intentionally no-ops instead of
-# failing loudly on every push to main, same pattern as
-# deploy-production.yml. This repo's session did NOT create a live AWS
-# account, IAM role, or ECS service -- provisioning that (via
-# infra/terraform/) and adding this secret is the explicit external/human
-# step this workflow is waiting for.
+# AWS access is GitHub OIDC only (no stored AWS keys). Configure once, after
+# `terraform apply` (docs/ops/LAUNCH-RUNBOOK.md step 5), as repository
+# VARIABLES (Settings -> Secrets and variables -> Actions -> Variables):
+#   AWS_DEPLOY_ROLE_ARN   terraform output github_deploy_role_arn   (required)
+#   AWS_REGION            default us-east-1
+#   AWS_ECS_CLUSTER       default manufacturing-os-cluster
+#   AWS_ECS_SERVICE       default manufacturing-os-app-service
+#   AWS_ECR_REPOSITORY    default manufacturing-os-app
+#   AWS_ECS_DESIRED_COUNT default 1
+#   PRODUCTION_URL        https://www.<domain> once HTTPS is live (optional;
+#                         otherwise the smoke check uses the ALB DNS name)
+# (A secret named AWS_DEPLOY_ROLE_ARN is accepted too, for backwards
+# compatibility. The role ARN is not sensitive.)
+# Until AWS_DEPLOY_ROLE_ARN exists this workflow no-ops with a warning.
 
 on:
   push:
@@ -34,36 +38,47 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  id-token: write # required for OIDC -> aws-actions/configure-aws-credentials
+  id-token: write # OIDC -> aws-actions/configure-aws-credentials
   contents: read
 
 env:
   AWS_REGION: ${{ vars.AWS_REGION || 'us-east-1' }}
-  ECR_REPOSITORY: manufacturing-os-app
+  ECR_REPOSITORY: ${{ vars.AWS_ECR_REPOSITORY || 'manufacturing-os-app' }}
   ECS_CLUSTER: ${{ vars.AWS_ECS_CLUSTER || 'manufacturing-os-cluster' }}
   ECS_SERVICE: ${{ vars.AWS_ECS_SERVICE || 'manufacturing-os-app-service' }}
+  APP_FAMILY: manufacturing-os-app
+  MIGRATE_FAMILY: manufacturing-os-migrate
+  DESIRED_COUNT: ${{ vars.AWS_ECS_DESIRED_COUNT || '1' }}
+  LOG_GROUP: /ecs/manufacturing-os-app
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # The OIDC trust policy only accepts refs/heads/main anyway; this guard
+    # just avoids a confusing failure on a dispatch from another branch.
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check required secret is configured
+      - name: Check deploy role is configured
         id: check
+        env:
+          ROLE: ${{ vars.AWS_DEPLOY_ROLE_ARN || secrets.AWS_DEPLOY_ROLE_ARN }}
         run: |
-          if [ -n "${{ secrets.AWS_DEPLOY_ROLE_ARN }}" ]; then
+          if [ -n "$ROLE" ]; then
             echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "role=$ROLE" >> "$GITHUB_OUTPUT"
           else
             echo "ready=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::Skipping AWS production deploy: AWS_DEPLOY_ROLE_ARN secret is not set yet. See DEPLOYMENT.md."
+            echo "::warning::Skipping AWS production deploy: AWS_DEPLOY_ROLE_ARN repository variable is not set yet. See docs/ops/LAUNCH-RUNBOOK.md."
           fi
 
       - name: Configure AWS credentials (OIDC)
         if: steps.check.outputs.ready == 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          role-to-assume: ${{ steps.check.outputs.role }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
@@ -73,26 +88,108 @@ jobs:
 
       - name: Build and push image
         if: steps.check.outputs.ready == 'true'
+        id: image
         env:
           REGISTRY: ${{ steps.ecr.outputs.registry }}
         run: |
-          IMAGE="$REGISTRY/$ECR_REPOSITORY"
-          docker build -t "$IMAGE:${{ github.sha }}" -t "$IMAGE:latest" .
-          docker push "$IMAGE:${{ github.sha }}"
-          docker push "$IMAGE:latest"
+          IMAGE="$REGISTRY/$ECR_REPOSITORY:${GITHUB_SHA}"
+          docker build --pull -t "$IMAGE" .
+          docker push "$IMAGE"
+          echo "uri=$IMAGE" >> "$GITHUB_OUTPUT"
 
-      # Fargate services keep referencing the same task definition;
-      # forcing a new deployment makes the ECS agent re-pull the ":latest"
-      # tag (its digest just changed above), so no new task-definition
-      # revision is required for this MVP-simple pattern. See
-      # DEPLOYMENT.md "A note on image tagging" for the immutable-tag +
-      # task-def-revision upgrade path once this needs stricter
-      # rollback/audit guarantees than "latest" gives.
-      - name: Force new ECS deployment
+      - name: Register task definitions with the new image
         if: steps.check.outputs.ready == 'true'
+        id: taskdefs
+        env:
+          IMAGE: ${{ steps.image.outputs.uri }}
         run: |
-          aws ecs update-service \
-            --cluster "$ECS_CLUSTER" \
-            --service "$ECS_SERVICE" \
-            --force-new-deployment \
-            --region "$AWS_REGION"
+          set -euo pipefail
+          # Start from the latest ACTIVE revision of each family (Terraform's
+          # or the previous deploy's), swap the image and APP_VERSION, drop
+          # read-only fields, register.
+          render() {
+            aws ecs describe-task-definition --task-definition "$1" --query taskDefinition --output json \
+              | jq --arg img "$IMAGE" --arg ver "$GITHUB_SHA" '
+                  .containerDefinitions |= map(
+                    .image = $img
+                    | if .name == "app" then
+                        .environment = ((.environment // []) | map(select(.name != "APP_VERSION")) + [{"name":"APP_VERSION","value":$ver}])
+                      else . end)
+                  | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities,
+                        .registeredAt, .registeredBy, .deregisteredAt)'
+          }
+          render "$APP_FAMILY" > app-td.json
+          render "$MIGRATE_FAMILY" > migrate-td.json
+          APP_TD=$(aws ecs register-task-definition --cli-input-json file://app-td.json --query taskDefinition.taskDefinitionArn --output text)
+          MIGRATE_TD=$(aws ecs register-task-definition --cli-input-json file://migrate-td.json --query taskDefinition.taskDefinitionArn --output text)
+          echo "app=$APP_TD" >> "$GITHUB_OUTPUT"
+          echo "migrate=$MIGRATE_TD" >> "$GITHUB_OUTPUT"
+          echo "App task definition:     $APP_TD"
+          echo "Migrate task definition: $MIGRATE_TD"
+
+      - name: Run database migrations (one-off ECS task)
+        if: steps.check.outputs.ready == 'true'
+        env:
+          MIGRATE_TD: ${{ steps.taskdefs.outputs.migrate }}
+        run: |
+          set -euo pipefail
+          # Same private subnets + security group as the service (the RDS
+          # security group only admits that SG).
+          NET=$(aws ecs describe-services --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE" \
+            --query 'services[0].networkConfiguration.awsvpcConfiguration' --output json \
+            | jq -c '{awsvpcConfiguration: {subnets: .subnets, securityGroups: .securityGroups, assignPublicIp: "DISABLED"}}')
+          TASK_ARN=$(aws ecs run-task --cluster "$ECS_CLUSTER" --task-definition "$MIGRATE_TD" \
+            --launch-type FARGATE --network-configuration "$NET" --started-by "gha-${GITHUB_RUN_ID}" \
+            --query 'tasks[0].taskArn' --output text)
+          echo "Migration task: $TASK_ARN"
+          aws ecs wait tasks-stopped --cluster "$ECS_CLUSTER" --tasks "$TASK_ARN"
+          TASK_ID="${TASK_ARN##*/}"
+          aws logs get-log-events --log-group-name "$LOG_GROUP" --log-stream-name "migrate/migrate/$TASK_ID" \
+            --query 'events[].message' --output text || echo "(no migration logs found)"
+          EXIT=$(aws ecs describe-tasks --cluster "$ECS_CLUSTER" --tasks "$TASK_ARN" --query 'tasks[0].containers[0].exitCode' --output text)
+          REASON=$(aws ecs describe-tasks --cluster "$ECS_CLUSTER" --tasks "$TASK_ARN" --query 'tasks[0].stoppedReason' --output text)
+          echo "Migration exit code: $EXIT ($REASON)"
+          if [ "$EXIT" != "0" ]; then
+            echo "::error::Database migration failed -- the running service was NOT changed."
+            exit 1
+          fi
+
+      - name: Roll the ECS service
+        if: steps.check.outputs.ready == 'true'
+        env:
+          APP_TD: ${{ steps.taskdefs.outputs.app }}
+        run: |
+          set -euo pipefail
+          aws ecs update-service --cluster "$ECS_CLUSTER" --service "$ECS_SERVICE" \
+            --task-definition "$APP_TD" --desired-count "$DESIRED_COUNT" --query 'service.deployments[0].id' --output text
+          aws ecs wait services-stable --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE"
+          CURRENT=$(aws ecs describe-services --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE" --query 'services[0].taskDefinition' --output text)
+          if [ "$CURRENT" != "$APP_TD" ]; then
+            echo "::error::Service settled on $CURRENT, not $APP_TD -- the deployment circuit breaker rolled back. Check CloudWatch logs ($LOG_GROUP, stream prefix app/)."
+            exit 1
+          fi
+
+      - name: Smoke-check /api/health
+        if: steps.check.outputs.ready == 'true'
+        env:
+          PRODUCTION_URL: ${{ vars.PRODUCTION_URL }}
+        run: |
+          set -euo pipefail
+          if [ -n "${PRODUCTION_URL:-}" ]; then
+            BASE="${PRODUCTION_URL%/}"
+          else
+            BASE="http://$(aws elbv2 describe-load-balancers --names manufacturing-os-alb --query 'LoadBalancers[0].DNSName' --output text)"
+          fi
+          echo "Checking $BASE/api/health for version $GITHUB_SHA"
+          for i in $(seq 1 30); do
+            # -k only matters before the custom domain exists (ALB name vs cert).
+            BODY=$(curl -fsSLk --max-time 10 "$BASE/api/health" || true)
+            if echo "$BODY" | jq -e --arg v "$GITHUB_SHA" '.status == "ok" and .version == $v and .rfqBackend == "aws"' >/dev/null 2>&1; then
+              echo "Healthy: $BODY"
+              exit 0
+            fi
+            echo "attempt $i: ${BODY:-no response}"
+            sleep 10
+          done
+          echo "::error::/api/health never reported version $GITHUB_SHA"
+          exit 1

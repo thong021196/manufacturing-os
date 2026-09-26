@@ -38,7 +38,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Remove server-only routes (unsupported in static export)
-        run: rm -rf app/api
+        # API routes, the owner admin (cookies/server actions) and the Proxy
+        # need a Node server; none of them belong in a public static preview.
+        # The content-calendar route (app/robot-parts) is exported with only
+        # the guide pages live at build time; `output: "export"` refuses a
+        # dynamic route with zero pages, so it is dropped while none is live.
+        run: |
+          rm -rf app/api app/admin proxy.ts
+          LIVE_GUIDES=$(npx tsx -e 'import { allGuidePages } from "@/lib/content/repository/guides"; import { isLiveBySchedule } from "@/lib/content/publishing"; console.log(allGuidePages().filter((g) => isLiveBySchedule(g.entry)).length);')
+          echo "Live guide pages: $LIVE_GUIDES"
+          if [ "$LIVE_GUIDES" = "0" ]; then rm -rf app/robot-parts; fi
       - name: Build static preview
         run: npm run build
         env:

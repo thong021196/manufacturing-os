@@ -35,9 +35,14 @@ resource "aws_iam_role_policy_attachment" "ecs_execution_managed" {
 # not the task role, before the container even starts.
 data "aws_iam_policy_document" "ecs_execution_read_secrets" {
   statement {
-    sid       = "ReadRfqDbAppSecret"
-    actions   = ["secretsmanager:GetSecretValue"]
-    resources = [aws_secretsmanager_secret.db_app_credentials.arn]
+    sid     = "ReadAppRuntimeSecrets"
+    actions = ["secretsmanager:GetSecretValue"]
+    # The app DB credential + the owner-admin secret. NOT the RDS master
+    # secret -- only the migration task's execution role can read that.
+    resources = [
+      aws_secretsmanager_secret.db_app_credentials.arn,
+      aws_secretsmanager_secret.admin.arn,
+    ]
   }
 }
 
@@ -74,4 +79,37 @@ resource "aws_iam_role_policy" "ecs_task_app_permissions" {
   name   = "${var.name_prefix}-ecs-task-app-permissions"
   role   = aws_iam_role.ecs_task.id
   policy = data.aws_iam_policy_document.ecs_task_app_permissions.json
+}
+
+# Execution role for the one-off migration task (ecs.tf
+# aws_ecs_task_definition.migrate). Separate from the app's execution role so
+# the long-running app task can never be given the RDS master credentials:
+# only this role can read the master secret, and only the migrate task
+# definition references it.
+resource "aws_iam_role" "ecs_migrate_execution" {
+  name               = "${var.name_prefix}-ecs-migrate-execution-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs_tasks_assume_role.json
+  tags               = { Name = "${var.name_prefix}-ecs-migrate-execution-role" }
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_migrate_execution_managed" {
+  role       = aws_iam_role.ecs_migrate_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+data "aws_iam_policy_document" "ecs_migrate_read_secrets" {
+  statement {
+    sid     = "ReadDbSecretsForMigrations"
+    actions = ["secretsmanager:GetSecretValue"]
+    resources = [
+      aws_secretsmanager_secret.db_master_credentials.arn,
+      aws_secretsmanager_secret.db_app_credentials.arn,
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "ecs_migrate_read_secrets" {
+  name   = "${var.name_prefix}-ecs-migrate-read-secrets"
+  role   = aws_iam_role.ecs_migrate_execution.id
+  policy = data.aws_iam_policy_document.ecs_migrate_read_secrets.json
 }

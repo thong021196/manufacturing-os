@@ -47,3 +47,35 @@ resource "aws_secretsmanager_secret_version" "db_master_credentials" {
     dbname       = var.db_name
   })
 }
+
+# Owner-admin credentials (lib/admin/config.ts). Terraform creates the
+# secret with PLACEHOLDER values only and then never touches its value
+# again (ignore_changes), so real values never enter Terraform state or the
+# repo. With placeholders the admin simply stays locked. The real values are
+# written once with `aws secretsmanager put-secret-value` --
+# docs/ops/LAUNCH-RUNBOOK.md "Admin credentials" -- and picked up by ECS on
+# the next task start (every deploy starts new tasks).
+#   ADMIN_USERNAME        owner login name
+#   ADMIN_PASSWORD_HASH   from `npm run admin:hash-password` (scrypt, never plaintext)
+#   ADMIN_SESSION_SECRET  `openssl rand -base64 48`
+#   ADMIN_TOTP_SECRET     from `npm run admin:totp-secret`, or UNSET to disable 2FA
+resource "aws_secretsmanager_secret" "admin" {
+  name        = "${var.name_prefix}/admin"
+  description = "manufacturing-os: owner admin username, password hash, session secret, optional TOTP secret. Set by the owner/bootstrap session, never by Terraform."
+
+  tags = { Name = "${var.name_prefix}-admin" }
+}
+
+resource "aws_secretsmanager_secret_version" "admin_placeholder" {
+  secret_id = aws_secretsmanager_secret.admin.id
+  secret_string = jsonencode({
+    ADMIN_USERNAME       = "UNSET"
+    ADMIN_PASSWORD_HASH  = "UNSET"
+    ADMIN_SESSION_SECRET = "UNSET"
+    ADMIN_TOTP_SECRET    = "UNSET"
+  })
+
+  lifecycle {
+    ignore_changes = [secret_string, version_stages]
+  }
+}
