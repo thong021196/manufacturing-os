@@ -126,6 +126,8 @@ export type Entity =
 
 export type IndexPolicy = "index" | "noindex";
 
+export type PublishStatus = "draft" | "scheduled" | "published" | "unpublished";
+
 /** One record per public URL. A relation existing in the entity graph
  * implies nothing about a URL existing — this is the explicit firewall
  * described in page-registry.md. The renderer only builds a page for a
@@ -151,11 +153,28 @@ export interface PageRegistryEntry {
     | "manufacturingNetwork"
     | "resources"
     | "resourceArticle"
-    | "rfq";
+    | "rfq"
+    /** Registry-driven reading page rendered by the generic catch-all
+     * route (app/[...slug]/page.tsx) -- the page kind the content pipeline
+     * (docs/ops/content-pipeline.md) adds new pages as, so a new page never
+     * needs a new route file. */
+    | "guide";
   title: string;
   description: string;
   breadcrumbs: Array<{ label: string; href?: string }>;
-  publishStatus: "draft" | "published";
+  /** Content calendar state (docs/ops/content-pipeline.md):
+   *  - draft: in the repo, not public, not scheduled.
+   *  - scheduled: goes public automatically once `publishAt` has passed
+   *    (time-based revalidation picks it up -- no redeploy needed).
+   *  - published: public now.
+   *  - unpublished: taken down on purpose (kept in the repo for history).
+   * A page is public -- rendered, linked, and in the sitemap -- only when
+   * lib/content/publishing.ts isEntryLive() says so; otherwise its URL 404s. */
+  publishStatus: PublishStatus;
+  /** ISO 8601 timestamp WITH an explicit offset (e.g.
+   * "2026-10-05T13:00:00Z"). Required when publishStatus is "scheduled";
+   * ignored otherwise. */
+  publishAt?: string;
   indexPolicy: IndexPolicy;
   seo: { title: string; description: string };
   updatedAt: string; // ISO date, drives sitemap lastModified

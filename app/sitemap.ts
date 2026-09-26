@@ -1,19 +1,23 @@
 import type { MetadataRoute } from "next";
-import { contentAdapter } from "@/lib/content/adapter";
+import { getLiveIndexableEntries } from "@/lib/content/live";
 import { absoluteUrl } from "@/lib/seo";
 
-// Static content, computed at build time either way — force-static also
-// keeps this compatible with the GitHub Pages static-export build (see
-// .github/workflows/frontend-preview.yml).
-export const dynamic = "force-static";
+// Regenerated at most every 300 s (same cadence as public pages), so a
+// scheduled page enters the sitemap once its publishAt passes and a paused
+// page leaves it -- no redeploy. The GitHub Pages static preview build
+// exports it once at build time.
+export const revalidate = 300;
 
-/** Generated from the Page Registry (lib/content/repository/page-registry.ts)
- * — only published, indexable entries are listed, so a draft/noindex page
- * (e.g. the legal placeholders pending counsel review) never appears here. */
-export default function sitemap(): MetadataRoute.Sitemap {
-  return contentAdapter.getIndexableEntries().map((entry) => ({
+/** Generated from the Page Registry — only entries that are live right now
+ * (lib/content/publishing.ts) and indexable are listed, so drafts,
+ * future-scheduled, unpublished, paused and noindex pages (e.g. the legal
+ * placeholders pending counsel review) never appear here. /admin is never
+ * in the registry. */
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const entries = await getLiveIndexableEntries();
+  return entries.map((entry) => ({
     url: absoluteUrl(entry.path),
-    lastModified: entry.updatedAt,
+    lastModified: entry.publishStatus === "scheduled" && entry.publishAt ? entry.publishAt.slice(0, 10) : entry.updatedAt,
     changeFrequency: entry.path === "/" ? "weekly" : "monthly",
     priority: entry.path === "/" ? 1 : entry.pageKind === "rfq" ? 0.9 : 0.6,
   }));

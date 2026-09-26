@@ -1,4 +1,5 @@
 import type { ContentBlock, Provenance } from "@/lib/content/types";
+import { allGuidePages } from "@/lib/content/repository/guides";
 
 const launchCopy: Provenance = {
   source: "structured_fixture",
@@ -707,6 +708,7 @@ export const allContentBlocks: ContentBlock[] = [
   ...applicationBlocks,
   ...capabilityBlocks,
   ...editorialBlocks,
+  ...allGuidePages().flatMap((g) => g.blocks),
 ];
 
 export function getContentBlock(id: string): ContentBlock | undefined {

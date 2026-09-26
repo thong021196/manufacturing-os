@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import { Shell } from "@/components/layout/shell";
+import { getHiddenRegistryPaths } from "@/lib/content/live";
 import { siteOrigin } from "@/lib/seo";
 import "./globals.css";
 
@@ -31,7 +32,10 @@ export const metadata: Metadata = {
     "A global manufacturing intelligence and execution interface for custom hardware — from CAD and drawing to a routed, inspected, accountable delivery.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // Registry pages that are not public right now; the public shell drops
+  // nav/footer links to them (content calendar, lib/content/live.ts).
+  const hiddenPaths = await getHiddenRegistryPaths();
   return (
     <html
       lang="en"
@@ -39,7 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-theme="light"
     >
       <body className="min-h-full bg-background text-foreground antialiased">
-        <Shell>{children}</Shell>
+        <Shell hiddenPaths={hiddenPaths}>{children}</Shell>
       </body>
     </html>
   );

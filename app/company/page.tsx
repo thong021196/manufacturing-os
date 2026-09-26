@@ -1,17 +1,23 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "@/components/design-system/icons";
 import { Breadcrumbs, Button, CornerTicks, IndexMark, MonoLabel, Panel, Reveal, TextLink } from "@/components/design-system/primitives";
-import { buildMetadata } from "@/lib/seo";
+import { liveMetadata, requireLiveEntry } from "@/lib/content/live";
 import { companyPillars as pillars, companyRoute as route } from "@/lib/content/site-copy";
 
-export const metadata: Metadata = buildMetadata({
-  path: "/company",
-  title: "Company | Manufacturing OS",
-  description: "Manufacturing OS is one accountable interface between hardware teams and a qualified manufacturing network.",
-});
+const PATH = "/company";
 
-export default function CompanyPage() {
+// Public registry page: rendered only while live per the content calendar
+// (lib/content/publishing.ts); otherwise 404. Re-rendered in the background
+// at most every 300 s (= PUBLIC_REVALIDATE_SECONDS) so schedule changes and
+// owner pauses apply without a redeploy.
+export const revalidate = 300;
+
+export function generateMetadata() {
+  return liveMetadata(PATH);
+}
+
+export default async function CompanyPage() {
+  await requireLiveEntry(PATH);
   return (
     <div className="mx-company">
       <div className="mx-company__hero">

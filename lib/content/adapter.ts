@@ -2,6 +2,7 @@ import type { FrontendPageModel } from "@/lib/frontend/types";
 import type { PageRegistryEntry } from "@/lib/content/types";
 import { getPageRegistryEntry, getIndexablePaths, pageRegistry } from "@/lib/content/repository/page-registry";
 import { composePageModel } from "@/lib/content/compose";
+import { isLiveBySchedule } from "@/lib/content/publishing";
 
 /**
  * ContentAdapter is the swap point called for by issue #25 / PR #24: a
@@ -23,7 +24,9 @@ class RepositoryContentAdapter implements ContentAdapter {
   }
   getPageModel(path: string): FrontendPageModel | null {
     const entry = getPageRegistryEntry(path);
-    if (!entry) return null;
+    // Repo-level schedule gate; owner pauses are applied on top by
+    // lib/content/live.ts, which is what public pages call.
+    if (!entry || !isLiveBySchedule(entry)) return null;
     return composePageModel(entry);
   }
   getIndexableEntries() {

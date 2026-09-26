@@ -1,15 +1,20 @@
-import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/design-system/primitives";
-import { buildMetadata } from "@/lib/seo";
+import { liveMetadata, requireLiveEntry } from "@/lib/content/live";
 
-export const metadata: Metadata = buildMetadata({
-  path: "/company/legal/privacy",
-  title: "Privacy Policy | Manufacturing OS",
-  description: "Manufacturing OS privacy policy.",
-  noindex: true,
-});
+const PATH = "/company/legal/privacy";
 
-export default function PrivacyPage() {
+// Public registry page: rendered only while live per the content calendar
+// (lib/content/publishing.ts); otherwise 404. Re-rendered in the background
+// at most every 300 s (= PUBLIC_REVALIDATE_SECONDS) so schedule changes and
+// owner pauses apply without a redeploy.
+export const revalidate = 300;
+
+export function generateMetadata() {
+  return liveMetadata(PATH);
+}
+
+export default async function PrivacyPage() {
+  await requireLiveEntry(PATH);
   return (
     <div className="legal-page">
       <Breadcrumbs items={[{ label: "Manufacturing OS", href: "/" }, { label: "Company", href: "/company" }, { label: "Privacy" }]} />

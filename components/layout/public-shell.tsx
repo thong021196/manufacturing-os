@@ -66,9 +66,16 @@ function BrandMark({ inverted }: { inverted?: boolean }) {
   );
 }
 
-export function PublicShell({ children }: { children: ReactNode }) {
+/** `hiddenPaths`: registry pages that are not public right now (draft,
+ * future-scheduled, unpublished or paused -- see lib/content/live.ts). Nav
+ * and footer links to them are not rendered. */
+export function PublicShell({ children, hiddenPaths = [] }: { children: ReactNode; hiddenPaths?: string[] }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const hidden = new Set(hiddenPaths);
+  const visible = <T extends { href: string }>(links: T[]) => links.filter((link) => !hidden.has(link.href));
+  const navLinks = visible(primaryLinks);
+  const groups = footerGroups.map((group) => ({ ...group, links: visible(group.links) })).filter((group) => group.links.length > 0);
 
   return (
     <div className="mx-shell">
@@ -76,16 +83,18 @@ export function PublicShell({ children }: { children: ReactNode }) {
         <div className="mx-header__inner">
           <BrandMark />
           <nav className="mx-header__nav" aria-label="Primary">
-            {primaryLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className={pathname?.startsWith(link.href.split("/").slice(0, 2).join("/")) ? "mx-header__nav-link mx-header__nav-link--active" : "mx-header__nav-link"}>
                 {link.label}
               </Link>
             ))}
           </nav>
           <div className="mx-header__actions">
-            <Link href="/resources" className="mx-header__resource">
-              Resources
-            </Link>
+            {!hidden.has("/resources") && (
+              <Link href="/resources" className="mx-header__resource">
+                Resources
+              </Link>
+            )}
             <Button href="/rfq" size="sm">
               Start an RFQ
             </Button>
@@ -96,7 +105,7 @@ export function PublicShell({ children }: { children: ReactNode }) {
         </div>
         {open && (
           <div className="mx-mobile-nav">
-            {primaryLinks.concat({ label: "Resources", href: "/resources" }).map((link) => (
+            {visible(primaryLinks.concat({ label: "Resources", href: "/resources" })).map((link) => (
               <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>
                 {link.label}
               </Link>
@@ -121,7 +130,7 @@ export function PublicShell({ children }: { children: ReactNode }) {
               </p>
             </div>
             <div className="mx-footer__groups">
-              {footerGroups.map((group) => (
+              {groups.map((group) => (
                 <div key={group.heading}>
                   <span>{group.heading}</span>
                   {group.links.map((link) => (

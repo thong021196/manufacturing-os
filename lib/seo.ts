@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
 
-/** Canonical site origin. Set NEXT_PUBLIC_SITE_URL in production/preview
- * environments (see .env.example); falls back to a placeholder so builds
- * never crash for lack of it, but production deploys should always set it
- * explicitly. */
+// Looked up through a variable on purpose: Next.js inlines literal
+// `process.env.NEXT_PUBLIC_*` reads at BUILD time, and the production
+// Docker image is built once in CI and configured at runtime by ECS. A
+// dynamic lookup is read at runtime instead.
+const RUNTIME_SITE_URL_KEYS = ["SITE_URL", "NEXT_PUBLIC_SITE_URL"];
+
+/** Canonical site origin. Production sets SITE_URL on the ECS task
+ * (infra/terraform/ecs.tf, from var.site_url); NEXT_PUBLIC_SITE_URL is still
+ * honoured for local/preview builds. Falls back to a placeholder so builds
+ * never crash for lack of it. */
 export function siteOrigin(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL || "https://www.manufacturingos.example").replace(/\/$/, "");
+  const env = process.env;
+  const value = RUNTIME_SITE_URL_KEYS.map((key) => env[key]).find((v) => typeof v === "string" && v.trim() !== "");
+  return (value || "https://www.manufacturingos.example").replace(/\/$/, "");
 }
 
 export function absoluteUrl(path: string): string {

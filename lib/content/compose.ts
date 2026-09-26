@@ -90,7 +90,8 @@ function resolveBlockIds(ids: string[]): FrontendBlock[] {
  * future Sanity-backed ContentAdapter replaces — everything above this
  * function (repository/*.ts) changes, nothing below it (components/) does. */
 export function composePageModel(entry: PageRegistryEntry): FrontendPageModel | null {
-  if (entry.publishStatus !== "published") return null;
+  // Publish gating (draft/scheduled/unpublished/paused) is decided by the
+  // callers via lib/content/publishing.ts -- this function only composes.
 
   let blockIds: string[];
   if (entry.entity) {
@@ -120,6 +121,7 @@ export function composePageModel(entry: PageRegistryEntry): FrontendPageModel | 
     resources: "resource",
     resourceArticle: "engineering",
     rfq: "engineering",
+    guide: "engineering",
   };
 
   return {

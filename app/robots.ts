@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { absoluteUrl } from "@/lib/seo";
 
-// See app/sitemap.ts for why this is forced static.
-export const dynamic = "force-static";
+// Revalidated (not force-static) so the Sitemap: line uses the runtime
+// SITE_URL of the deployed image rather than whatever was set at build time.
+export const revalidate = 3600;
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -16,6 +17,9 @@ export default function robots(): MetadataRoute.Robots {
         // customer data itself, but is not part of the public product and
         // is kept out of search regardless.
         disallow: [
+          // Owner admin: also noindex via X-Robots-Tag (proxy.ts) and
+          // metadata, and login-gated server-side.
+          "/admin",
           "/api/",
           "/ops",
           "/discovery/",

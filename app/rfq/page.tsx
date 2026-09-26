@@ -1,11 +1,19 @@
-import type { Metadata } from "next";
 import { RfqWizard } from "@/components/design-system/rfq-wizard";
+import { liveMetadata, requireLiveEntry } from "@/lib/content/live";
 
-export const metadata: Metadata = {
-  title: "Request a Quote | Manufacturing OS",
-  description: "Upload an engineering package for a drawing-led manufacturing review.",
-};
+const PATH = "/rfq";
 
-export default function RfqPage() {
+// Public registry page: rendered only while live per the content calendar
+// (lib/content/publishing.ts); otherwise 404. Re-rendered in the background
+// at most every 300 s (= PUBLIC_REVALIDATE_SECONDS) so schedule changes and
+// owner pauses apply without a redeploy.
+export const revalidate = 300;
+
+export function generateMetadata() {
+  return liveMetadata(PATH);
+}
+
+export default async function RfqPage() {
+  await requireLiveEntry(PATH);
   return <RfqWizard />;
 }

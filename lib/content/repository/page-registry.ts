@@ -1,14 +1,20 @@
 import type { PageRegistryEntry } from "@/lib/content/types";
+import { allGuidePages } from "@/lib/content/repository/guides";
+import { isLiveBySchedule } from "@/lib/content/publishing";
 
 // Page Registry — one record per public URL (page-registry.md). A relation
 // existing in the entity graph implies nothing about a URL existing; the
-// renderer (lib/content/adapter.ts) only resolves a page for a path that
-// has a `published` record here. This is the explicit publish gate the
-// entity-publishing architecture calls for.
+// renderer (lib/content/adapter.ts, lib/content/live.ts) only resolves a
+// page for a path whose record is live per lib/content/publishing.ts
+// (published, or scheduled with publishAt <= now, and not paused by the
+// owner). This is the explicit publish gate the entity-publishing
+// architecture calls for; docs/ops/content-pipeline.md describes the
+// calendar workflow on top of it.
 
 const SITE = "Manufacturing OS";
 
-export const pageRegistry: PageRegistryEntry[] = [
+/** Hand-built pages with their own route files under app/. */
+const corePages: PageRegistryEntry[] = [
   {
     path: "/",
     pageKind: "home",
@@ -222,11 +228,16 @@ export const pageRegistry: PageRegistryEntry[] = [
   },
 ];
 
+/** Every registry entry: core pages + content-calendar guide pages
+ * (lib/content/repository/guides/). */
+export const pageRegistry: PageRegistryEntry[] = [...corePages, ...allGuidePages().map((g) => g.entry)];
+
 export function getPageRegistryEntry(path: string): PageRegistryEntry | undefined {
   return pageRegistry.find((entry) => entry.path === path);
 }
 
-/** Every published, indexable path — the basis for app/sitemap.ts. */
-export function getIndexablePaths(): PageRegistryEntry[] {
-  return pageRegistry.filter((e) => e.publishStatus === "published" && e.indexPolicy === "index");
+/** Every indexable path that is live by schedule at `now` (owner pauses are
+ * applied on top by lib/content/live.ts) — the basis for app/sitemap.ts. */
+export function getIndexablePaths(now: Date = new Date()): PageRegistryEntry[] {
+  return pageRegistry.filter((e) => e.indexPolicy === "index" && isLiveBySchedule(e, now));
 }
